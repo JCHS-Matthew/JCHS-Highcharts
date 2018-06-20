@@ -1,0 +1,118 @@
+.JCHS-chart-wrapper {
+  max-width: 700px;
+  margin: auto;
+  font-family: "Open Sans", sans-serif;
+}
+
+.JCHS-chart-title, .JCHS-chart-subtitle {
+  text-align: center;
+  font-weight: 400; 
+  color: #C14D00;
+  margin: 10px 0; 
+}
+
+.JCHS-chart-subtitle {
+  font-size: 16px;
+}
+
+.JCHS-input-table-label {
+  text-align: right;
+}
+
+.JCHS-user-input-table {
+  margin: auto;
+  font-size: 13px;
+  border: none;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.JCHS-user-input-table  *  {
+  margin: 0;
+  vertical-align: middle;
+  padding: 0 10px;
+}
+
+@media (max-width: 350px) {
+  .JCHS-user-input-table td, input, label  {
+    font-size: 11px;
+  }
+}
+
+.JCHS-map-container {
+  max-height: 500px;
+  max-width: 700px; 
+  margin: 0px auto;
+}
+
+@media (max-width: 500px) {
+  .JCHS-map-container {
+    height: 350px;
+  }
+}
+
+@media (max-width: 400px) {
+  .JCHS-map-container {
+    height: 300px;
+  }
+}
+
+.JCHS-table-notes {
+  font-size: .7rem;
+  color: #666;
+}
+
+JCHS-drilldown-chart {
+  /*height: 180px;*/
+  /*width: 600px;*/
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.JCHS-search-box {
+  max-width: 400px;
+  margin: .5rem auto;
+  font-size: 14px;
+}
+
+.JCHS-search-input {
+  width: 100%;
+  margin: 0 auto;
+  padding: 1px;
+  display: block;
+  position: relative;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgAgMAAACf9p+rAAAACVBMVEUAAAAyMjIzMzMmhMtFAAAAAnRSTlMAgJsrThgAAABcSURBVHgBYhgxYBSMglGQtQoKVqJJSMEklqBJsAHam0MjAEAggGHHZozIyKgYOgDmaytinGcsYxdBBAkBCQEJAQkBQQRBBEEUQQRBBEEEQRRBBEEEQQRBTNP0vwu7s0JpRPs+OAAAAABJRU5ErkJggg==);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+  cursor: default;
+  border: 1px solid #777;
+}
+
+.JCHS-search-list {
+  list-style-type: none;
+  max-height: 200px;
+  width: 405px;
+  padding: 0;
+  margin: 0;
+  display: none;
+  overflow: scroll;
+  overflow-x: hidden;
+  position: absolute;
+  z-index: 3;
+}
+
+.JCHS-search-list li {
+  border: 1px solid #ddd;
+  margin-top: -1px;
+  background-color: #f6f6f6;
+  padding: 3px;
+  text-decoration: none;
+  color: black;
+  display: block;
+  cursor: pointer;
+}
+
+.JCHS-search-list li:hover {
+  background-color: #eee;
+}
