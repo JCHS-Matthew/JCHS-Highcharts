@@ -282,16 +282,17 @@ var JCHS = {
 }
 
 /**
- * @function #options
  *
  * Compiles the correct set of options for different chart types.
  * Returns the standard options if no chart type is given. 
+ *
+ * @function #options
+ * @memberof JCHS
  *
  * @param {String} chart_type - Currently supports 'map' and 
  * 'drilldown'.
  *
  * @returns {Object} Object containing Highcharts options. 
- * @memberof JCHS
  */
 
 JCHS.options = function (chart_type) {
@@ -306,10 +307,12 @@ JCHS.options = function (chart_type) {
 
 
 /**
- * @function #requestURL
  *
  * Builds a GET request URL for the Google Sheets API, based on input
  * sheet ID and range.
+ *
+ * @function #requestURL
+ * @memberof JCHS
  *
  * @param {String} sheetID - Unique ID of the Google Sheet (e.g., 
           '1LxTyrgt7sTtRYzEr6BlTnKwpwoQPz5WiIrA8dpocgRM').
@@ -318,7 +321,6 @@ JCHS.options = function (chart_type) {
  *
  * @returns {String} A URL.
  *
- * @memberof JCHS
  */
 
 JCHS.requestURL = function (sheetID, range = 'Sheet1') {  
@@ -332,9 +334,11 @@ JCHS.requestURL = function (sheetID, range = 'Sheet1') {
 
 
 /**
- * @function #numFormat
  *
  * Format a number and return a string.
+ *
+ * @function #numFormat
+ * @memberof JCHS
  *
  * @param {Number} number - The input number to format.
  * @param {Number} [decimals] - The amount of decimals. A value of -1 preserves
@@ -343,8 +347,7 @@ JCHS.requestURL = function (sheetID, range = 'Sheet1') {
  *        returns '1.23').
  *
  * @returns {String} The formatted number.
- *
- * @memberof JCHS
+
  */
 
 JCHS.numFormat = function (number, decimals) {
@@ -407,7 +410,6 @@ JCHS.numFormat = function (number, decimals) {
 
 
 /**
- * @function #createSearchBox
  *
  * Add a search box with filtered list to the page. Adds one item to the list 
  * for each unique value of a column from ref_data.
@@ -423,6 +425,9 @@ JCHS.numFormat = function (number, decimals) {
  *   chart.update({title: { text: selected_location } })
  * }
  *
+ * @function #createSearchBox
+ * @memberof JCHS
+ *
  * @param {Array} data - Reference dataset for chart.
  * @param {String} chart_slug - Unique ID of chart, to ensure unique <div> ids in HTML.
  * @param {Number} col_index - Column index of data to be listed in the search box. Defaults to 0.
@@ -432,7 +437,6 @@ JCHS.numFormat = function (number, decimals) {
  * @param {String} placeholder - Override the default placeholder text. 
  * (e.g., 'Select a state...').
  *
- * @memberof JCHS
  */
 
 JCHS.createSearchBox = function  (data, 

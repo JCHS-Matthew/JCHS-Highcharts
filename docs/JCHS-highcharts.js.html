@@ -22,7 +22,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="JCHS.html">JCHS</a><ul class='methods'><li data-type='method'><a href="JCHS.html#numFormat">numFormat</a></li><li data-type='method'><a href="JCHS.html#options">options</a></li><li data-type='method'><a href="JCHS.html#requestURL">requestURL</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="JCHS.html">JCHS</a><ul class='methods'><li data-type='method'><a href="JCHS.html#createSearchBox">createSearchBox</a></li><li data-type='method'><a href="JCHS.html#numFormat">numFormat</a></li><li data-type='method'><a href="JCHS.html#options">options</a></li><li data-type='method'><a href="JCHS.html#requestURL">requestURL</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -43,6 +43,8 @@
 
 var JCHS = {
 
+  charts: {},
+  
   sheetID: 'placeholder',
 
   range: 'Sheet1',
@@ -57,7 +59,6 @@ var JCHS = {
   },
 
   logoURL: 'http://www.jchs.harvard.edu/sites/default/files/harvard_jchs_logo_2017.png',
-
 
   standardOptions: {
 
@@ -80,16 +81,6 @@ var JCHS = {
             } 
           })
           this.update({ 
-            exporting: { 
-              chartOptions: { 
-                subtitle: { 
-                  text: table_notes 
-                } 
-              } 
-            },
-            xAxis: {
-              categories: categories
-            },
             exporting: {
               menuItemDefinitions: {
                 viewFullDataset: {
@@ -188,7 +179,10 @@ var JCHS = {
           marginBottom: 80 
         },
         title: {
-          style: { fontSize: '16px' },
+          style: { 
+            fontSize: '16px',
+            color: '#C14D00'
+          },
           y: 8
         },
         subtitle: {
@@ -237,8 +231,15 @@ var JCHS = {
           x: 10
         }
       }
-    } //end exporting
+    }, //end exporting
 
+    plotOptions: {
+      spline: {
+        label: {
+          style: { fontFamily: '"Open Sans", sans-serif' }
+        }
+      }
+    }
   }, //end standardOptions
 
   mapOptions: {
@@ -320,14 +321,18 @@ var JCHS = {
 }
 
 /**
-* Compiles the correct set of options for different chart types.
-* Returns the standard options if no chart type is given. 
-*
-* @function #options
-* @memberof JCHS
-* @param {String} chart_type - Currently supports 'map' and 
-* 'drilldown'.
-*/
+ *
+ * Compiles the correct set of options for different chart types.
+ * Returns the standard options if no chart type is given. 
+ *
+ * @function #options
+ * @memberof JCHS
+ *
+ * @param {String} chart_type - Currently supports 'map' and 
+ * 'drilldown'.
+ *
+ * @returns {Object} Object containing Highcharts options. 
+ */
 
 JCHS.options = function (chart_type) {
   if (chart_type === 'map') {
@@ -341,22 +346,23 @@ JCHS.options = function (chart_type) {
 
 
 /**
+ *
  * Builds a GET request URL for the Google Sheets API, based on input
  * sheet ID and range.
  *
  * @function #requestURL
  * @memberof JCHS
+ *
  * @param {String} sheetID - Unique ID of the Google Sheet (e.g., 
           '1LxTyrgt7sTtRYzEr6BlTnKwpwoQPz5WiIrA8dpocgRM').
  * @param {String} [range] - The data range. Defaults to 'Sheet1'. Accepts 
  *        sheet ranges that conform to the Google API (e.g., 'Sheet1!A:F').
+ *
  * @returns {String} A URL.
  *
  */
 
-JCHS.requestURL = function (sheetID, range) {
-  range = range || 'Sheet1'
-  
+JCHS.requestURL = function (sheetID, range = 'Sheet1') {  
   var baseURL = 'https://sheets.googleapis.com/v4/spreadsheets/'
   var API_Key = 'AIzaSyDY_gHLV0A7liVYq64RxH7f7IYUKF15sOQ'
   var API_params = 'valueRenderOption=UNFORMATTED_VALUE'
@@ -367,17 +373,20 @@ JCHS.requestURL = function (sheetID, range) {
 
 
 /**
+ *
  * Format a number and return a string.
  *
  * @function #numFormat
  * @memberof JCHS
+ *
  * @param {Number} number - The input number to format.
  * @param {Number} [decimals] - The amount of decimals. A value of -1 preserves
  *        the amount in the input number. Defaults to a maximum of 2 decimals 
  *        (i.e., 1 returns '1', 1.2 returns '1.2', 1.23 returns '1.23', 1.234 
  *        returns '1.23').
- * @returns {String} The formatted number.
  *
+ * @returns {String} The formatted number.
+
  */
 
 JCHS.numFormat = function (number, decimals) {
@@ -439,6 +448,35 @@ JCHS.numFormat = function (number, decimals) {
 } //end numFormat
 
 
+/**
+ *
+ * Add a search box with filtered list to the page. Adds one item to the list 
+ * for each unique value of a column from ref_data.
+ *
+ * On clicking a list item, selectPoint() is called, with the selected item 
+ * passed as the only parameter. For proper functionality, include in your 
+ * code a function named selectPoint() which uses the list item to initiate 
+ * any interactive features.
+ *
+ * For example:
+ * function selectPoint(selected_location) {
+ *   createChart(selected_location)
+ *   chart.update({title: { text: selected_location } })
+ * }
+ *
+ * @function #createSearchBox
+ * @memberof JCHS
+ *
+ * @param {Array} data - Reference dataset for chart.
+ * @param {String} chart_slug - Unique ID of chart, to ensure unique &lt;div> ids in HTML.
+ * @param {Number} col_index - Column index of data to be listed in the search box. Defaults to 0.
+ * @param {String} type - 'dropdown' or 'search'. Only differences are 'dropdown' has a down 
+ * arrow at the right side of the box and has placeholder text 'Select a metro...', while 
+ * 'search' has no arrow and has placehold text  'Search for metro...'.
+ * @param {String} placeholder - Override the default placeholder text. 
+ * (e.g., 'Select a state...').
+ *
+ */
 
 JCHS.createSearchBox = function  (data, 
                                    chart_slug, 
@@ -510,7 +548,7 @@ JCHS.createSearchBox = function  (data,
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jun 21 2018 10:38:15 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jun 21 2018 11:41:08 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

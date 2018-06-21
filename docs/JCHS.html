@@ -22,7 +22,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="JCHS.html">JCHS</a><ul class='methods'><li data-type='method'><a href="JCHS.html#numFormat">numFormat</a></li><li data-type='method'><a href="JCHS.html#options">options</a></li><li data-type='method'><a href="JCHS.html#requestURL">requestURL</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="JCHS.html">JCHS</a><ul class='methods'><li data-type='method'><a href="JCHS.html#createSearchBox">createSearchBox</a></li><li data-type='method'><a href="JCHS.html#numFormat">numFormat</a></li><li data-type='method'><a href="JCHS.html#options">options</a></li><li data-type='method'><a href="JCHS.html#requestURL">requestURL</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -120,6 +120,231 @@
 
     
 
+    <h4 class="name" id="createSearchBox"><span class="type-signature"></span>createSearchBox<span class="signature">(data, chart_slug, col_index, type, placeholder)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line412">line 412</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Add a search box with filtered list to the page. Adds one item to the list for each unique value of a column from ref_data.On clicking a list item, selectPoint() is called, with the selected item passed as the only parameter. For proper functionality, include in your code a function named selectPoint() which uses the list item to initiate any interactive features.For example:function selectPoint(selected_location) {  createChart(selected_location)  chart.update({title: { text: selected_location } })}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Reference dataset for chart.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>chart_slug</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Unique ID of chart, to ensure unique <div> ids in HTML.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>col_index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Column index of data to be listed in the search box. Defaults to 0.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">'dropdown' or 'search'. Only differences are 'dropdown' has a down arrow at the right side of the box and has placeholder text 'Select a metro...', while 'search' has no arrow and has placehold text  'Search for metro...'.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>placeholder</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Override the default placeholder text. (e.g., 'Select a state...').</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id="numFormat"><span class="type-signature"></span>numFormat<span class="signature">(number, decimals<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {String}</span></h4>
 
     
@@ -132,7 +357,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line330">line 330</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line336">line 336</a>
     </li></ul></dd>
     
 
@@ -318,7 +543,7 @@
 
     
 
-    <h4 class="name" id="options"><span class="type-signature"></span>options<span class="signature">(chart_type)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="options"><span class="type-signature"></span>options<span class="signature">(chart_type)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
@@ -330,7 +555,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line283">line 283</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line284">line 284</a>
     </li></ul></dd>
     
 
@@ -444,6 +669,28 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object containing Highcharts options.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
         
@@ -463,7 +710,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line304">line 304</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line309">line 309</a>
     </li></ul></dd>
     
 
@@ -663,7 +910,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jun 21 2018 10:38:15 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jun 21 2018 11:41:09 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
