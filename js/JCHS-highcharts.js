@@ -4,6 +4,8 @@
 
 var JCHS = {
 
+  charts: {},
+  
   sheetID: 'placeholder',
 
   range: 'Sheet1',
@@ -18,7 +20,6 @@ var JCHS = {
   },
 
   logoURL: 'http://www.jchs.harvard.edu/sites/default/files/harvard_jchs_logo_2017.png',
-
 
   standardOptions: {
 
@@ -41,16 +42,6 @@ var JCHS = {
             } 
           })
           this.update({ 
-            exporting: { 
-              chartOptions: { 
-                subtitle: { 
-                  text: table_notes 
-                } 
-              } 
-            },
-            xAxis: {
-              categories: categories
-            },
             exporting: {
               menuItemDefinitions: {
                 viewFullDataset: {
@@ -149,7 +140,10 @@ var JCHS = {
           marginBottom: 80 
         },
         title: {
-          style: { fontSize: '16px' },
+          style: { 
+            fontSize: '16px',
+            color: '#C14D00'
+          },
           y: 8
         },
         subtitle: {
@@ -198,8 +192,15 @@ var JCHS = {
           x: 10
         }
       }
-    } //end exporting
+    }, //end exporting
 
+    plotOptions: {
+      spline: {
+        label: {
+          style: { fontFamily: '"Open Sans", sans-serif' }
+        }
+      }
+    }
   }, //end standardOptions
 
   mapOptions: {
@@ -281,14 +282,17 @@ var JCHS = {
 }
 
 /**
-* Compiles the correct set of options for different chart types.
-* Returns the standard options if no chart type is given. 
-*
-* @function #options
-* @memberof JCHS
-* @param {String} chart_type - Currently supports 'map' and 
-* 'drilldown'.
-*/
+ * @function #options
+ *
+ * Compiles the correct set of options for different chart types.
+ * Returns the standard options if no chart type is given. 
+ *
+ * @param {String} chart_type - Currently supports 'map' and 
+ * 'drilldown'.
+ *
+ * @returns {Object} Object containing Highcharts options. 
+ * @memberof JCHS
+ */
 
 JCHS.options = function (chart_type) {
   if (chart_type === 'map') {
@@ -302,22 +306,22 @@ JCHS.options = function (chart_type) {
 
 
 /**
+ * @function #requestURL
+ *
  * Builds a GET request URL for the Google Sheets API, based on input
  * sheet ID and range.
  *
- * @function #requestURL
- * @memberof JCHS
  * @param {String} sheetID - Unique ID of the Google Sheet (e.g., 
           '1LxTyrgt7sTtRYzEr6BlTnKwpwoQPz5WiIrA8dpocgRM').
  * @param {String} [range] - The data range. Defaults to 'Sheet1'. Accepts 
  *        sheet ranges that conform to the Google API (e.g., 'Sheet1!A:F').
+ *
  * @returns {String} A URL.
  *
+ * @memberof JCHS
  */
 
-JCHS.requestURL = function (sheetID, range) {
-  range = range || 'Sheet1'
-  
+JCHS.requestURL = function (sheetID, range = 'Sheet1') {  
   var baseURL = 'https://sheets.googleapis.com/v4/spreadsheets/'
   var API_Key = 'AIzaSyDY_gHLV0A7liVYq64RxH7f7IYUKF15sOQ'
   var API_params = 'valueRenderOption=UNFORMATTED_VALUE'
@@ -328,17 +332,19 @@ JCHS.requestURL = function (sheetID, range) {
 
 
 /**
+ * @function #numFormat
+ *
  * Format a number and return a string.
  *
- * @function #numFormat
- * @memberof JCHS
  * @param {Number} number - The input number to format.
  * @param {Number} [decimals] - The amount of decimals. A value of -1 preserves
  *        the amount in the input number. Defaults to a maximum of 2 decimals 
  *        (i.e., 1 returns '1', 1.2 returns '1.2', 1.23 returns '1.23', 1.234 
  *        returns '1.23').
+ *
  * @returns {String} The formatted number.
  *
+ * @memberof JCHS
  */
 
 JCHS.numFormat = function (number, decimals) {
@@ -400,6 +406,34 @@ JCHS.numFormat = function (number, decimals) {
 } //end numFormat
 
 
+/**
+ * @function #createSearchBox
+ *
+ * Add a search box with filtered list to the page. Adds one item to the list 
+ * for each unique value of a column from ref_data.
+ *
+ * On clicking a list item, selectPoint() is called, with the selected item 
+ * passed as the only parameter. For proper functionality, include in your 
+ * code a function named selectPoint() which uses the list item to initiate 
+ * any interactive features.
+ *
+ * For example:
+ * function selectPoint(selected_location) {
+ *   createChart(selected_location)
+ *   chart.update({title: { text: selected_location } })
+ * }
+ *
+ * @param {Array} data - Reference dataset for chart.
+ * @param {String} chart_slug - Unique ID of chart, to ensure unique <div> ids in HTML.
+ * @param {Number} col_index - Column index of data to be listed in the search box. Defaults to 0.
+ * @param {String} type - 'dropdown' or 'search'. Only differences are 'dropdown' has a down 
+ * arrow at the right side of the box and has placeholder text 'Select a metro...', while 
+ * 'search' has no arrow and has placehold text  'Search for metro...'.
+ * @param {String} placeholder - Override the default placeholder text. 
+ * (e.g., 'Select a state...').
+ *
+ * @memberof JCHS
+ */
 
 JCHS.createSearchBox = function  (data, 
                                    chart_slug, 
