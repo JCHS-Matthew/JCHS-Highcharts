@@ -6,6 +6,8 @@ var JCHS = {
 
   charts: {},
   
+  searchCallback: {},
+  
   sheetID: 'placeholder',
 
   range: 'Sheet1',
@@ -32,15 +34,6 @@ var JCHS = {
               .image(JCHS.logoURL, 0, this.chartHeight - 50, 170, 55)
               .add()
           }
-          Highcharts.setOptions({ 
-            lang: { 
-              thousandsSep: ",",
-              contextButtonTitle: 'Export Chart',
-              downloadPDF: 'Download as PDF',
-              downloadCSV: 'Download chart data (CSV)',
-              downloadXLS: 'Download chart data (Excel)'
-            } 
-          })
           this.update({ 
             exporting: {
               menuItemDefinitions: {
@@ -189,7 +182,7 @@ var JCHS = {
           ],
           theme: { fill: '#ffffff00' },
           y: -10,
-          x: 10
+          //x: 5
         }
       }
     }, //end exporting
@@ -329,6 +322,8 @@ JCHS.requestURL = function (sheetID, range = 'Sheet1') {
   var API_params = 'valueRenderOption=UNFORMATTED_VALUE'
   var requestURL = baseURL + sheetID + "/values/" + range + "?key=" + API_Key + "&" + API_params
 
+  console.log(requestURL)
+  
   return requestURL
 }
 
@@ -430,11 +425,11 @@ JCHS.numFormat = function (number, decimals) {
  *
  * @param {Array} data - Reference dataset for chart.
  * @param {String} chart_slug - Unique ID of chart, to ensure unique <div> ids in HTML.
- * @param {Number} col_index - Column index of data to be listed in the search box. Defaults to 0.
- * @param {String} type - 'dropdown' or 'search'. Only differences are 'dropdown' has a down 
+ * @param {Number} [col_index] - Column index of data to be listed in the search box. Defaults to 0.
+ * @param {String} [type] - 'dropdown' or 'search'. Only differences are 'dropdown' has a down 
  * arrow at the right side of the box and has placeholder text 'Select a metro...', while 
  * 'search' has no arrow and has placehold text  'Search for metro...'.
- * @param {String} placeholder - Override the default placeholder text. 
+ * @param {String} [placeholder] - Override the default placeholder text. 
  * (e.g., 'Select a state...').
  *
  */
@@ -483,7 +478,7 @@ JCHS.createSearchBox = function  (data,
   })
 
   box.on('change', function () {
-    selectPoint($(`#search_input_${chart_slug}`).val())   
+    JCHS.searchCallback[chart_slug] ($(`#search_input_${chart_slug}`).val())   
     box.blur()
     list.hide() 
   }) //end box.on 'change'
@@ -498,3 +493,60 @@ JCHS.createSearchBox = function  (data,
   })
 
 } //end createSearchBox()
+
+
+/**
+ *
+ * Draw a circle animated to "zero in" on a location, based on 
+ * a search value that corresponds to a point name in the series 
+ * displayed on the map. Useful when called from the searchCalllback 
+ * function when a user selects a metro from the search dropdown.
+ *
+ * @function #mapLocatorCircle
+ * @memberof JCHS
+ *
+ * @param {Object} map_object - Object containing a Highcharts map.
+ * @param {String} search_value - The name to search for on the map. 
+ * Compares the search_value to the point.name for each point in the 
+ * currently displayed series. 
+ *
+ */
+
+JCHS.mapLocatorCircle = function (map_obj, search_value) {
+  map_obj.series[0].points.forEach(function (el, idx) {
+    if (el.name == search_value) {
+      map_obj.series[0].points[idx].select(true)
+
+      map_obj.renderer
+        .circle(
+          map_obj.series[0].points[idx].plotX, //x
+          map_obj.series[0].points[idx].plotY + map_obj.margin[0], //y
+          150 //radius
+        )
+        .attr({
+          fill: 'transparent',
+          stroke: 'black', 
+          'stroke-width': 1
+        })
+        .animate({
+          r: 0
+        })
+        .add()
+        .toFront()
+    }
+    
+    setTimeout(() => map.series[0].points[idx].select(false), 700)
+
+  })
+} //end mapLocatorCircle()
+
+
+Highcharts.setOptions({ 
+  lang: { 
+    thousandsSep: ",",
+    contextButtonTitle: 'Export Chart',
+    downloadPDF: 'Download as PDF',
+    downloadCSV: 'Download chart data (CSV)',
+    downloadXLS: 'Download chart data (Excel)'
+  } 
+})
