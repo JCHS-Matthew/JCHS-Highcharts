@@ -21,12 +21,27 @@ module.exports = function(grunt) {
           src: 'dist/JCHS-highcharts.js',
           dest: 'dist/JCHS-highcharts.min.js'
         }
+      },
+      qunit: {
+        files: ['test/*.html']
+      },
+      jshint: {
+        // define the files to lint
+        files: ['Gruntfile.js', 'js/*.js', 'test/**/*.js'],
+        options: {
+          asi: true, //supress warnings about missing semicolons
+          esversion: 6, //allow ES6 syntax (will be compiled down to ~ES5 by Babel)
+          globals: {
+            jQuery: true,
+          }
+        }
       }
     });
   
 
   
     // Default task(s).
-    grunt.registerTask('default', ['babel', 'uglify']);
-  
+    grunt.registerTask('default', ['jshint', 'babel', 'uglify']);
+    grunt.registerTask('test', ['qunit']);
+
   };
