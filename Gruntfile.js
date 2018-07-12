@@ -22,9 +22,6 @@ module.exports = function(grunt) {
           dest: 'dist/JCHS-highcharts.min.js'
         }
       },
-      qunit: {
-        files: ['test/*.html']
-      },
       jshint: {
         // define the files to lint
         files: ['Gruntfile.js', 'js/*.js', 'test/**/*.js'],
@@ -35,13 +32,21 @@ module.exports = function(grunt) {
             jQuery: true,
           }
         }
+      },
+
+      //unit testing
+      karma: {
+        unit: {
+          configFile: 'karma.conf.js'
+        }
       }
     });
   
 
-  
+
     // Default task(s).
     grunt.registerTask('default', ['jshint', 'babel', 'uglify']);
-    grunt.registerTask('test', ['qunit']);
+    grunt.registerTask('test', ['karma']);
+
 
   };

@@ -538,7 +538,7 @@ JCHS.mapLocatorCircle = function (map_obj, search_value) {
   })
 } //end mapLocatorCircle()
 
-
+/*
 Highcharts.setOptions({ 
   lang: { 
     thousandsSep: ",",
@@ -548,3 +548,4 @@ Highcharts.setOptions({
     downloadXLS: 'Download chart data (Excel)'
   } 
 })
+*/
