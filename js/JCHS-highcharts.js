@@ -351,11 +351,13 @@ JCHS.numFormat = function (number, decimals) {
   decimals = +decimals;
 
   var origDec = (number.toString().split('.')[1] || '').length,
-      strinteger,
-      thousands,
-      ret,
-      roundedNumber,
-      fractionDigits;
+    decimalPoint = '.',
+    thousandsSep = ',',
+    strinteger,
+    thousands,
+    ret,
+    roundedNumber,
+    fractionDigits;
 
   if (decimals === -1) {
     // Preserve decimals. Not huge numbers (#3793).
@@ -376,10 +378,6 @@ JCHS.numFormat = function (number, decimals) {
 
   // Leftover after grouping into thousands. Can be 0, 1 or 2.
   thousands = strinteger.length > 3 ? strinteger.length % 3 : 0;
-
-  // Language
-  decimalPoint = '.';
-  thousandsSep = ',';
 
   // Start building the return
   ret = number < 0 ? '-' : '';
