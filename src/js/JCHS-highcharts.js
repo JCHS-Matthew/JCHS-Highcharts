@@ -24,8 +24,8 @@ var JCHS = {
   logoURL: 'http://www.jchs.harvard.edu/sites/default/files/harvard_jchs_logo_2017.png',
 
   standardOptions: {
-
     chart: {
+      spacing: [5,5,5,5],
       marginTop: 40,
       events: {
         load: function () {
@@ -50,79 +50,40 @@ var JCHS = {
       }
     },
 
-    title: { 
-      style: { fontFamily: '"Open Sans", sans-serif' },
-      text: null
-    },
+    title: { text: null },
 
-    subtitle: { 
-      style: { fontFamily: '"Open Sans", sans-serif' },
-      text: null
-    },
-
-    legend: { 
-      title: { 
-        style: { 
-          fontFamily: '"Open Sans", sans-serif',
-          fontWeight: 'normal'
-        } 
-      },
-      itemStyle: { 
-        fontFamily: '"Open Sans", sans-serif',
-        fontWeight: 'normal'
-      },
-      backgroundColor: 'rgba(255, 255, 255, 0.9)'
-    },
-
-    xAxis: { 
-      title: { style: { fontFamily: '"Open Sans", sans-serif' } },
-      labels: { style: { fontFamily: '"Open Sans", sans-serif' } }
-    },
-    
-    yAxis: [{
-      labels: { style: { fontFamily: '"Open Sans", sans-serif'} },
-      title: {
-        text: 'null',
-        offset: -110,
-        x: 23,
-        y: -5,
-        align: 'high',
-        rotation: 0,
-        style: {
-          whiteSpace: 'nowrap',
-          fontFamily: '"Open Sans", sans-serif'
-        }
-      }
-    },{
-      labels: { style: { fontFamily: '"Open Sans", sans-serif'} },
-      title: {
-        text: 'null',
-        offset: -110,
-        x: 23,
-        y: -5,
-        align: 'high',
-        rotation: 0,
-        style: {
-          whiteSpace: 'nowrap',
-          fontFamily: '"Open Sans", sans-serif'
-        }
-      }
-    }],
+    subtitle: { text: null },
 
     tooltip: { 
       enabled: true,
-      style: { fontFamily: '"Open Sans", sans-serif' },
-      backgroundColor: 'rgba(247,247,247, 1)',
       useHTML: true,
       shared: true
     },
 
-    credits: { 
-      enabled: false,
-      style: { 
-        fontFamily: '"Open Sans", sans-serif',
-        color: '#333',
-      } 
+    credits: { enabled: false },
+
+    yAxis: [
+      {
+        title: {
+          text: null
+        }
+      },
+      {
+        title: {
+          text: null
+        }
+      }
+    ],
+    
+    plotOptions: {
+      series: {
+        connectNulls: true
+      },
+      spline: {
+        marker: {
+          enabled: false
+        }
+      }
     },
 
     exporting: {
@@ -166,7 +127,7 @@ var JCHS = {
       },
       buttons: {
         contextButton: {
-          text: '<span style="font-family: Open Sans, sans-serif;">Export</span>',
+          text: 'Export',
           menuItems: [
             'viewFullDataset',
             //'viewSortableTable',
@@ -179,21 +140,19 @@ var JCHS = {
             'separator',
             'downloadXLS',
             //'downloadFullData'
-          ],
-          theme: { fill: '#ffffff00' },
-          y: -10,
-          //x: 5
+          ]
         }
       }
     }, //end exporting
 
-    plotOptions: {
-      spline: {
-        label: {
-          style: { fontFamily: '"Open Sans", sans-serif' }
-        }
+    navigation: {
+      buttonOptions: {
+        height: 20,
+        symbolY: 8,
+        symbolSize: 12,
+        theme: { padding: 1 }
       }
-    }
+    } //end navigation
   }, //end standardOptions
 
   mapOptions: {
@@ -202,9 +161,6 @@ var JCHS = {
         allAreas: false,
         joinBy: ['GEOID', 0],
         keys: ['GEOID', 'value'],
-        states: {
-          select: { color: '#333' }
-        },
         point: { 
           events: { 
             click: function (event) {
@@ -213,11 +169,7 @@ var JCHS = {
           }
         }
       },
-      mapline: {
-        color: '#333',
-        lineWidth: 0.5,
-        enableMouseTracking: false
-      }
+      mapline: { enableMouseTracking: false }
     }, //end plotOptions
 
     legend: {
@@ -351,13 +303,11 @@ JCHS.numFormat = function (number, decimals) {
   decimals = +decimals;
 
   var origDec = (number.toString().split('.')[1] || '').length,
-    decimalPoint = '.',
-    thousandsSep = ',',
-    strinteger,
-    thousands,
-    ret,
-    roundedNumber,
-    fractionDigits;
+      strinteger,
+      thousands,
+      ret,
+      roundedNumber,
+      fractionDigits;
 
   if (decimals === -1) {
     // Preserve decimals. Not huge numbers (#3793).
@@ -378,6 +328,10 @@ JCHS.numFormat = function (number, decimals) {
 
   // Leftover after grouping into thousands. Can be 0, 1 or 2.
   thousands = strinteger.length > 3 ? strinteger.length % 3 : 0;
+
+  // Language
+  decimalPoint = '.';
+  thousandsSep = ',';
 
   // Start building the return
   ret = number < 0 ? '-' : '';
@@ -538,6 +492,26 @@ JCHS.mapLocatorCircle = function (map_obj, search_value) {
   })
 } //end mapLocatorCircle()
 
+
+JCHS.onLoad = function () {  
+  var yAxis = this.renderer
+  .text(yAxis_title)
+  .addClass('highcharts-axis-title')
+  .align({y: -5}, false, 'plotBox')
+  .add()
+
+  //add title to second yAxis, if it exists
+  if (this.yAxis.length === 2) {
+    var yAxis2 = this.renderer
+    .text(yAxis2_title)
+    .addClass('highcharts-axis-title')
+    .align({align: 'right', y: -5}, false, 'plotBox')
+    .add()
+    var box = yAxis2.getBBox()
+    yAxis2.translate(-box.width, 0)
+  }
+}
+
 /*
 Highcharts.setOptions({ 
   lang: { 
@@ -546,6 +520,6 @@ Highcharts.setOptions({
     downloadPDF: 'Download as PDF',
     downloadCSV: 'Download chart data (CSV)',
     downloadXLS: 'Download chart data (Excel)'
-  } 
+  }
 })
 */

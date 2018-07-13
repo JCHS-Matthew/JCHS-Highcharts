@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');
 
-.highcharts-container {
-  font-family: "Open Sans", "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
-}
-
 .JCHS-chart-wrapper {
   max-width: 700px;
   margin: auto;
@@ -45,20 +41,20 @@
   }
 }
 
-.JCHS-map-container {
+.JCHS-chart-container {
   max-height: 500px;
   max-width: 700px; 
   margin: 0px auto;
 }
 
 @media (max-width: 500px) {
-  .JCHS-map-container {
+  .JCHS-chart-container {
     height: 350px;
   }
 }
 
 @media (max-width: 400px) {
-  .JCHS-map-container {
+  .JCHS-chart-container {
     height: 300px;
   }
 }
@@ -124,3 +120,50 @@
 .JCHS-search-list li:hover {
   background-color: #eee;
 }
+
+
+
+/* Highcharts CSS and JCHS modifications */
+@import url('https://code.highcharts.com/css/highcharts.css');
+
+.highcharts-container {
+  font-family: "Open Sans", "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+}
+
+.highcharts-legend-item text {
+  font-weight: normal;
+}
+
+.highcharts-tooltip-box {
+  fill-color: #fff;
+  fill-opacity: 1;
+}
+
+.highcharts-axis-title {
+  white-space: nowrap;
+}
+
+.highcharts-credits {
+  cursor: default;
+  fill: #333;
+  font-size: 1em;
+}
+
+.highcharts-credits:hover {
+  fill: inherit;
+  font-size: inherit;
+}
+
+.highcharts-series:not(.highcharts-pie-series) .highcharts-point-select {
+  fill: #333;
+}
+
+.highcharts-mapline-series .highcharts-point {
+  color: #333;
+  stroke-width: .5px;
+}
+
+.highcharts-button-symbol {
+  stroke-width: 1px;
+}
+
