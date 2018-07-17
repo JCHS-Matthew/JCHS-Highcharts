@@ -1,3 +1,8 @@
+var $ = require("jquery");
+var Highcharts = require('highcharts');
+require('highcharts/modules/map')(Highcharts);
+require('highcharts/modules/exporting')(Highcharts);
+require('highcharts/modules/export-data')(Highcharts);
 /**
 * @namespace JCHS
 */
@@ -5,9 +10,9 @@
 var JCHS = {
 
   charts: {},
-  
+
   searchCallback: {},
-  
+
   sheetID: 'placeholder',
 
   range: 'Sheet1',
@@ -25,7 +30,7 @@ var JCHS = {
 
   standardOptions: {
     chart: {
-      spacing: [5,5,5,5],
+      spacing: [5, 5, 5, 5],
       marginTop: 40,
       events: {
         load: function () {
@@ -34,7 +39,7 @@ var JCHS = {
               .image(JCHS.logoURL, 0, this.chartHeight - 50, 170, 55)
               .add()
           }
-          this.update({ 
+          this.update({
             exporting: {
               menuItemDefinitions: {
                 viewFullDataset: {
@@ -54,7 +59,7 @@ var JCHS = {
 
     subtitle: { text: null },
 
-    tooltip: { 
+    tooltip: {
       enabled: true,
       useHTML: true,
       shared: true
@@ -74,7 +79,7 @@ var JCHS = {
         }
       }
     ],
-    
+
     plotOptions: {
       series: {
         connectNulls: true
@@ -89,12 +94,12 @@ var JCHS = {
     exporting: {
       enabled: true,
       chartOptions: {
-        chart: { 
-          marginTop: 25, 
-          marginBottom: 80 
+        chart: {
+          marginTop: 25,
+          marginBottom: 80
         },
         title: {
-          style: { 
+          style: {
             fontSize: '16px',
             color: '#C14D00'
           },
@@ -113,7 +118,7 @@ var JCHS = {
           }
         },
         series: { borderWidth: 0.5 },
-        legend: { 
+        legend: {
           y: 60,
         }
       },
@@ -161,10 +166,10 @@ var JCHS = {
         allAreas: false,
         joinBy: ['GEOID', 0],
         keys: ['GEOID', 'value'],
-        point: { 
-          events: { 
+        point: {
+          events: {
             click: function (event) {
-              drilldown(event.point.GEOID, event.point.name) 
+              drilldown(event.point.GEOID, event.point.name)
             }
           }
         }
@@ -190,7 +195,7 @@ var JCHS = {
       }
     },
 
-    mapNavigation: { 
+    mapNavigation: {
       enabled: true,
       buttonOptions: { x: 1 },
       buttons: {
@@ -207,7 +212,7 @@ var JCHS = {
       spacingTop: 1
     },
 
-    plotOptions: { series: { label: { enabled: false } } }, 
+    plotOptions: { series: { label: { enabled: false } } },
 
     title: { style: { fontSize: '13px' } },
 
@@ -218,9 +223,9 @@ var JCHS = {
       valueDecimals: 0
     },
 
-    legend: {enabled: false },
+    legend: { enabled: false },
 
-    exporting: {enabled: false }
+    exporting: { enabled: false }
 
   }, //end drilldownOptions
 
@@ -268,14 +273,14 @@ JCHS.options = function (chart_type) {
  *
  */
 
-JCHS.requestURL = function (sheetID, range = 'Sheet1') {  
+JCHS.requestURL = function (sheetID, range = 'Sheet1') {
   var baseURL = 'https://sheets.googleapis.com/v4/spreadsheets/'
   var API_Key = 'AIzaSyDY_gHLV0A7liVYq64RxH7f7IYUKF15sOQ'
   var API_params = 'valueRenderOption=UNFORMATTED_VALUE'
   var requestURL = baseURL + sheetID + "/values/" + range + "?key=" + API_Key + "&" + API_params
 
   console.log(requestURL)
-  
+
   return requestURL
 }
 
@@ -299,21 +304,23 @@ JCHS.requestURL = function (sheetID, range = 'Sheet1') {
 
 JCHS.numFormat = function (number, decimals) {
   /* Based on Highcharts.numberFormat */
-  number = +number || 0;
-  decimals = +decimals;
+  number = +number || 0
+  decimals = +decimals
 
   var origDec = (number.toString().split('.')[1] || '').length,
-      strinteger,
-      thousands,
-      ret,
-      roundedNumber,
-      fractionDigits;
+    decimalPoint = '.',
+    thousandsSep = ',',
+    strinteger,
+    thousands,
+    ret,
+    roundedNumber,
+    fractionDigits
 
   if (decimals === -1) {
     // Preserve decimals. Not huge numbers (#3793).
-    decimals = Math.min(origDec, 20);
+    decimals = Math.min(origDec, 20)
   } else if (isNaN(decimals)) {
-    decimals = Math.min(origDec, 2);
+    decimals = Math.min(origDec, 2)
   }
 
   // Add another decimal to avoid rounding errors of float numbers. (#4573)
@@ -321,37 +328,33 @@ JCHS.numFormat = function (number, decimals) {
   roundedNumber = (
     Math.abs(number) +
     Math.pow(10, -Math.max(decimals, origDec) - 1)
-  ).toFixed(decimals);
+  ).toFixed(decimals)
 
   // A string containing the positive integer component of the number
-  strinteger = String(parseInt(roundedNumber));
+  strinteger = String(parseInt(roundedNumber))
 
   // Leftover after grouping into thousands. Can be 0, 1 or 2.
-  thousands = strinteger.length > 3 ? strinteger.length % 3 : 0;
-
-  // Language
-  decimalPoint = '.';
-  thousandsSep = ',';
+  thousands = strinteger.length > 3 ? strinteger.length % 3 : 0
 
   // Start building the return
-  ret = number < 0 ? '-' : '';
+  ret = number < 0 ? '-' : ''
 
   // Add the leftover after grouping into thousands. For example, in the
   // number 42 000 000, this line adds 42.
-  ret += thousands ? strinteger.substr(0, thousands) + thousandsSep : '';
+  ret += thousands ? strinteger.substr(0, thousands) + thousandsSep : ''
 
   // Add the remaining thousands groups, joined by the thousands separator
   ret += strinteger
     .substr(thousands)
-    .replace(/(\d{3})(?=\d)/g, '$1' + thousandsSep);
+    .replace(/(\d{3})(?=\d)/g, '$1' + thousandsSep)
 
   // Add the decimal point and the decimal component
   if (decimals) {
     // Get the decimal component
-    ret += decimalPoint + roundedNumber.slice(-decimals);
+    ret += decimalPoint + roundedNumber.slice(-decimals)
   }
 
-  return ret;
+  return ret
 
 } //end numFormat
 
@@ -386,13 +389,13 @@ JCHS.numFormat = function (number, decimals) {
  *
  */
 
-JCHS.createSearchBox = function  (data, 
-                                   chart_slug, 
-                                   col_index = 0, 
-                                   type = 'dropdown',
-                                   placeholder = 'Select a metro...') {
+JCHS.createSearchBox = function (data,
+  chart_slug,
+  col_index = 0,
+  type = 'dropdown',
+  placeholder = 'Select a metro...') {
 
-  if (type === 'search') { placeholder = 'Search for metro...' } 
+  if (type === 'search') { placeholder = 'Search for metro...' }
 
   $(`#search_box_${chart_slug}`).append(`<input id="search_input_${chart_slug}" class="JCHS-search-input">`)
 
@@ -409,9 +412,9 @@ JCHS.createSearchBox = function  (data,
   data.forEach(function (el) {
     if (dedup_data.indexOf(el[col_index]) < 0) {
       dedup_data.push(el[col_index])
-    }  
+    }
   })
-  dedup_data.forEach( el => list.append(`<li>${el}</li>`) )
+  dedup_data.forEach(el => list.append(`<li>${el}</li>`))
 
   box.on('focus', function () {
     box.val('')
@@ -430,9 +433,9 @@ JCHS.createSearchBox = function  (data,
   })
 
   box.on('change', function () {
-    JCHS.searchCallback[chart_slug] ($(`#search_input_${chart_slug}`).val())   
+    JCHS.searchCallback[chart_slug]($(`#search_input_${chart_slug}`).val())
     box.blur()
-    list.hide() 
+    list.hide()
   }) //end box.on 'change'
 
   box.on('blur', function () {
@@ -477,7 +480,7 @@ JCHS.mapLocatorCircle = function (map_obj, search_value) {
         )
         .attr({
           fill: 'transparent',
-          stroke: 'black', 
+          stroke: 'black',
           'stroke-width': 1
         })
         .animate({
@@ -486,31 +489,32 @@ JCHS.mapLocatorCircle = function (map_obj, search_value) {
         .add()
         .toFront()
     }
-    
+
     setTimeout(() => map.series[0].points[idx].select(false), 700)
 
   })
 } //end mapLocatorCircle()
 
 
-JCHS.onLoad = function () {  
+JCHS.onLoad = function () {
   var yAxis = this.renderer
-  .text(yAxis_title)
-  .addClass('highcharts-axis-title')
-  .align({y: -5}, false, 'plotBox')
-  .add()
+    .text(yAxis_title)
+    .addClass('highcharts-axis-title')
+    .align({ y: -5 }, false, 'plotBox')
+    .add()
 
   //add title to second yAxis, if it exists
   if (this.yAxis.length === 2) {
     var yAxis2 = this.renderer
-    .text(yAxis2_title)
-    .addClass('highcharts-axis-title')
-    .align({align: 'right', y: -5}, false, 'plotBox')
-    .add()
+      .text(yAxis2_title)
+      .addClass('highcharts-axis-title')
+      .align({ align: 'right', y: -5 }, false, 'plotBox')
+      .add()
     var box = yAxis2.getBBox()
     yAxis2.translate(-box.width, 0)
   }
 }
+
 
 /*
 Highcharts.setOptions({ 

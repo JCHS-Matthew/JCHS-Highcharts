@@ -1,3 +1,4 @@
+@import url('https://code.highcharts.com/css/highcharts.css');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');
 
 .JCHS-chart-wrapper {
@@ -122,10 +123,7 @@
 }
 
 
-
-/* Highcharts CSS and JCHS modifications */
-@import url('https://code.highcharts.com/css/highcharts.css');
-
+/* Highcharts CSS JCHS modifications */
 .highcharts-container {
   font-family: "Open Sans", "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
 }
@@ -166,4 +164,3 @@
 .highcharts-button-symbol {
   stroke-width: 1px;
 }
-
