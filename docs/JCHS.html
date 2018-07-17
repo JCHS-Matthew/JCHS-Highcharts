@@ -2,22 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Namespace: JCHS</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>JCHS - Documentation</title>
 
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
     <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 </head>
-
 <body>
 
-<div id="main">
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
 
-    <h1 class="page-title">Namespace: JCHS</h1>
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Namespaces</li><li class="nav-heading"><span class="nav-item-type type-namespace">N</span><span class="nav-item-name"><a href="JCHS.html">JCHS</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#createSearchBox">createSearchBox</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#mapLocatorCircle">mapLocatorCircle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#numFormat">numFormat</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#options">options</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#requestURL">requestURL</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">JCHS</h1>
+    
 
     
 
@@ -28,7 +41,9 @@
 
 <header>
     
-        <h2>JCHS</h2>
+        <h2>
+        JCHS
+        </h2>
         
     
 </header>
@@ -70,7 +85,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line1">line 1</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line6">line 6</a>
     </li></ul></dd>
     
 
@@ -92,9 +107,7 @@
 
     
 
-    
-
-    
+     
 
     
 
@@ -105,12 +118,11 @@
 
         
             
+<div class="section-method">
 
     
 
-    
     <h4 class="name" id="createSearchBox"><span class="type-signature"></span>createSearchBox<span class="signature">(data, chart_slug, col_index<span class="signature-attributes">opt</span>, type<span class="signature-attributes">opt</span>, placeholder<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-    
 
     
 
@@ -119,6 +131,50 @@
 <div class="description">
     Add a search box with filtered list to the page. Adds one item to the list for each unique value of a column from ref_data.On clicking a list item, selectPoint() is called, with the selected item passed as the only parameter. For proper functionality, include in your code a function named selectPoint() which uses the list item to initiate any interactive features.For example:function selectPoint(selected_location) {  createChart(selected_location)  chart.update({title: { text: selected_location } })}
 </div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line362">line 362</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -161,7 +217,7 @@
             <td class="type">
             
                 
-<span class="param-type">Array</span>
+<span class="param-type"><code>Array</code></span>
 
 
             
@@ -179,7 +235,10 @@
 
             
 
-            <td class="description last">Reference dataset for chart.</td>
+            <td class="description last">
+                Reference dataset for chart.
+                
+            </td>
         </tr>
 
     
@@ -192,7 +251,7 @@
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type"><code>String</code></span>
 
 
             
@@ -210,7 +269,10 @@
 
             
 
-            <td class="description last">Unique ID of chart, to ensure unique <div> ids in HTML.</td>
+            <td class="description last">
+                Unique ID of chart, to ensure unique <div> ids in HTML.
+                
+            </td>
         </tr>
 
     
@@ -223,7 +285,7 @@
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type"><code>Number</code></span>
 
 
             
@@ -243,7 +305,10 @@
 
             
 
-            <td class="description last">Column index of data to be listed in the search box. Defaults to 0.</td>
+            <td class="description last">
+                Column index of data to be listed in the search box. Defaults to 0.
+                
+            </td>
         </tr>
 
     
@@ -256,7 +321,7 @@
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type"><code>String</code></span>
 
 
             
@@ -276,7 +341,10 @@
 
             
 
-            <td class="description last">'dropdown' or 'search'. Only differences are 'dropdown' has a down arrow at the right side of the box and has placeholder text 'Select a metro...', while 'search' has no arrow and has placehold text  'Search for metro...'.</td>
+            <td class="description last">
+                'dropdown' or 'search'. Only differences are 'dropdown' has a down arrow at the right side of the box and has placeholder text 'Select a metro...', while 'search' has no arrow and has placehold text  'Search for metro...'.
+                
+            </td>
         </tr>
 
     
@@ -289,7 +357,7 @@
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type"><code>String</code></span>
 
 
             
@@ -309,13 +377,47 @@
 
             
 
-            <td class="description last">Override the default placeholder text. (e.g., 'Select a state...').</td>
+            <td class="description last">
+                Override the default placeholder text. (e.g., 'Select a state...').
+                
+            </td>
         </tr>
 
     
     </tbody>
 </table>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="mapLocatorCircle"><span class="type-signature"></span>mapLocatorCircle<span class="signature">(map_object, search_value)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Draw a circle animated to "zero in" on a location, based on a search value that corresponds to a point name in the series displayed on the map. Useful when called from the searchCalllback function when a user selects a metro from the search dropdown.
+</div>
 
 
 
@@ -350,7 +452,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line407">line 407</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line453">line 453</a>
     </li></ul></dd>
     
 
@@ -360,40 +462,6 @@
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="mapLocatorCircle"><span class="type-signature"></span>mapLocatorCircle<span class="signature">(map_object, search_value)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Draw a circle animated to "zero in" on a location, based on a search value that corresponds to a point name in the series displayed on the map. Useful when called from the searchCalllback function when a user selects a metro from the search dropdown.
-</div>
 
 
 
@@ -434,7 +502,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><code>Object</code></span>
 
 
             
@@ -444,7 +512,10 @@
 
             
 
-            <td class="description last">Object containing a Highcharts map.</td>
+            <td class="description last">
+                Object containing a Highcharts map.
+                
+            </td>
         </tr>
 
     
@@ -457,7 +528,7 @@
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type"><code>String</code></span>
 
 
             
@@ -467,13 +538,47 @@
 
             
 
-            <td class="description last">The name to search for on the map. Compares the search_value to the point.name for each point in the currently displayed series.</td>
+            <td class="description last">
+                The name to search for on the map. Compares the search_value to the point.name for each point in the currently displayed series.
+                
+            </td>
         </tr>
 
     
     </tbody>
 </table>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="numFormat"><span class="type-signature"></span>numFormat<span class="signature">(number, decimals<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Format a number and return a string.
+</div>
 
 
 
@@ -508,7 +613,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line498">line 498</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line288">line 288</a>
     </li></ul></dd>
     
 
@@ -518,40 +623,6 @@
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="numFormat"><span class="type-signature"></span>numFormat<span class="signature">(number, decimals<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {String}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Format a number and return a string.
-</div>
 
 
 
@@ -594,7 +665,7 @@
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type"><code>Number</code></span>
 
 
             
@@ -612,7 +683,10 @@
 
             
 
-            <td class="description last">The input number to format.</td>
+            <td class="description last">
+                The input number to format.
+                
+            </td>
         </tr>
 
     
@@ -625,7 +699,7 @@
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type"><code>Number</code></span>
 
 
             
@@ -645,13 +719,72 @@
 
             
 
-            <td class="description last">The amount of decimals. A value of -1 preserves       the amount in the input number. Defaults to a maximum of 2 decimals        (i.e., 1 returns '1', 1.2 returns '1.2', 1.23 returns '1.23', 1.234        returns '1.23').</td>
+            <td class="description last">
+                The amount of decimals. A value of -1 preserves       the amount in the input number. Defaults to a maximum of 2 decimals        (i.e., 1 returns '1', 1.2 returns '1.2', 1.23 returns '1.23', 1.234        returns '1.23').
+                
+            </td>
         </tr>
 
     
     </tbody>
 </table>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>String</code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    The formatted number.
+</div>
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="options"><span class="type-signature"></span>options<span class="signature">(chart_type)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Compiles the correct set of options for different chart types.Returns the standard options if no chart type is given.
+</div>
 
 
 
@@ -686,7 +819,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line331">line 331</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line234">line 234</a>
     </li></ul></dd>
     
 
@@ -696,62 +829,6 @@
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The formatted number.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">String</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="options"><span class="type-signature"></span>options<span class="signature">(chart_type)</span><span class="type-signature"> &rarr; {Object}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Compiles the correct set of options for different chart types.Returns the standard options if no chart type is given.
-</div>
 
 
 
@@ -792,7 +869,7 @@
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type"><code>String</code></span>
 
 
             
@@ -802,13 +879,72 @@
 
             
 
-            <td class="description last">Currently supports 'map' and 'drilldown'.</td>
+            <td class="description last">
+                Currently supports 'map' and 'drilldown'.
+                
+            </td>
         </tr>
 
     
     </tbody>
 </table>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>Object</code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    Object containing Highcharts options.
+</div>
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="requestURL"><span class="type-signature"></span>requestURL<span class="signature">(sheetID, range<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Builds a GET request URL for the Google Sheets API, based on inputsheet ID and range.
+</div>
 
 
 
@@ -843,7 +979,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line277">line 277</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line259">line 259</a>
     </li></ul></dd>
     
 
@@ -853,62 +989,6 @@
 
     
 </dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Object containing Highcharts options.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="requestURL"><span class="type-signature"></span>requestURL<span class="signature">(sheetID, range<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {String}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Builds a GET request URL for the Google Sheets API, based on inputsheet ID and range.
-</div>
 
 
 
@@ -951,7 +1031,7 @@
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type"><code>String</code></span>
 
 
             
@@ -969,8 +1049,11 @@
 
             
 
-            <td class="description last">Unique ID of the Google Sheet (e.g., 
-          '1LxTyrgt7sTtRYzEr6BlTnKwpwoQPz5WiIrA8dpocgRM').</td>
+            <td class="description last">
+                Unique ID of the Google Sheet (e.g., 
+          '1LxTyrgt7sTtRYzEr6BlTnKwpwoQPz5WiIrA8dpocgRM').
+                
+            </td>
         </tr>
 
     
@@ -983,7 +1066,7 @@
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type"><code>String</code></span>
 
 
             
@@ -1003,7 +1086,10 @@
 
             
 
-            <td class="description last">The data range. Defaults to 'Sheet1'. Accepts        sheet ranges that conform to the Google API (e.g., 'Sheet1!A:F').</td>
+            <td class="description last">
+                The data range. Defaults to 'Sheet1'. Accepts        sheet ranges that conform to the Google API (e.g., 'Sheet1!A:F').
+                
+            </td>
         </tr>
 
     
@@ -1015,45 +1101,6 @@
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line302">line 302</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
 
 
 
@@ -1062,38 +1109,34 @@
 
 
 
-
-
-
-
-
+<div class="section-returns">
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    A URL.
-</div>
 
-
-
-<dl>
+<dl class="param-type">
     <dt>
-        Type
+        Type:
     </dt>
     <dd>
         
-<span class="param-type">String</span>
+<span class="param-type"><code>String</code></span>
 
 
     </dd>
 </dl>
 
+
+<div class="param-desc">
+    A URL.
+</div>
+
     
+</div>
 
 
 
-
-
+</div>
         
     
 
@@ -1109,17 +1152,13 @@
 
 </div>
 
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="JCHS.html">JCHS</a></li></ul>
-</nav>
-
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Jul 06 2018 17:02:38 GMT-0400 (Eastern Daylight Time)
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jul 17 2018 13:59:37 GMT-0400 (Eastern Daylight Time) using the Minami theme.
 </footer>
 
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
 </body>
 </html>

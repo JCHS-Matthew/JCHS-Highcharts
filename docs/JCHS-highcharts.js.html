@@ -2,22 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: JCHS-highcharts.js</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>JCHS-highcharts.js - Documentation</title>
 
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
     <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 </head>
-
 <body>
 
-<div id="main">
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
 
-    <h1 class="page-title">Source: JCHS-highcharts.js</h1>
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Namespaces</li><li class="nav-heading"><span class="nav-item-type type-namespace">N</span><span class="nav-item-name"><a href="JCHS.html">JCHS</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#createSearchBox">createSearchBox</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#mapLocatorCircle">mapLocatorCircle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#numFormat">numFormat</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#options">options</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#requestURL">requestURL</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">JCHS-highcharts.js</h1>
+    
 
     
 
@@ -26,16 +39,21 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
+            <pre class="prettyprint source linenums"><code>var $ = require("jquery");
+var Highcharts = require('highcharts');
+require('highcharts/modules/map')(Highcharts);
+require('highcharts/modules/exporting')(Highcharts);
+require('highcharts/modules/export-data')(Highcharts);
+/**
 * @namespace JCHS
 */
 
 var JCHS = {
 
   charts: {},
-  
+
   searchCallback: {},
-  
+
   sheetID: 'placeholder',
 
   range: 'Sheet1',
@@ -52,8 +70,8 @@ var JCHS = {
   logoURL: 'http://www.jchs.harvard.edu/sites/default/files/harvard_jchs_logo_2017.png',
 
   standardOptions: {
-
     chart: {
+      spacing: [5, 5, 5, 5],
       marginTop: 40,
       events: {
         load: function () {
@@ -62,7 +80,7 @@ var JCHS = {
               .image(JCHS.logoURL, 0, this.chartHeight - 50, 170, 55)
               .add()
           }
-          this.update({ 
+          this.update({
             exporting: {
               menuItemDefinitions: {
                 viewFullDataset: {
@@ -78,90 +96,51 @@ var JCHS = {
       }
     },
 
-    title: { 
-      style: { fontFamily: '"Open Sans", sans-serif' },
-      text: null
-    },
+    title: { text: null },
 
-    subtitle: { 
-      style: { fontFamily: '"Open Sans", sans-serif' },
-      text: null
-    },
+    subtitle: { text: null },
 
-    legend: { 
-      title: { 
-        style: { 
-          fontFamily: '"Open Sans", sans-serif',
-          fontWeight: 'normal'
-        } 
-      },
-      itemStyle: { 
-        fontFamily: '"Open Sans", sans-serif',
-        fontWeight: 'normal'
-      },
-      backgroundColor: 'rgba(255, 255, 255, 0.9)'
-    },
-
-    xAxis: { 
-      title: { style: { fontFamily: '"Open Sans", sans-serif' } },
-      labels: { style: { fontFamily: '"Open Sans", sans-serif' } }
-    },
-    
-    yAxis: [{
-      labels: { style: { fontFamily: '"Open Sans", sans-serif'} },
-      title: {
-        text: 'null',
-        offset: -110,
-        x: 23,
-        y: -5,
-        align: 'high',
-        rotation: 0,
-        style: {
-          whiteSpace: 'nowrap',
-          fontFamily: '"Open Sans", sans-serif'
-        }
-      }
-    },{
-      labels: { style: { fontFamily: '"Open Sans", sans-serif'} },
-      title: {
-        text: 'null',
-        offset: -110,
-        x: 23,
-        y: -5,
-        align: 'high',
-        rotation: 0,
-        style: {
-          whiteSpace: 'nowrap',
-          fontFamily: '"Open Sans", sans-serif'
-        }
-      }
-    }],
-
-    tooltip: { 
+    tooltip: {
       enabled: true,
-      style: { fontFamily: '"Open Sans", sans-serif' },
-      backgroundColor: 'rgba(247,247,247, 1)',
       useHTML: true,
       shared: true
     },
 
-    credits: { 
-      enabled: false,
-      style: { 
-        fontFamily: '"Open Sans", sans-serif',
-        color: '#333',
-      } 
+    credits: { enabled: false },
+
+    yAxis: [
+      {
+        title: {
+          text: null
+        }
+      },
+      {
+        title: {
+          text: null
+        }
+      }
+    ],
+
+    plotOptions: {
+      series: {
+        connectNulls: true
+      },
+      spline: {
+        marker: {
+          enabled: false
+        }
+      }
     },
 
     exporting: {
       enabled: true,
       chartOptions: {
-        chart: { 
-          marginTop: 25, 
-          marginBottom: 80 
+        chart: {
+          marginTop: 25,
+          marginBottom: 80
         },
         title: {
-          style: { 
+          style: {
             fontSize: '16px',
             color: '#C14D00'
           },
@@ -180,7 +159,7 @@ var JCHS = {
           }
         },
         series: { borderWidth: 0.5 },
-        legend: { 
+        legend: {
           y: 60,
         }
       },
@@ -194,7 +173,7 @@ var JCHS = {
       },
       buttons: {
         contextButton: {
-          text: '&lt;span style="font-family: Open Sans, sans-serif;">Export&lt;/span>',
+          text: 'Export',
           menuItems: [
             'viewFullDataset',
             //'viewSortableTable',
@@ -207,21 +186,19 @@ var JCHS = {
             'separator',
             'downloadXLS',
             //'downloadFullData'
-          ],
-          theme: { fill: '#ffffff00' },
-          y: -10,
-          //x: 5
+          ]
         }
       }
     }, //end exporting
 
-    plotOptions: {
-      spline: {
-        label: {
-          style: { fontFamily: '"Open Sans", sans-serif' }
-        }
+    navigation: {
+      buttonOptions: {
+        height: 20,
+        symbolY: 8,
+        symbolSize: 12,
+        theme: { padding: 1 }
       }
-    }
+    } //end navigation
   }, //end standardOptions
 
   mapOptions: {
@@ -230,22 +207,15 @@ var JCHS = {
         allAreas: false,
         joinBy: ['GEOID', 0],
         keys: ['GEOID', 'value'],
-        states: {
-          select: { color: '#333' }
-        },
-        point: { 
-          events: { 
+        point: {
+          events: {
             click: function (event) {
-              drilldown(event.point.GEOID, event.point.name) 
+              drilldown(event.point.GEOID, event.point.name)
             }
           }
         }
       },
-      mapline: {
-        color: '#333',
-        lineWidth: 0.5,
-        enableMouseTracking: false
-      }
+      mapline: { enableMouseTracking: false }
     }, //end plotOptions
 
     legend: {
@@ -266,7 +236,7 @@ var JCHS = {
       }
     },
 
-    mapNavigation: { 
+    mapNavigation: {
       enabled: true,
       buttonOptions: { x: 1 },
       buttons: {
@@ -283,7 +253,7 @@ var JCHS = {
       spacingTop: 1
     },
 
-    plotOptions: { series: { label: { enabled: false } } }, 
+    plotOptions: { series: { label: { enabled: false } } },
 
     title: { style: { fontSize: '13px' } },
 
@@ -294,9 +264,9 @@ var JCHS = {
       valueDecimals: 0
     },
 
-    legend: {enabled: false },
+    legend: { enabled: false },
 
-    exporting: {enabled: false }
+    exporting: { enabled: false }
 
   }, //end drilldownOptions
 
@@ -344,14 +314,14 @@ JCHS.options = function (chart_type) {
  *
  */
 
-JCHS.requestURL = function (sheetID, range = 'Sheet1') {  
+JCHS.requestURL = function (sheetID, range = 'Sheet1') {
   var baseURL = 'https://sheets.googleapis.com/v4/spreadsheets/'
   var API_Key = 'AIzaSyDY_gHLV0A7liVYq64RxH7f7IYUKF15sOQ'
   var API_params = 'valueRenderOption=UNFORMATTED_VALUE'
   var requestURL = baseURL + sheetID + "/values/" + range + "?key=" + API_Key + "&amp;" + API_params
 
   console.log(requestURL)
-  
+
   return requestURL
 }
 
@@ -375,21 +345,23 @@ JCHS.requestURL = function (sheetID, range = 'Sheet1') {
 
 JCHS.numFormat = function (number, decimals) {
   /* Based on Highcharts.numberFormat */
-  number = +number || 0;
-  decimals = +decimals;
+  number = +number || 0
+  decimals = +decimals
 
   var origDec = (number.toString().split('.')[1] || '').length,
-      strinteger,
-      thousands,
-      ret,
-      roundedNumber,
-      fractionDigits;
+    decimalPoint = '.',
+    thousandsSep = ',',
+    strinteger,
+    thousands,
+    ret,
+    roundedNumber,
+    fractionDigits
 
   if (decimals === -1) {
     // Preserve decimals. Not huge numbers (#3793).
-    decimals = Math.min(origDec, 20);
+    decimals = Math.min(origDec, 20)
   } else if (isNaN(decimals)) {
-    decimals = Math.min(origDec, 2);
+    decimals = Math.min(origDec, 2)
   }
 
   // Add another decimal to avoid rounding errors of float numbers. (#4573)
@@ -397,37 +369,33 @@ JCHS.numFormat = function (number, decimals) {
   roundedNumber = (
     Math.abs(number) +
     Math.pow(10, -Math.max(decimals, origDec) - 1)
-  ).toFixed(decimals);
+  ).toFixed(decimals)
 
   // A string containing the positive integer component of the number
-  strinteger = String(parseInt(roundedNumber));
+  strinteger = String(parseInt(roundedNumber))
 
   // Leftover after grouping into thousands. Can be 0, 1 or 2.
-  thousands = strinteger.length > 3 ? strinteger.length % 3 : 0;
-
-  // Language
-  decimalPoint = '.';
-  thousandsSep = ',';
+  thousands = strinteger.length > 3 ? strinteger.length % 3 : 0
 
   // Start building the return
-  ret = number &lt; 0 ? '-' : '';
+  ret = number &lt; 0 ? '-' : ''
 
   // Add the leftover after grouping into thousands. For example, in the
   // number 42 000 000, this line adds 42.
-  ret += thousands ? strinteger.substr(0, thousands) + thousandsSep : '';
+  ret += thousands ? strinteger.substr(0, thousands) + thousandsSep : ''
 
   // Add the remaining thousands groups, joined by the thousands separator
   ret += strinteger
     .substr(thousands)
-    .replace(/(\d{3})(?=\d)/g, '$1' + thousandsSep);
+    .replace(/(\d{3})(?=\d)/g, '$1' + thousandsSep)
 
   // Add the decimal point and the decimal component
   if (decimals) {
     // Get the decimal component
-    ret += decimalPoint + roundedNumber.slice(-decimals);
+    ret += decimalPoint + roundedNumber.slice(-decimals)
   }
 
-  return ret;
+  return ret
 
 } //end numFormat
 
@@ -462,13 +430,13 @@ JCHS.numFormat = function (number, decimals) {
  *
  */
 
-JCHS.createSearchBox = function  (data, 
-                                   chart_slug, 
-                                   col_index = 0, 
-                                   type = 'dropdown',
-                                   placeholder = 'Select a metro...') {
+JCHS.createSearchBox = function (data,
+  chart_slug,
+  col_index = 0,
+  type = 'dropdown',
+  placeholder = 'Select a metro...') {
 
-  if (type === 'search') { placeholder = 'Search for metro...' } 
+  if (type === 'search') { placeholder = 'Search for metro...' }
 
   $(`#search_box_${chart_slug}`).append(`&lt;input id="search_input_${chart_slug}" class="JCHS-search-input">`)
 
@@ -485,9 +453,9 @@ JCHS.createSearchBox = function  (data,
   data.forEach(function (el) {
     if (dedup_data.indexOf(el[col_index]) &lt; 0) {
       dedup_data.push(el[col_index])
-    }  
+    }
   })
-  dedup_data.forEach( el => list.append(`&lt;li>${el}&lt;/li>`) )
+  dedup_data.forEach(el => list.append(`&lt;li>${el}&lt;/li>`))
 
   box.on('focus', function () {
     box.val('')
@@ -506,9 +474,9 @@ JCHS.createSearchBox = function  (data,
   })
 
   box.on('change', function () {
-    JCHS.searchCallback[chart_slug] ($(`#search_input_${chart_slug}`).val())   
+    JCHS.searchCallback[chart_slug]($(`#search_input_${chart_slug}`).val())
     box.blur()
-    list.hide() 
+    list.hide()
   }) //end box.on 'change'
 
   box.on('blur', function () {
@@ -553,7 +521,7 @@ JCHS.mapLocatorCircle = function (map_obj, search_value) {
         )
         .attr({
           fill: 'transparent',
-          stroke: 'black', 
+          stroke: 'black',
           'stroke-width': 1
         })
         .animate({
@@ -562,13 +530,34 @@ JCHS.mapLocatorCircle = function (map_obj, search_value) {
         .add()
         .toFront()
     }
-    
+
     setTimeout(() => map.series[0].points[idx].select(false), 700)
 
   })
 } //end mapLocatorCircle()
 
 
+JCHS.onLoad = function () {
+  var yAxis = this.renderer
+    .text(yAxis_title)
+    .addClass('highcharts-axis-title')
+    .align({ y: -5 }, false, 'plotBox')
+    .add()
+
+  //add title to second yAxis, if it exists
+  if (this.yAxis.length === 2) {
+    var yAxis2 = this.renderer
+      .text(yAxis2_title)
+      .addClass('highcharts-axis-title')
+      .align({ align: 'right', y: -5 }, false, 'plotBox')
+      .add()
+    var box = yAxis2.getBBox()
+    yAxis2.translate(-box.width, 0)
+  }
+}
+
+
+/*
 Highcharts.setOptions({ 
   lang: { 
     thousandsSep: ",",
@@ -576,8 +565,9 @@ Highcharts.setOptions({
     downloadPDF: 'Download as PDF',
     downloadCSV: 'Download chart data (CSV)',
     downloadXLS: 'Download chart data (Excel)'
-  } 
+  }
 })
+*/
 </code></pre>
         </article>
     </section>
@@ -587,17 +577,13 @@ Highcharts.setOptions({
 
 </div>
 
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="JCHS.html">JCHS</a></li></ul>
-</nav>
-
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Jul 06 2018 17:02:38 GMT-0400 (Eastern Daylight Time)
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jul 17 2018 13:59:37 GMT-0400 (Eastern Daylight Time) using the Minami theme.
 </footer>
 
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
 </body>
 </html>
