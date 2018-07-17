@@ -33,7 +33,8 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
-          'build/JCHS-highcharts.transpiled.js': 'src/js/JCHS-highcharts.js'
+          //'build/JCHS-highcharts.transpiled.js': 'src/js/JCHS-highcharts.js'
+          'dist/JCHS-highcharts.js': 'src/js/JCHS-highcharts.js'
         }
       }
     },
@@ -106,9 +107,9 @@ module.exports = function (grunt) {
   })
 
   // name the tasks 
-  grunt.registerTask('default', ['eslint', 'jsdoc', 'babel', 'postcss', 'browserify', 'karma', 'uglify'])
+  grunt.registerTask('default', ['eslint', 'jsdoc', 'babel', 'postcss', /*'browserify',*/ 'karma', 'uglify'])
   grunt.registerTask('test', ['karma'])
   grunt.registerTask('css', ['postcss'])
-  grunt.registerTask('js', ['eslint', 'jsdoc', 'babel', 'browserify', 'uglify'])
+  grunt.registerTask('js', ['eslint', 'jsdoc', 'babel', 'uglify'])
 
 }

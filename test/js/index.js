@@ -16,7 +16,7 @@ QUnit.test("requestURL() test", function (assert) {
   assert.equal(JCHS.requestURL(param1, param2), "https://sheets.googleapis.com/v4/spreadsheets/1-2qNM31nv35RaGligm1c9RG2TN94NIYJ3fMDBUt8Sso/values/Sheet2!A:X?key=AIzaSyDY_gHLV0A7liVYq64RxH7f7IYUKF15sOQ&valueRenderOption=UNFORMATTED_VALUE")
 })
 
-
+/*
 QUnit.test("get request results test (Google Sheets API)", function (assert) {
   var done = assert.async()
   var param1 = '1-2qNM31nv35RaGligm1c9RG2TN94NIYJ3fMDBUt8Sso',
@@ -28,3 +28,5 @@ QUnit.test("get request results test (Google Sheets API)", function (assert) {
     done()
   })
 })
+
+//*/
