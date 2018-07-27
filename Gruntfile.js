@@ -22,7 +22,7 @@ module.exports = function (grunt) {
         },
         "maxWarnings": 20,
       },
-      target: ['Gruntfile.js', 'src/js/*.js', 'test/**/*.js']
+      target: ['Gruntfile.js', 'src/js/*.js', 'test/*.js']
     },
 
     /* Babel */
@@ -66,7 +66,7 @@ module.exports = function (grunt) {
               "rule-empty-line-before": [ "always", { "except": ["first-nested"], "ignore": ["after-comment"] } ]
             }
           }),
-          //require('postcss-import'),
+          //require('postcss-import'), //bundle imported CSS...would create redundancy on pages with more than one chart
           require('postcss-preset-env'), //polyfill any new CSS features
           require('autoprefixer'), //add vendor prefixes
           require('cssnano')() // minify the result
@@ -107,7 +107,7 @@ module.exports = function (grunt) {
   })
 
   // name the tasks 
-  grunt.registerTask('default', ['eslint', 'jsdoc', 'babel', 'postcss', /*'browserify',*/ 'karma', 'uglify'])
+  grunt.registerTask('default', ['eslint', 'babel', 'uglify',  'postcss', /*'browserify',*/ 'karma', 'jsdoc'])
   grunt.registerTask('test', ['karma'])
   grunt.registerTask('css', ['postcss'])
   grunt.registerTask('js', ['eslint', 'jsdoc', 'babel', 'uglify'])

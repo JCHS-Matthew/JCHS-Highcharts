@@ -1,12 +1,12 @@
 // Karma configuration
 // Generated on Thu Jul 12 2018 14:06:00 GMT-0400 (Eastern Daylight Time)
-const path = require('path');
+//const path = require('path');
 
 module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    //basePath: '',
 
 
     // frameworks to use
@@ -18,7 +18,7 @@ module.exports = function(config) {
     files: [
       'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js',
       'dist/JCHS-highcharts.js',
-      'test/js/index.js'
+      'test/*.js'
     ],
 
 
@@ -34,7 +34,7 @@ module.exports = function(config) {
     },
 
     // web server port
-    port: 9876,
+    port: 9999,
 
 
     // enable / disable colors in the output (reporters and logs)
@@ -52,7 +52,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome', 'Firefox', /*'Safari',*/ 'PhantomJS', 'IE'],
+    browsers: ['Chrome', /*'Firefox',*/ 'Safari', 'PhantomJS', /*'IE'*/],
 
 
     // Continuous Integration mode
