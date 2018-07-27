@@ -1,9 +1,3 @@
-/*var $ = require("jquery");
-var Highcharts = require('highcharts');
-require('highcharts/modules/map')(Highcharts);
-require('highcharts/modules/exporting')(Highcharts);
-require('highcharts/modules/export-data')(Highcharts);
-*/
 /**
 * @namespace JCHS
 */
