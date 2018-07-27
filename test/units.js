@@ -16,12 +16,10 @@ QUnit.test("requestURL() test", function (assert) {
   assert.equal(JCHS.requestURL(param1, param2), "https://sheets.googleapis.com/v4/spreadsheets/1-2qNM31nv35RaGligm1c9RG2TN94NIYJ3fMDBUt8Sso/values/Sheet2!A:X?key=AIzaSyDY_gHLV0A7liVYq64RxH7f7IYUKF15sOQ&valueRenderOption=UNFORMATTED_VALUE")
 })
 
-/*
+
 QUnit.test("get request results test (Google Sheets API)", function (assert) {
   var done = assert.async()
-  var param1 = '1-2qNM31nv35RaGligm1c9RG2TN94NIYJ3fMDBUt8Sso',
-    param2 = 'Sheet2!A:X'
-  $.get(JCHS.requestURL(param1, param2), function (return_object) {
+  $.get('https://sheets.googleapis.com/v4/spreadsheets/1-2qNM31nv35RaGligm1c9RG2TN94NIYJ3fMDBUt8Sso/values/Sheet2!A:X?key=AIzaSyDY_gHLV0A7liVYq64RxH7f7IYUKF15sOQ&valueRenderOption=UNFORMATTED_VALUE', function (return_object) {
     var ref_data = return_object.values
     assert.ok(typeof return_object == "object", "get request returned an object")
     assert.ok(Array.isArray(ref_data) === true, "request_object.values is an array")
@@ -29,4 +27,3 @@ QUnit.test("get request results test (Google Sheets API)", function (assert) {
   })
 })
 
-//*/
