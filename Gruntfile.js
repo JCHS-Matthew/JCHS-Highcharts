@@ -78,14 +78,6 @@ module.exports = function (grunt) {
       }
     },
 
-    /* Karma */
-    //cross-browser unit testing
-    karma: {
-      unit: {
-        configFile: 'karma.conf.js'
-      }
-    },
-
     /* Uglify */
     //minify the final JS file
     uglify: {
@@ -95,6 +87,8 @@ module.exports = function (grunt) {
       }
     },
 
+    /* JSDoc */
+    //generate API documentation
     jsdoc: {
       dist: {
         src: ['src/js/*.js', 'README.md'],
@@ -103,7 +97,49 @@ module.exports = function (grunt) {
           template: "node_modules/minami"
         }
       }
-    }
+    },
+
+    /* Karma */
+    //cross-browser unit testing
+    karma: {
+      unit: {
+        //configFile: 'karma.conf.js'
+        options: {
+          frameworks: ['qunit'],
+          files: [
+            'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js',
+            'dist/JCHS-highcharts.js',
+            'test/*.js'
+          ],
+          browsers: ['Chrome', /*'Firefox',*/ 'Safari', 'PhantomJS', /*'IE'*/],
+          reporters: ['progress', 'html', 'coverage'],
+          preprocessors: {
+            'dist/JCHS-highcharts.js': ['coverage'] //preprocess files to create coverage report
+          },
+          coverageReporter: {
+            type : 'html',
+            dir : 'test-results/code-coverage'
+          },
+          htmlReporter: {
+            outputFile: 'test-results/unit-test-results.html',
+            subPageTitle: 'JCHS-highcharts',
+            //groupSuites: true,
+            useLegacyStyle: true
+          },
+          singleRun: true, //exit after tests are completed
+          autoWatch: false //don't automatically run tests when a file is changed
+        }
+      }
+    },
+
+    /*
+    * Next steps:
+    * jest-image-screenshot for visual regression testing
+    * plus puppeteer for UI tests (and visual regression after interaction) 
+    * Selenium/WebDriver tests?
+    * 
+    */
+
   })
 
   // name the tasks 
