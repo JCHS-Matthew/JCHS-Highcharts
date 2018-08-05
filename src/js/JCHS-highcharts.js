@@ -236,20 +236,49 @@ var JCHS = {
  *
  * @param {String} chart_type - Currently supports 'map' and 
  * 'drilldown'.
+ * @param {String} sheetID - Unique ID of the Google Sheet (e.g., 
+          '1LxTyrgt7sTtRYzEr6BlTnKwpwoQPz5WiIrA8dpocgRM').
  *
  * @returns {Object} Object containing Highcharts options. 
  */
 
-JCHS.options = function (chart_type) {
-  if (chart_type === 'map') {
-    return $.extend(true, {}, JCHS.standardOptions, JCHS.mapOptions)
-  } else if (chart_type === 'drilldown') {
-    return $.extend(true, {}, JCHS.standardOptions, JCHS.drilldownOptions)
-  } else {
-    return JCHS.standardOptions
-  }
-}
-
+  JCHS.options = function (chart_type, sheetID = 'NA') {
+    var options = {}
+    
+    if (chart_type === 'map') {
+      $.extend(true, options, JCHS.standardOptions, JCHS.mapOptions);
+    } else if (chart_type === 'drilldown') {
+      $.extend(true, options, JCHS.standardOptions, JCHS.drilldownOptions);
+    } else {
+      $.extend(true, options, JCHS.standardOptions)
+    }
+    
+    $.extend(true, options, {
+      chart: {
+        events: {
+          load: function load() {
+            if (this.renderer.forExport) {
+              this.renderer.image(JCHS.logoURL, 0, this.chartHeight - 50, 170, 55).add();
+            }
+            this.update({
+              exporting: {
+                menuItemDefinitions: {
+                  viewFullDataset: {
+                    text: 'View full dataset',
+                    onclick: function onclick() {
+                      window.open('https://docs.google.com/spreadsheets/d/' + sheetID);
+                    }
+                  }
+                }
+              }
+            })
+          }
+        }
+      }
+    })
+    
+    return options
+  }  
 
 /**
  *
