@@ -2,15 +2,12 @@
 * @namespace JCHS
 */
 
+
+(function (H){
+
 var JCHS = {
-
-  charts: {},
-
+  
   searchCallback: {},
-
-  sheetID: 'placeholder',
-
-  range: 'Sheet1',
 
   colors6: {
     color1: '#467b91',
@@ -24,40 +21,27 @@ var JCHS = {
   logoURL: 'http://www.jchs.harvard.edu/sites/default/files/harvard_jchs_logo_2017.png',
 
   standardOptions: {
+    lang: { 
+      thousandsSep: ",",
+      contextButtonTitle: 'Export Chart',
+      downloadPDF: 'Download as PDF',
+      downloadCSV: 'Download chart data (CSV)',
+      downloadXLS: 'Download chart data (Excel)'
+    },
     chart: {
-      spacing: [5, 5, 5, 5],
+      spacing: [5,5,5,5],
       marginTop: 40,
-      events: {
-        load: function () {
-          if (this.renderer.forExport) {
-            this.renderer
-              .image(JCHS.logoURL, 0, this.chartHeight - 50, 170, 55)
-              .add()
-          }
-          this.update({
-            exporting: {
-              menuItemDefinitions: {
-                viewFullDataset: {
-                  text: 'View full dataset',
-                  onclick: function () {
-                    window.open('https://docs.google.com/spreadsheets/d/' + sheetID)
-                  }
-                }
-              }
-            }
-          })
-        }
-      }
     },
 
     title: { text: null },
 
     subtitle: { text: null },
 
-    tooltip: {
+    tooltip: { 
       enabled: true,
       useHTML: true,
-      shared: true
+      shared: true,
+      shadow: false
     },
 
     credits: { enabled: false },
@@ -74,7 +58,7 @@ var JCHS = {
         }
       }
     ],
-
+    
     plotOptions: {
       series: {
         connectNulls: true
@@ -89,12 +73,12 @@ var JCHS = {
     exporting: {
       enabled: true,
       chartOptions: {
-        chart: {
-          marginTop: 25,
-          marginBottom: 80
+        chart: { 
+          marginTop: 25, 
+          marginBottom: 80 
         },
         title: {
-          style: {
+          style: { 
             fontSize: '16px',
             color: '#C14D00'
           },
@@ -113,16 +97,8 @@ var JCHS = {
           }
         },
         series: { borderWidth: 0.5 },
-        legend: {
+        legend: { 
           y: 60,
-        }
-      },
-      menuItemDefinitions: {
-        viewFullDataset: {
-          text: 'View full dataset',
-          onclick: function () {
-            window.open('https://docs.google.com/spreadsheets/d/' + SheetID)
-          }
         }
       },
       buttons: {
@@ -161,10 +137,10 @@ var JCHS = {
         allAreas: false,
         joinBy: ['GEOID', 0],
         keys: ['GEOID', 'value'],
-        point: {
-          events: {
+        point: { 
+          events: { 
             click: function (event) {
-              drilldown(event.point.GEOID, event.point.name)
+              drilldown(event.point.GEOID, event.point.name) 
             }
           }
         }
@@ -190,7 +166,7 @@ var JCHS = {
       }
     },
 
-    mapNavigation: {
+    mapNavigation: { 
       enabled: true,
       buttonOptions: { x: 1 },
       buttons: {
@@ -207,7 +183,7 @@ var JCHS = {
       spacingTop: 1
     },
 
-    plotOptions: { series: { label: { enabled: false } } },
+    plotOptions: { series: { label: { enabled: false } } }, 
 
     title: { style: { fontSize: '13px' } },
 
@@ -218,9 +194,9 @@ var JCHS = {
       valueDecimals: 0
     },
 
-    legend: { enabled: false },
+    legend: {enabled: false },
 
-    exporting: { enabled: false }
+    exporting: {enabled: false }
 
   }, //end drilldownOptions
 
@@ -246,14 +222,14 @@ var JCHS = {
     var options = {}
     
     if (chart_type === 'map') {
-      $.extend(true, options, JCHS.standardOptions, JCHS.mapOptions);
+      Highcharts.merge(true, options, JCHS.standardOptions, JCHS.mapOptions);
     } else if (chart_type === 'drilldown') {
-      $.extend(true, options, JCHS.standardOptions, JCHS.drilldownOptions);
+      Highcharts.merge(true, options, JCHS.standardOptions, JCHS.drilldownOptions);
     } else {
-      $.extend(true, options, JCHS.standardOptions)
+      Highcharts.merge(true, options, JCHS.standardOptions)
     }
     
-    $.extend(true, options, {
+    Highcharts.merge(true, options, {
       chart: {
         events: {
           load: function load() {
@@ -280,6 +256,7 @@ var JCHS = {
     return options
   }  
 
+
 /**
  *
  * Builds a GET request URL for the Google Sheets API, based on input
@@ -297,14 +274,14 @@ var JCHS = {
  *
  */
 
-JCHS.requestURL = function (sheetID, range = 'Sheet1') {
+JCHS.requestURL = function (sheetID, range = 'Sheet1') {  
   var baseURL = 'https://sheets.googleapis.com/v4/spreadsheets/'
   var API_Key = 'AIzaSyDY_gHLV0A7liVYq64RxH7f7IYUKF15sOQ'
   var API_params = 'valueRenderOption=UNFORMATTED_VALUE'
   var requestURL = baseURL + sheetID + "/values/" + range + "?key=" + API_Key + "&" + API_params
 
   console.log(requestURL)
-
+  
   return requestURL
 }
 
@@ -328,23 +305,21 @@ JCHS.requestURL = function (sheetID, range = 'Sheet1') {
 
 JCHS.numFormat = function (number, decimals) {
   /* Based on Highcharts.numberFormat */
-  number = +number || 0
-  decimals = +decimals
+  number = +number || 0;
+  decimals = +decimals;
 
   var origDec = (number.toString().split('.')[1] || '').length,
-    decimalPoint = '.',
-    thousandsSep = ',',
-    strinteger,
-    thousands,
-    ret,
-    roundedNumber,
-    fractionDigits
+      strinteger,
+      thousands,
+      ret,
+      roundedNumber,
+      fractionDigits;
 
   if (decimals === -1) {
     // Preserve decimals. Not huge numbers (#3793).
-    decimals = Math.min(origDec, 20)
+    decimals = Math.min(origDec, 20);
   } else if (isNaN(decimals)) {
-    decimals = Math.min(origDec, 2)
+    decimals = Math.min(origDec, 2);
   }
 
   // Add another decimal to avoid rounding errors of float numbers. (#4573)
@@ -352,33 +327,37 @@ JCHS.numFormat = function (number, decimals) {
   roundedNumber = (
     Math.abs(number) +
     Math.pow(10, -Math.max(decimals, origDec) - 1)
-  ).toFixed(decimals)
+  ).toFixed(decimals);
 
   // A string containing the positive integer component of the number
-  strinteger = String(parseInt(roundedNumber))
+  strinteger = String(parseInt(roundedNumber));
 
   // Leftover after grouping into thousands. Can be 0, 1 or 2.
-  thousands = strinteger.length > 3 ? strinteger.length % 3 : 0
+  thousands = strinteger.length > 3 ? strinteger.length % 3 : 0;
+
+  // Language
+  decimalPoint = '.';
+  thousandsSep = ',';
 
   // Start building the return
-  ret = number < 0 ? '-' : ''
+  ret = number < 0 ? '-' : '';
 
   // Add the leftover after grouping into thousands. For example, in the
   // number 42 000 000, this line adds 42.
-  ret += thousands ? strinteger.substr(0, thousands) + thousandsSep : ''
+  ret += thousands ? strinteger.substr(0, thousands) + thousandsSep : '';
 
   // Add the remaining thousands groups, joined by the thousands separator
   ret += strinteger
     .substr(thousands)
-    .replace(/(\d{3})(?=\d)/g, '$1' + thousandsSep)
+    .replace(/(\d{3})(?=\d)/g, '$1' + thousandsSep);
 
   // Add the decimal point and the decimal component
   if (decimals) {
     // Get the decimal component
-    ret += decimalPoint + roundedNumber.slice(-decimals)
+    ret += decimalPoint + roundedNumber.slice(-decimals);
   }
 
-  return ret
+  return ret;
 
 } //end numFormat
 
@@ -415,6 +394,7 @@ JCHS.numFormat = function (number, decimals) {
 
 JCHS.createSearchBox = function (data,
   chart_slug,
+  callback,
   col_index = 0,
   type = 'dropdown',
   placeholder = 'Select a metro...') {
@@ -425,7 +405,6 @@ JCHS.createSearchBox = function (data,
 
   var box = $(`#search_input_${chart_slug}`)
   box.attr('placeholder', placeholder)
-  box.css('font-family', 'Open Sans')
   if (type != 'dropdown') { box.css('background-image', 'none') }
 
   box.after(`<ul id="search_list_${chart_slug}" class="JCHS-search-list"></ul>`)
@@ -457,7 +436,7 @@ JCHS.createSearchBox = function (data,
   })
 
   box.on('change', function () {
-    JCHS.searchCallback[chart_slug]($(`#search_input_${chart_slug}`).val())
+    callback($(`#search_input_${chart_slug}`).val())
     box.blur()
     list.hide()
   }) //end box.on 'change'
@@ -478,7 +457,7 @@ JCHS.createSearchBox = function (data,
  *
  * Draw a circle animated to "zero in" on a location, based on 
  * a search value that corresponds to a point name in the series 
- * displayed on the map. Useful when called from the searchCalllback 
+ * displayed on the map. Useful when called from the searchCallback 
  * function when a user selects a metro from the search dropdown.
  *
  * @function #mapLocatorCircle
@@ -504,7 +483,7 @@ JCHS.mapLocatorCircle = function (map_obj, search_value) {
         )
         .attr({
           fill: 'transparent',
-          stroke: 'black',
+          stroke: 'black', 
           'stroke-width': 1
         })
         .animate({
@@ -513,41 +492,33 @@ JCHS.mapLocatorCircle = function (map_obj, search_value) {
         .add()
         .toFront()
     }
-
+    
     setTimeout(() => map.series[0].points[idx].select(false), 700)
 
   })
 } //end mapLocatorCircle()
 
 
-JCHS.onLoad = function () {
+JCHS.onLoad = function () {  
   var yAxis = this.renderer
-    .text(yAxis_title)
-    .addClass('highcharts-axis-title')
-    .align({ y: -5 }, false, 'plotBox')
-    .add()
+  .text(yAxis_title)
+  .addClass('highcharts-axis-title')
+  .align({y: -5}, false, 'plotBox')
+  .add()
 
   //add title to second yAxis, if it exists
   if (this.yAxis.length === 2) {
     var yAxis2 = this.renderer
-      .text(yAxis2_title)
-      .addClass('highcharts-axis-title')
-      .align({ align: 'right', y: -5 }, false, 'plotBox')
-      .add()
+    .text(yAxis2_title)
+    .addClass('highcharts-axis-title')
+    .align({align: 'right', y: -5}, false, 'plotBox')
+    .add()
     var box = yAxis2.getBBox()
     yAxis2.translate(-box.width, 0)
   }
 }
 
 
-/*
-Highcharts.setOptions({ 
-  lang: { 
-    thousandsSep: ",",
-    contextButtonTitle: 'Export Chart',
-    downloadPDF: 'Download as PDF',
-    downloadCSV: 'Download chart data (CSV)',
-    downloadXLS: 'Download chart data (Excel)'
-  }
-})
-*/
+  H.JCHS = JCHS
+  H.setOptions(JCHS.standardOptions)
+}(Highcharts))
