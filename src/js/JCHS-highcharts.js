@@ -583,7 +583,14 @@ JCHS.yAxisTitle = function (yAxis_title, yAxis2_title) {
   }
 }
 
+H.wrap(H.Chart.prototype, 'render', function (proceed) {
+  //call original function
+  proceed.apply(this, Array.prototype.slice.call(arguments, 1))
+  //draw y-axis titles in JCHS style
+  H.JCHS.yAxisTitle(this, this.options.JCHS.yAxisTitle, this.options.JCHS.yAxisTitle2)
+})
 
-  H.JCHS = JCHS
-  H.setOptions(JCHS.standardOptions)
+H.JCHS = JCHS
+H.setOptions(JCHS.standardOptions)
+
 }(Highcharts))
