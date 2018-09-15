@@ -101,6 +101,11 @@ var JCHS = {
           y: 60,
         }
       },
+      menuItemDefinitions: {
+        viewFullDataset: {
+          text: 'View full dataset'
+        }
+      },
       buttons: {
         contextButton: {
           text: 'Export',
@@ -228,30 +233,6 @@ var JCHS = {
     } else {
       Highcharts.merge(true, options, JCHS.standardOptions)
     }
-    
-    Highcharts.merge(true, options, {
-      chart: {
-        events: {
-          load: function load() {
-            if (this.renderer.forExport) {
-              this.renderer.image(JCHS.logoURL, 0, this.chartHeight - 50, 170, 55).add();
-            }
-            this.update({
-              exporting: {
-                menuItemDefinitions: {
-                  viewFullDataset: {
-                    text: 'View full dataset',
-                    onclick: function onclick() {
-                      window.open('https://docs.google.com/spreadsheets/d/' + sheetID);
-                    }
-                  }
-                }
-              }
-            })
-          }
-        }
-      }
-    })
     
     return options
   }  
@@ -499,26 +480,6 @@ JCHS.mapLocatorCircle = function (map_obj, search_value) {
 } //end mapLocatorCircle()
 
 
-JCHS.onLoad = function () {  
-  var yAxis = this.renderer
-  .text(yAxis_title)
-  .addClass('highcharts-axis-title')
-  .align({y: -5}, false, 'plotBox')
-  .add()
-
-  //add title to second yAxis, if it exists
-  if (this.yAxis.length === 2) {
-    var yAxis2 = this.renderer
-    .text(yAxis2_title)
-    .addClass('highcharts-axis-title')
-    .align({align: 'right', y: -5}, false, 'plotBox')
-    .add()
-    var box = yAxis2.getBBox()
-    yAxis2.translate(-box.width, 0)
-  }
-}
-
-  
  /**
  *
  * Add annontation text that responsively changes font size.
@@ -564,8 +525,8 @@ JCHS.responsiveAnnotation = function (chart,
   rendered_text.translate(-box.width / 2, 0)
 }
 
-JCHS.yAxisTitle = function (yAxis_title, yAxis2_title) {  
-  var yAxis = this.renderer
+JCHS.yAxisTitle = function (chart, yAxis_title, yAxis2_title) {  
+  var yAxis = chart.renderer
   .text(yAxis_title)
   .addClass('highcharts-axis-title')
   .align({y: -5}, false, 'plotBox')
@@ -573,7 +534,7 @@ JCHS.yAxisTitle = function (yAxis_title, yAxis2_title) {
 
   //add title to second yAxis, if it exists
   if (typeof yAxis2_title == 'string') {
-    var yAxis2 = this.renderer
+    var yAxis2 = chart.renderer
     .text(yAxis2_title)
     .addClass('highcharts-axis-title')
     .align({align: 'right', y: -5}, false, 'plotBox')
@@ -583,11 +544,31 @@ JCHS.yAxisTitle = function (yAxis_title, yAxis2_title) {
   }
 }
 
+//add y-axis title draw to chart render event
 H.wrap(H.Chart.prototype, 'render', function (proceed) {
   //call original function
   proceed.apply(this, Array.prototype.slice.call(arguments, 1))
   //draw y-axis titles in JCHS style
   H.JCHS.yAxisTitle(this, this.options.JCHS.yAxisTitle, this.options.JCHS.yAxisTitle2)
+})
+
+//add callbacks to chart load
+H.Chart.prototype.callbacks.push(function (chart) {
+  if (this.renderer.forExport) {
+    this.renderer.image(JCHS.logoURL, 0, this.chartHeight - 50, 170, 55).add();
+  }
+  this.update({
+    exporting: {
+      menuItemDefinitions: {
+        viewFullDataset: {
+          text: 'View full dataset',
+          onclick: function onclick() {
+            window.open('https://docs.google.com/spreadsheets/d/' + this.options.JCHS.sheetID);
+          }
+        }
+      }
+    }
+  })
 })
 
 H.JCHS = JCHS
