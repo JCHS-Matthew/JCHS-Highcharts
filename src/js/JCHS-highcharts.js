@@ -6,17 +6,6 @@
 (function (H){
 
 var JCHS = {
-  
-  searchCallback: {},
-
-  colors6: {
-    color1: '#467b91',
-    color2: '#8db8c9',
-    color3: '#c8ded6',
-    color4: '#f6e599',
-    color5: '#eab700',
-    color6: '#c14d00'
-  },
 
   logoURL: 'http://www.jchs.harvard.edu/sites/default/files/harvard_jchs_logo_2017.png',
 
@@ -205,6 +194,14 @@ var JCHS = {
 
   }, //end drilldownOptions
 
+  colors6: {
+    color1: '#467b91',
+    color2: '#8db8c9',
+    color3: '#c8ded6',
+    color4: '#f6e599',
+    color5: '#eab700',
+    color6: '#c14d00'
+  }
 }
 
 /**
@@ -217,13 +214,11 @@ var JCHS = {
  *
  * @param {String} chart_type - Currently supports 'map' and 
  * 'drilldown'.
- * @param {String} sheetID - Unique ID of the Google Sheet (e.g., 
-          '1LxTyrgt7sTtRYzEr6BlTnKwpwoQPz5WiIrA8dpocgRM').
  *
  * @returns {Object} Object containing Highcharts options. 
  */
 
-  JCHS.options = function (chart_type, sheetID = 'NA') {
+  JCHS.options = function (chart_type) {
     var options = {}
     
     if (chart_type === 'map') {
@@ -363,22 +358,28 @@ JCHS.numFormat = function (number, decimals) {
  * @memberof JCHS
  *
  * @param {Array} data - Reference dataset for chart.
- * @param {String} chart_slug - Unique ID of chart, to ensure unique <div> ids in HTML.
- * @param {Number} [col_index] - Column index of data to be listed in the search box. Defaults to 0.
- * @param {String} [type] - 'dropdown' or 'search'. Only differences are 'dropdown' has a down 
- * arrow at the right side of the box and has placeholder text 'Select a metro...', while 
- * 'search' has no arrow and has placehold text  'Search for metro...'.
+ * @param {String} chart_slug - Unique ID of chart, to ensure unique <div> 
+ * ids in HTML.
+ * @param {Function} callback - Function called on seach_box `change` event. 
+ * Passes the value of the search box as the only argument 
+ * (i.e., $(`#search_input_${chart_slug}`).val()).
+ * @param {Number} [col_index] - Column index of data to be listed in the 
+ * search box. Defaults to 0.
+ * @param {String} [type] - 'dropdown' or 'search'. Only differences are 
+ * 'dropdown' has a down arrow at the right side of the box and has 
+ * placeholder text 'Select a metro...', while 'search' has no arrow 
+ * and has placehold text  'Search for metro...'.
  * @param {String} [placeholder] - Override the default placeholder text. 
  * (e.g., 'Select a state...').
  *
  */
 
 JCHS.createSearchBox = function (data,
-  chart_slug,
-  callback,
-  col_index = 0,
-  type = 'dropdown',
-  placeholder = 'Select a metro...') {
+                                  chart_slug,
+                                  callback,
+                                  col_index = 0,
+                                  type = 'dropdown',
+                                  placeholder = 'Select a metro...') {
 
   if (type === 'search') { placeholder = 'Search for metro...' }
 
@@ -484,7 +485,6 @@ JCHS.mapLocatorCircle = function (map_obj, search_value) {
  *
  * Add annontation text that responsively changes font size.
  *
- *
  * @function #responsiveAnnotation
  * @memberof JCHS
  *
@@ -502,7 +502,7 @@ JCHS.mapLocatorCircle = function (map_obj, search_value) {
  *      }
  *    }
  *  }
-  *
+*
  */
 
 JCHS.responsiveAnnotation = function (chart, 
@@ -525,7 +525,21 @@ JCHS.responsiveAnnotation = function (chart,
   rendered_text.translate(-box.width / 2, 0)
 }
 
-JCHS.yAxisTitle = function (chart, yAxis_title, yAxis2_title) {  
+
+ /**
+ *
+ * Add y-axis titles in JCHS style, horizontal above the chart.
+ *
+ * @function #yAxisTitle
+ * @memberof JCHS
+ *
+ * @param {Object} chart - Reference to chart object. (`this` if called from within Highcharts event function.)
+ * @param {String} yAxis_title - Main y-axis title.
+ * @param {String} [yAxis_title] - Secondary (right) y-axis title.
+ * 
+ */
+
+JCHS.yAxisTitle = function (chart, yAxis_title, yAxis2_title) { 
   var yAxis = chart.renderer
   .text(yAxis_title)
   .addClass('highcharts-axis-title')
@@ -544,13 +558,14 @@ JCHS.yAxisTitle = function (chart, yAxis_title, yAxis2_title) {
   }
 }
 
-//add y-axis title draw to chart render event
-H.wrap(H.Chart.prototype, 'render', function (proceed) {
-  //call original function
-  proceed.apply(this, Array.prototype.slice.call(arguments, 1))
-  //draw y-axis titles in JCHS style
-  H.JCHS.yAxisTitle(this, this.options.JCHS.yAxisTitle, this.options.JCHS.yAxisTitle2)
-})
+
+/* Add JCHS functionality to Highcharts */
+
+//attach JCHS to main Highcharts object
+H.JCHS = JCHS
+
+//set standard options as default for all charts
+H.setOptions(JCHS.standardOptions)
 
 //add callbacks to chart load
 H.Chart.prototype.callbacks.push(function (chart) {
@@ -571,7 +586,12 @@ H.Chart.prototype.callbacks.push(function (chart) {
   })
 })
 
-H.JCHS = JCHS
-H.setOptions(JCHS.standardOptions)
+//add y-axis title draw to chart render event
+H.wrap(H.Chart.prototype, 'render', function (proceed) {
+  //call original function
+  proceed.apply(this, Array.prototype.slice.call(arguments, 1))
+  //draw y-axis titles in JCHS style
+  H.JCHS.yAxisTitle(this, this.options.JCHS.yAxisTitle, this.options.JCHS.yAxisTitle2)
+})
 
 }(Highcharts))
