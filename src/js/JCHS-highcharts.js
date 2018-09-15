@@ -518,6 +518,71 @@ JCHS.onLoad = function () {
   }
 }
 
+  
+ /**
+ *
+ * Add annontation text that responsively changes font size.
+ *
+ *
+ * @function #responsiveAnnotation
+ * @memberof JCHS
+ *
+ * @param {Object} chart - Reference to chart object. (`this` if called from within Highcharts event function.)
+ * @param {String} text - Text to draw on chart.
+ * @param {Number} [y] - y adjust for text location. Default is -20.
+ * @param {String} [verticalAlign] - Vertical alignment of text. Default is 'bottom'.
+ * @param {String} [align] - Horizontal alignment of text. Default is 'center'.
+ * 
+ * Example: 
+ *  chart: {
+ *    events: {
+ *      render: function() {
+ *        H.JCHS.responsiveAnnotation(this, rho_value)
+ *      }
+ *    }
+ *  }
+  *
+ */
+
+JCHS.responsiveAnnotation = function (chart, 
+                                       text, 
+                                       y = -20, 
+                                       verticalAlign = 'bottom',
+                                       align = 'center') {
+  var existing_text = document.querySelectorAll("#jchs-rendered-text")
+    if (existing_text != null) {
+      existing_text.forEach(x => x.parentNode.removeChild(x))
+    }
+  var font_size = this.plotWidth > 200 ? '1.2em' : '1em'
+  var rendered_text = chart.renderer
+    .text(text)
+    .css({ fontSize: font_size })
+    .attr({ id: 'jchs-rendered-text' })
+    .align({ align: align, verticalAlign: verticalAlign, y: y }, false, 'plotBox')
+    .add()
+  var box = rendered_text.getBBox()
+  rendered_text.translate(-box.width / 2, 0)
+}
+
+JCHS.yAxisTitle = function (yAxis_title, yAxis2_title) {  
+  var yAxis = this.renderer
+  .text(yAxis_title)
+  .addClass('highcharts-axis-title')
+  .align({y: -5}, false, 'plotBox')
+  .add()
+
+  //add title to second yAxis, if it exists
+  if (typeof yAxis2_title == 'string') {
+    var yAxis2 = this.renderer
+    .text(yAxis2_title)
+    .addClass('highcharts-axis-title')
+    .align({align: 'right', y: -5}, false, 'plotBox')
+    .add()
+    var box = yAxis2.getBBox()
+    yAxis2.translate(-box.width, 0)
+  }
+}
+
 
   H.JCHS = JCHS
   H.setOptions(JCHS.standardOptions)
