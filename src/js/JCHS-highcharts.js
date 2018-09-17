@@ -2,7 +2,6 @@
 * @namespace JCHS
 */
 
-
 (function (H){
 
 var JCHS = {
@@ -29,22 +28,17 @@ var JCHS = {
     tooltip: { 
       enabled: true,
       useHTML: true,
-      shared: true,
-      shadow: false
+      shared: true
     },
 
     credits: { enabled: false },
 
     yAxis: [
       {
-        title: {
-          text: null
-        }
+        title: { text: null }
       },
       {
-        title: {
-          text: null
-        }
+        title: { text: null }
       }
     ],
     
@@ -206,31 +200,216 @@ var JCHS = {
 
 /**
  *
- * Compiles the correct set of options for different chart types.
- * Returns the standard options if no chart type is given. 
+ * Add a search box with filtered list to the page. Adds one item to the list 
+ * for each unique value of a column from ref_data.
  *
- * @function #options
+ * On clicking a list item, the passed callback function is called, which 
+ * passes the value of the search box as the only argument 
+ * (i.e., $(`#search_input_${chart_slug}`).val()).
+ *
+ *
+ * @function #createSearchBox
  * @memberof JCHS
  *
- * @param {String} chart_type - Currently supports 'map' and 
- * 'drilldown'.
+ * @param {Array} data - Reference dataset for chart.
+ * @param {String} chart_slug - Unique ID of chart, to ensure unique <div> 
+ * ids in HTML.
+ * @param {Function} callback - Function called on seach_box `change` event. 
+ * Passes the value of the search box as the only argument 
+ * (i.e., $(`#search_input_${chart_slug}`).val()).
+ * @param {Number} [col_index] - Column index of data to be listed in the 
+ * search box. Defaults to 0.
+ * @param {String} [type] - 'dropdown' or 'search'. Only differences are 
+ * 'dropdown' has a down arrow at the right side of the box and has 
+ * placeholder text 'Select a metro...', while 'search' has no arrow 
+ * and has placehold text  'Search for metro...'.
+ * @param {String} [placeholder] - Override the default placeholder text. 
+ * (e.g., 'Select a state...').
  *
- * @returns {Object} Object containing Highcharts options. 
  */
 
-  JCHS.options = function (chart_type) {
-    var options = {}
-    
-    if (chart_type === 'map') {
-      Highcharts.merge(true, options, JCHS.standardOptions, JCHS.mapOptions);
-    } else if (chart_type === 'drilldown') {
-      Highcharts.merge(true, options, JCHS.standardOptions, JCHS.drilldownOptions);
-    } else {
-      Highcharts.merge(true, options, JCHS.standardOptions)
+JCHS.createSearchBox = function (data,
+                                  chart_slug,
+                                  callback,
+                                  col_index = 0,
+                                  type = 'dropdown',
+                                  placeholder = 'Select a metro...') {
+
+  if (type === 'search') { placeholder = 'Search for metro...' }
+
+  $(`#search_box_${chart_slug}`).append(`<input id="search_input_${chart_slug}" class="JCHS-search-input">`)
+
+  var box = $(`#search_input_${chart_slug}`)
+  box.attr('placeholder', placeholder)
+  if (type != 'dropdown') { box.css('background-image', 'none') }
+
+  box.after(`<ul id="search_list_${chart_slug}" class="JCHS-search-list"></ul>`)
+  var list = $(`#search_list_${chart_slug}`)
+
+  var dedup_data = []
+
+  data.forEach(function (el) {
+    if (dedup_data.indexOf(el[col_index]) < 0) {
+      dedup_data.push(el[col_index])
+    }
+  })
+  dedup_data.forEach(el => list.append(`<li>${el}</li>`))
+
+  box.on('focus', function () {
+    box.val('')
+    list.show()
+  })
+
+  box.on('keyup focus', function () {
+    var filter = box.val().toUpperCase()
+    $('li').each(function (idx) {
+      if ($(this).html().toUpperCase().indexOf(filter) > -1) {
+        $(this).css('display', 'block')
+      } else {
+        $(this).css('display', 'none')
+      }
+    })
+  })
+
+  box.on('change', function () {
+    callback($(`#search_input_${chart_slug}`).val())
+    box.blur()
+    list.hide()
+  }) //end box.on 'change'
+
+  box.on('blur', function () {
+    list.hide()
+  })
+
+  list.on('mousedown', 'li', function (e) {
+    box.val(e.target.innerHTML)
+    box.change()
+  })
+
+} //end createSearchBox()
+
+/**
+ *
+ * Add y-axis titles in JCHS style, horizontal above the chart.
+ *
+ * @function #yAxisTitle
+ * @memberof JCHS
+ *
+ * @param {Object} chart - Reference to chart object. (`this` if called from within Highcharts event function.)
+ * @param {String} yAxis_title - Main y-axis title.
+ * @param {String} [yAxis_title] - Secondary (right) y-axis title.
+ * 
+ */
+
+JCHS.yAxisTitle = function (chart, yAxis_title, yAxis2_title) { 
+  var yAxis = chart.renderer
+  .text(yAxis_title)
+  .addClass('highcharts-axis-title')
+  .align({y: -5}, false, 'plotBox')
+  .add()
+
+  //add title to second yAxis, if it exists
+  if (typeof yAxis2_title == 'string') {
+    var yAxis2 = chart.renderer
+    .text(yAxis2_title)
+    .addClass('highcharts-axis-title')
+    .align({align: 'right', y: -5}, false, 'plotBox')
+    .add()
+    var box = yAxis2.getBBox()
+    yAxis2.translate(-box.width, 0)
+  }
+}
+  
+ 
+/**
+ *
+ * Add annontation text that responsively changes font size.
+ *
+ * @function #responsiveAnnotation
+ * @memberof JCHS
+ *
+ * @param {Object} chart - Reference to chart object. (`this` if called from within Highcharts event function.)
+ * @param {String} text - Text to draw on chart.
+ * @param {Number} [y] - y adjust for text location. Default is -20.
+ * @param {String} [verticalAlign] - Vertical alignment of text. Default is 'bottom'.
+ * @param {String} [align] - Horizontal alignment of text. Default is 'center'.
+ * 
+ * Example: 
+ *  chart: {
+ *    events: {
+ *      render: function() {
+ *        H.JCHS.responsiveAnnotation(this, rho_value)
+ *      }
+ *    }
+ *  }
+ *
+ */
+
+JCHS.responsiveAnnotation = function (chart, 
+                                       text, 
+                                       y = -20, 
+                                       verticalAlign = 'bottom',
+                                       align = 'center') {
+  var existing_text = document.querySelectorAll("#jchs-rendered-text")
+    if (existing_text != null) {
+      existing_text.forEach(x => x.parentNode.removeChild(x))
+    }
+  var font_size = this.plotWidth > 200 ? '1.2em' : '1em'
+  var rendered_text = chart.renderer
+    .text(text)
+    .css({ fontSize: font_size })
+    .attr({ id: 'jchs-rendered-text' })
+    .align({ align: align, verticalAlign: verticalAlign, y: y }, false, 'plotBox')
+    .add()
+  var box = rendered_text.getBBox()
+  rendered_text.translate(-box.width / 2, 0)
+}
+  
+  
+/**
+ *
+ * Draw a circle animated to "zero in" on a location, based on 
+ * a search value that corresponds to a point name in the series 
+ * displayed on the map. Useful when called from the searchCallback 
+ * function when a user selects a metro from the search dropdown.
+ *
+ * @function #mapLocatorCircle
+ * @memberof JCHS
+ *
+ * @param {Object} map_object - Object containing a Highcharts map.
+ * @param {String} search_value - The name to search for on the map. 
+ * Compares the search_value to the point.name for each point in the 
+ * currently displayed series. 
+ *
+ */
+
+JCHS.mapLocatorCircle = function (map_obj, search_value) {
+  map_obj.series[0].points.forEach(function (el, idx) {
+    if (el.name == search_value) {
+      map_obj.series[0].points[idx].select(true)
+
+      map_obj.renderer
+        .circle(
+          map_obj.series[0].points[idx].plotX, //x
+          map_obj.series[0].points[idx].plotY + map_obj.margin[0], //y
+          150 //radius
+        )
+        .attr({
+          fill: 'transparent',
+          stroke: 'black', 
+          'stroke-width': 1
+        })
+        .animate({
+          r: 0
+        })
+        .add()
+        .toFront()
     }
     
-    return options
-  }  
+    setTimeout(() => map.series[0].points[idx].select(false), 700)
+
+  })
+} //end mapLocatorCircle()
 
 
 /**
@@ -336,227 +515,6 @@ JCHS.numFormat = function (number, decimals) {
   return ret;
 
 } //end numFormat
-
-
-/**
- *
- * Add a search box with filtered list to the page. Adds one item to the list 
- * for each unique value of a column from ref_data.
- *
- * On clicking a list item, selectPoint() is called, with the selected item 
- * passed as the only parameter. For proper functionality, include in your 
- * code a function named selectPoint() which uses the list item to initiate 
- * any interactive features.
- *
- * For example:
- * function selectPoint(selected_location) {
- *   createChart(selected_location)
- *   chart.update({title: { text: selected_location } })
- * }
- *
- * @function #createSearchBox
- * @memberof JCHS
- *
- * @param {Array} data - Reference dataset for chart.
- * @param {String} chart_slug - Unique ID of chart, to ensure unique <div> 
- * ids in HTML.
- * @param {Function} callback - Function called on seach_box `change` event. 
- * Passes the value of the search box as the only argument 
- * (i.e., $(`#search_input_${chart_slug}`).val()).
- * @param {Number} [col_index] - Column index of data to be listed in the 
- * search box. Defaults to 0.
- * @param {String} [type] - 'dropdown' or 'search'. Only differences are 
- * 'dropdown' has a down arrow at the right side of the box and has 
- * placeholder text 'Select a metro...', while 'search' has no arrow 
- * and has placehold text  'Search for metro...'.
- * @param {String} [placeholder] - Override the default placeholder text. 
- * (e.g., 'Select a state...').
- *
- */
-
-JCHS.createSearchBox = function (data,
-                                  chart_slug,
-                                  callback,
-                                  col_index = 0,
-                                  type = 'dropdown',
-                                  placeholder = 'Select a metro...') {
-
-  if (type === 'search') { placeholder = 'Search for metro...' }
-
-  $(`#search_box_${chart_slug}`).append(`<input id="search_input_${chart_slug}" class="JCHS-search-input">`)
-
-  var box = $(`#search_input_${chart_slug}`)
-  box.attr('placeholder', placeholder)
-  if (type != 'dropdown') { box.css('background-image', 'none') }
-
-  box.after(`<ul id="search_list_${chart_slug}" class="JCHS-search-list"></ul>`)
-  var list = $(`#search_list_${chart_slug}`)
-
-  var dedup_data = []
-
-  data.forEach(function (el) {
-    if (dedup_data.indexOf(el[col_index]) < 0) {
-      dedup_data.push(el[col_index])
-    }
-  })
-  dedup_data.forEach(el => list.append(`<li>${el}</li>`))
-
-  box.on('focus', function () {
-    box.val('')
-    list.show()
-  })
-
-  box.on('keyup focus', function () {
-    var filter = box.val().toUpperCase()
-    $('li').each(function (idx) {
-      if ($(this).html().toUpperCase().indexOf(filter) > -1) {
-        $(this).css('display', 'block')
-      } else {
-        $(this).css('display', 'none')
-      }
-    })
-  })
-
-  box.on('change', function () {
-    callback($(`#search_input_${chart_slug}`).val())
-    box.blur()
-    list.hide()
-  }) //end box.on 'change'
-
-  box.on('blur', function () {
-    list.hide()
-  })
-
-  list.on('mousedown', 'li', function (e) {
-    box.val(e.target.innerHTML)
-    box.change()
-  })
-
-} //end createSearchBox()
-
-
-/**
- *
- * Draw a circle animated to "zero in" on a location, based on 
- * a search value that corresponds to a point name in the series 
- * displayed on the map. Useful when called from the searchCallback 
- * function when a user selects a metro from the search dropdown.
- *
- * @function #mapLocatorCircle
- * @memberof JCHS
- *
- * @param {Object} map_object - Object containing a Highcharts map.
- * @param {String} search_value - The name to search for on the map. 
- * Compares the search_value to the point.name for each point in the 
- * currently displayed series. 
- *
- */
-
-JCHS.mapLocatorCircle = function (map_obj, search_value) {
-  map_obj.series[0].points.forEach(function (el, idx) {
-    if (el.name == search_value) {
-      map_obj.series[0].points[idx].select(true)
-
-      map_obj.renderer
-        .circle(
-          map_obj.series[0].points[idx].plotX, //x
-          map_obj.series[0].points[idx].plotY + map_obj.margin[0], //y
-          150 //radius
-        )
-        .attr({
-          fill: 'transparent',
-          stroke: 'black', 
-          'stroke-width': 1
-        })
-        .animate({
-          r: 0
-        })
-        .add()
-        .toFront()
-    }
-    
-    setTimeout(() => map.series[0].points[idx].select(false), 700)
-
-  })
-} //end mapLocatorCircle()
-
-
- /**
- *
- * Add annontation text that responsively changes font size.
- *
- * @function #responsiveAnnotation
- * @memberof JCHS
- *
- * @param {Object} chart - Reference to chart object. (`this` if called from within Highcharts event function.)
- * @param {String} text - Text to draw on chart.
- * @param {Number} [y] - y adjust for text location. Default is -20.
- * @param {String} [verticalAlign] - Vertical alignment of text. Default is 'bottom'.
- * @param {String} [align] - Horizontal alignment of text. Default is 'center'.
- * 
- * Example: 
- *  chart: {
- *    events: {
- *      render: function() {
- *        H.JCHS.responsiveAnnotation(this, rho_value)
- *      }
- *    }
- *  }
-*
- */
-
-JCHS.responsiveAnnotation = function (chart, 
-                                       text, 
-                                       y = -20, 
-                                       verticalAlign = 'bottom',
-                                       align = 'center') {
-  var existing_text = document.querySelectorAll("#jchs-rendered-text")
-    if (existing_text != null) {
-      existing_text.forEach(x => x.parentNode.removeChild(x))
-    }
-  var font_size = this.plotWidth > 200 ? '1.2em' : '1em'
-  var rendered_text = chart.renderer
-    .text(text)
-    .css({ fontSize: font_size })
-    .attr({ id: 'jchs-rendered-text' })
-    .align({ align: align, verticalAlign: verticalAlign, y: y }, false, 'plotBox')
-    .add()
-  var box = rendered_text.getBBox()
-  rendered_text.translate(-box.width / 2, 0)
-}
-
-
- /**
- *
- * Add y-axis titles in JCHS style, horizontal above the chart.
- *
- * @function #yAxisTitle
- * @memberof JCHS
- *
- * @param {Object} chart - Reference to chart object. (`this` if called from within Highcharts event function.)
- * @param {String} yAxis_title - Main y-axis title.
- * @param {String} [yAxis_title] - Secondary (right) y-axis title.
- * 
- */
-
-JCHS.yAxisTitle = function (chart, yAxis_title, yAxis2_title) { 
-  var yAxis = chart.renderer
-  .text(yAxis_title)
-  .addClass('highcharts-axis-title')
-  .align({y: -5}, false, 'plotBox')
-  .add()
-
-  //add title to second yAxis, if it exists
-  if (typeof yAxis2_title == 'string') {
-    var yAxis2 = chart.renderer
-    .text(yAxis2_title)
-    .addClass('highcharts-axis-title')
-    .align({align: 'right', y: -5}, false, 'plotBox')
-    .add()
-    var box = yAxis2.getBBox()
-    yAxis2.translate(-box.width, 0)
-  }
-}
 
 
 /* Add JCHS functionality to Highcharts */
