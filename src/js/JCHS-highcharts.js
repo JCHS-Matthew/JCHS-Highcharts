@@ -257,7 +257,7 @@
   
     box.on('keyup focus', function () {
       var filter = box.val().toUpperCase()
-      $('li').each(function (idx) {
+      $('li').each(function () {
         if ($(this).html().toUpperCase().indexOf(filter) > -1) {
           $(this).css('display', 'block')
         } else {
@@ -297,7 +297,7 @@
    */
   
   JCHS.yAxisTitle = function (chart, yAxis_title, yAxis2_title) { 
-    var yAxis = chart.renderer
+    chart.renderer
     .text(yAxis_title)
     .addClass('highcharts-axis-title')
     .align({y: -5}, false, 'plotBox')
@@ -401,7 +401,7 @@
           .toFront()
       }
       
-      setTimeout(() => map.series[0].points[idx].select(false), 700)
+      setTimeout(() => map_obj.series[0].points[idx].select(false), 700)
   
     })
   } //end mapLocatorCircle()
@@ -455,21 +455,22 @@
   
   JCHS.numFormat = function (number, decimals) {
     /* Based on Highcharts.numberFormat */
-    number = +number || 0;
-    decimals = +decimals;
+    number = +number || 0
+    decimals = +decimals
   
     var origDec = (number.toString().split('.')[1] || '').length,
+        decimalPoint = '.',
+        thousandsSep = ',',
         strinteger,
         thousands,
         ret,
-        roundedNumber,
-        fractionDigits;
+        roundedNumber
   
     if (decimals === -1) {
       // Preserve decimals. Not huge numbers (#3793).
-      decimals = Math.min(origDec, 20);
+      decimals = Math.min(origDec, 20)
     } else if (isNaN(decimals)) {
-      decimals = Math.min(origDec, 2);
+      decimals = Math.min(origDec, 2)
     }
   
     // Add another decimal to avoid rounding errors of float numbers. (#4573)
@@ -477,37 +478,33 @@
     roundedNumber = (
       Math.abs(number) +
       Math.pow(10, -Math.max(decimals, origDec) - 1)
-    ).toFixed(decimals);
+    ).toFixed(decimals)
   
     // A string containing the positive integer component of the number
-    strinteger = String(parseInt(roundedNumber));
+    strinteger = String(parseInt(roundedNumber))
   
     // Leftover after grouping into thousands. Can be 0, 1 or 2.
-    thousands = strinteger.length > 3 ? strinteger.length % 3 : 0;
-  
-    // Language
-    decimalPoint = '.';
-    thousandsSep = ',';
+    thousands = strinteger.length > 3 ? strinteger.length % 3 : 0
   
     // Start building the return
-    ret = number < 0 ? '-' : '';
+    ret = number < 0 ? '-' : ''
   
     // Add the leftover after grouping into thousands. For example, in the
     // number 42 000 000, this line adds 42.
-    ret += thousands ? strinteger.substr(0, thousands) + thousandsSep : '';
+    ret += thousands ? strinteger.substr(0, thousands) + thousandsSep : ''
   
     // Add the remaining thousands groups, joined by the thousands separator
     ret += strinteger
       .substr(thousands)
-      .replace(/(\d{3})(?=\d)/g, '$1' + thousandsSep);
+      .replace(/(\d{3})(?=\d)/g, '$1' + thousandsSep)
   
     // Add the decimal point and the decimal component
     if (decimals) {
       // Get the decimal component
-      ret += decimalPoint + roundedNumber.slice(-decimals);
+      ret += decimalPoint + roundedNumber.slice(-decimals)
     }
   
-    return ret;
+    return ret
   
   } //end numFormat
   
@@ -522,16 +519,16 @@
   
   //add callbacks to chart load
   H.Chart.prototype.callbacks.push(function (chart) {
-    if (this.renderer.forExport) {
-      this.renderer.image(JCHS.logoURL, 0, this.chartHeight - 50, 170, 55).add();
+    if (chart.renderer.forExport) {
+      chart.renderer.image(JCHS.logoURL, 0, chart.chartHeight - 50, 170, 55).add();
     }
-    this.update({
+    chart.update({
       exporting: {
         menuItemDefinitions: {
           viewFullDataset: {
             text: 'View full dataset',
             onclick: function onclick() {
-              window.open('https://docs.google.com/spreadsheets/d/' + this.options.JCHS.sheetID);
+              window.open('https://docs.google.com/spreadsheets/d/' + chart.options.JCHS.sheetID);
             }
           }
         }
