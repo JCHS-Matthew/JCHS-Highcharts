@@ -71,6 +71,9 @@
       "es6": true,
       "jquery": true,
       "qunit": true
+    },
+    "globals": {
+      "Highcharts": true
     }
   }
 }
