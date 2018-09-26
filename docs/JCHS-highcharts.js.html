@@ -57,6 +57,7 @@
         downloadCSV: 'Download chart data (CSV)',
         downloadXLS: 'Download chart data (Excel)'
       },
+            
       chart: {
         spacing: [5, 5, 5, 5],
         marginTop: 40,
@@ -67,7 +68,8 @@
       subtitle: { text: null },
 
       yAxis: {
-        title: { text: null }
+        title: { text: null },
+        labels: { format: '{value:,.0f}' }
       },
 
       credits: { enabled: false },
@@ -93,14 +95,11 @@
         enabled: true,
         chartOptions: {
           chart: {
-            marginTop: 25,
-            marginBottom: 80
+            spacingTop: 12,
+            marginTop: 50,
+            marginBottom: 130
           },
           title: {
-            style: {
-              fontSize: '16px',
-              color: '#C14D00'
-            },
             y: 8
           },
           subtitle: {
@@ -110,14 +109,10 @@
             y: -28,
             align: 'left',
             verticalAlign: 'bottom',
-            style: {
-              color: '#999999',
-              fontSize: '7px'
-            }
           },
           series: { borderWidth: 0.5 },
           legend: {
-            y: 60,
+            y: -45,
           }
         },
         menuItemDefinitions: {
@@ -155,75 +150,6 @@
       } //end navigation
     }, //end standardOptions
 
-    mapOptions: {
-      plotOptions: {
-        series: {
-          allAreas: false,
-          joinBy: ['GEOID', 0],
-          keys: ['GEOID', 'value'],
-          point: {
-            events: {
-              click: function (event) {
-                drilldown(event.point.GEOID, event.point.name)
-              }
-            }
-          }
-        },
-        mapline: { enableMouseTracking: false }
-      }, //end plotOptions
-
-      legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle',
-        y: 140,
-        x: 16,
-        padding: 5,
-        labelFormatter: function () {
-          if (!this.hasOwnProperty('from')) {
-            return 'Under ' + this.to
-          } else if (!this.hasOwnProperty('to')) {
-            return this.from + ' or Over'
-          } else {
-            return this.from + ' – ' + this.to
-          }
-        }
-      },
-
-      mapNavigation: {
-        enabled: true,
-        buttonOptions: { x: 1 },
-        buttons: {
-          zoomIn: { y: 1 },
-          zoomOut: { y: 29 }
-        }
-      }
-    }, //end mapOptions
-
-    drilldownOptions: {
-      chart: {
-        height: 180,
-        //width: 600,
-        spacingTop: 1
-      },
-
-      plotOptions: { series: { label: { enabled: false } } },
-
-      title: { style: { fontSize: '13px' } },
-
-      yAxis: { title: { text: null } },
-
-      tooltip: {
-        pointFormat: "&lt;b>{point.y}&lt;/b>",
-        valueDecimals: 0
-      },
-
-      legend: { enabled: false },
-
-      exporting: { enabled: false }
-
-    }, //end drilldownOptions
-
     colors6: {
       color1: '#467b91',
       color2: '#8db8c9',
@@ -235,17 +161,15 @@
   }
 
   /**
+   * @function #createSearchBox
+   * @memberof JCHS
    *
-   * Add a search box with filtered list to the page. Adds one item to the list 
+   * @description Add a search box with filtered list to the page. Adds one item to the list 
    * for each unique value of a column from ref_data.
-   *
+   *    
    * On clicking a list item, the passed callback function is called, which 
    * passes the value of the search box as the only argument 
    * (i.e., $(`#search_input_${chart_slug}`).val()).
-   *
-   *
-   * @function #createSearchBox
-   * @memberof JCHS
    *
    * @param {Array} data - Reference dataset for chart.
    * @param {String} chart_slug - Unique ID of chart, to ensure unique &lt;div> 
@@ -324,12 +248,12 @@
 
   } //end createSearchBox()
 
+
   /**
-   *
-   * Add y-axis titles in JCHS style, horizontal above the chart.
-   *
    * @function #yAxisTitle
    * @memberof JCHS
+   * 
+   * @description Add y-axis titles in JCHS style, horizontal above the chart.
    *
    * @param {Object} chart - Reference to chart object. (`this` if called from within Highcharts event function.)
    * @param {String} yAxis_title - Main y-axis title.
@@ -358,11 +282,10 @@
 
 
   /**
-   *
-   * Add annontation text that responsively changes font size.
-   *
    * @function #responsiveAnnotation
    * @memberof JCHS
+   *
+   * @description Add annontation text that responsively changes font size.
    *
    * @param {Object} chart - Reference to chart object. (`this` if called from within Highcharts event function.)
    * @param {String} text - Text to draw on chart.
@@ -406,14 +329,13 @@
 
 
   /**
-   *
-   * Draw a circle animated to "zero in" on a location, based on 
+   * @function #mapLocatorCircle
+   * @memberof JCHS
+   * 
+   * @description Draw a circle animated to "zero in" on a location, based on 
    * a search value that corresponds to a point name in the series 
    * displayed on the map. Useful when called from the searchCallback 
    * function when a user selects a metro from the search dropdown.
-   *
-   * @function #mapLocatorCircle
-   * @memberof JCHS
    *
    * @param {Object} map_object - Object containing a Highcharts map.
    * @param {String} search_value - The name to search for on the map. 
@@ -452,13 +374,12 @@
 
 
   /**
-   *
-   * Builds a GET request URL for the Google Sheets API, based on input
-   * sheet ID and range.
-   *
    * @function #requestURL
    * @memberof JCHS
-   *
+   * 
+   * @description Builds a GET request URL for the Google Sheets API, based on input
+   * sheet ID and range.
+   * 
    * @param {String} sheetID - Unique ID of the Google Sheet (e.g., 
             '1LxTyrgt7sTtRYzEr6BlTnKwpwoQPz5WiIrA8dpocgRM').
    * @param {String} [range] - The data range. Defaults to 'Sheet1'. Accepts 
@@ -481,11 +402,10 @@
 
 
   /**
-   *
-   * Format a number and return a string. Based on Highcharts.numberFormat().
-   *
    * @function #numFormat
    * @memberof JCHS
+   * 
+   * @description Format a number and return a string. Based on Highcharts.numberFormat().
    *
    * @param {Number} number - The input number to format.
    * @param {Number} [decimals] - The amount of decimals. A value of -1 preserves
@@ -601,7 +521,7 @@
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Sep 25 2018 16:58:28 GMT-0400 (Eastern Daylight Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Sep 26 2018 14:07:34 GMT-0400 (Eastern Daylight Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

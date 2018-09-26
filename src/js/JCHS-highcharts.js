@@ -120,17 +120,15 @@
   }
 
   /**
+   * @function #createSearchBox
+   * @memberof JCHS
    *
-   * Add a search box with filtered list to the page. Adds one item to the list 
+   * @description Add a search box with filtered list to the page. Adds one item to the list 
    * for each unique value of a column from ref_data.
-   *
+   *    
    * On clicking a list item, the passed callback function is called, which 
    * passes the value of the search box as the only argument 
    * (i.e., $(`#search_input_${chart_slug}`).val()).
-   *
-   *
-   * @function #createSearchBox
-   * @memberof JCHS
    *
    * @param {Array} data - Reference dataset for chart.
    * @param {String} chart_slug - Unique ID of chart, to ensure unique <div> 
@@ -209,12 +207,12 @@
 
   } //end createSearchBox()
 
+
   /**
-   *
-   * Add y-axis titles in JCHS style, horizontal above the chart.
-   *
    * @function #yAxisTitle
    * @memberof JCHS
+   * 
+   * @description Add y-axis titles in JCHS style, horizontal above the chart.
    *
    * @param {Object} chart - Reference to chart object. (`this` if called from within Highcharts event function.)
    * @param {String} yAxis_title - Main y-axis title.
@@ -243,11 +241,10 @@
 
 
   /**
-   *
-   * Add annontation text that responsively changes font size.
-   *
    * @function #responsiveAnnotation
    * @memberof JCHS
+   *
+   * @description Add annontation text that responsively changes font size.
    *
    * @param {Object} chart - Reference to chart object. (`this` if called from within Highcharts event function.)
    * @param {String} text - Text to draw on chart.
@@ -291,14 +288,13 @@
 
 
   /**
-   *
-   * Draw a circle animated to "zero in" on a location, based on 
+   * @function #mapLocatorCircle
+   * @memberof JCHS
+   * 
+   * @description Draw a circle animated to "zero in" on a location, based on 
    * a search value that corresponds to a point name in the series 
    * displayed on the map. Useful when called from the searchCallback 
    * function when a user selects a metro from the search dropdown.
-   *
-   * @function #mapLocatorCircle
-   * @memberof JCHS
    *
    * @param {Object} map_object - Object containing a Highcharts map.
    * @param {String} search_value - The name to search for on the map. 
@@ -337,13 +333,12 @@
 
 
   /**
-   *
-   * Builds a GET request URL for the Google Sheets API, based on input
-   * sheet ID and range.
-   *
    * @function #requestURL
    * @memberof JCHS
-   *
+   * 
+   * @description Builds a GET request URL for the Google Sheets API, based on input
+   * sheet ID and range.
+   * 
    * @param {String} sheetID - Unique ID of the Google Sheet (e.g., 
             '1LxTyrgt7sTtRYzEr6BlTnKwpwoQPz5WiIrA8dpocgRM').
    * @param {String} [range] - The data range. Defaults to 'Sheet1'. Accepts 
@@ -366,11 +361,10 @@
 
 
   /**
-   *
-   * Format a number and return a string. Based on Highcharts.numberFormat().
-   *
    * @function #numFormat
    * @memberof JCHS
+   * 
+   * @description Format a number and return a string. Based on Highcharts.numberFormat().
    *
    * @param {Number} number - The input number to format.
    * @param {Number} [decimals] - The amount of decimals. A value of -1 preserves
