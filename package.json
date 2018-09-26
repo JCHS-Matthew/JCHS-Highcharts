@@ -2,7 +2,7 @@
   "name": "jchs-highcharts",
   "version": "0.1.0",
   "description": "Highcharts plugin for house style and interactive functionality for Harvard Joint Center for Housing Studies interactive charts and maps.",
-  "main": "js/JCHS-highcharts.js",
+  "main": "src/js/JCHS-highcharts.js",
   "directories": {
     "doc": "docs",
     "test": "test"
