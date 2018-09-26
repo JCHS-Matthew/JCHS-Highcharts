@@ -16,6 +16,7 @@
         downloadCSV: 'Download chart data (CSV)',
         downloadXLS: 'Download chart data (Excel)'
       },
+            
       chart: {
         spacing: [5, 5, 5, 5],
         marginTop: 40,
@@ -26,7 +27,8 @@
       subtitle: { text: null },
 
       yAxis: {
-        title: { text: null }
+        title: { text: null },
+        labels: { format: '{value:,.0f}' }
       },
 
       credits: { enabled: false },
@@ -52,14 +54,11 @@
         enabled: true,
         chartOptions: {
           chart: {
-            marginTop: 25,
-            marginBottom: 80
+            spacingTop: 12,
+            marginTop: 50,
+            marginBottom: 130
           },
           title: {
-            style: {
-              fontSize: '16px',
-              color: '#C14D00'
-            },
             y: 8
           },
           subtitle: {
@@ -69,14 +68,10 @@
             y: -28,
             align: 'left',
             verticalAlign: 'bottom',
-            style: {
-              color: '#999999',
-              fontSize: '7px'
-            }
           },
           series: { borderWidth: 0.5 },
           legend: {
-            y: 60,
+            y: -45,
           }
         },
         menuItemDefinitions: {
