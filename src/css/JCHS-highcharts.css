@@ -1,6 +1,12 @@
 @import url('https://code.highcharts.com/6.1.4/css/highcharts.css');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400');
 
+/* change chart colors here */
+.highcharts-color-0 { fill: #8cb7c7; stroke: #8cb7c7; }
+.highcharts-color-1 { fill: #e0ba1b; stroke: #e0ba1b; }
+.highcharts-color-2 { fill: #3b1f2e; stroke: #3b1f2e; }
+.highcharts-color-3 { fill: #998b7d; stroke: #998b7d; }
+.highcharts-color-4 { fill: #c1b9b1; stroke: #c1b9b1; }
 
 .JCHS-chart-wrapper {
   max-width: 700px;
