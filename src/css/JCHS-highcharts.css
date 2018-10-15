@@ -1,6 +1,7 @@
 @import url('https://code.highcharts.com/6.1.4/css/highcharts.css');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400');
 
+
 .JCHS-chart-wrapper {
   max-width: 700px;
   margin: auto;
@@ -36,6 +37,15 @@
   padding: 0 10px;
 }
 
+@media (max-width: 350px) {
+  .JCHS-user-input-table td, input, label  {
+    font-size: 11px;
+  }
+  .highcharts-axis-title {
+    display: none;
+  }
+}
+
 .JCHS-chart-container {
   max-height: 500px;
   max-width: 700px; 
@@ -51,15 +61,6 @@
 @media (max-width: 400px) {
   .JCHS-chart-container {
     height: 300px;
-  }
-}
-
-@media (max-width: 350px) {
-  .JCHS-user-input-table td, input, label  {
-    font-size: 11px;
-  }
-  .highcharts-axis-title {
-    display: none;
   }
 }
 
@@ -80,7 +81,7 @@
   max-width: 400px;
   margin: .5rem auto;
   padding: 0 5px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .JCHS-search-input {
@@ -144,16 +145,6 @@
   white-space: nowrap;
 }
 
-.highcharts-subtitle {
-  font-size: 7px;
-  fill: #999;
-}
-
-.highcharts-title {
-  font-size: 18px;
-  fill: #C14D00;
-}
-
 .highcharts-credits {
   cursor: default;
   fill: #333;
@@ -176,4 +167,18 @@
 
 .highcharts-button-symbol {
   stroke-width: 1px;
+}
+
+.highcharts-button text {
+  fill: #666;
+}
+
+.highcharts-subtitle {
+  font-size: 7px;
+  fill: #999;
+}
+
+.highcharts-title {
+  font-size: 18px;
+  fill: #C14D00;
 }
