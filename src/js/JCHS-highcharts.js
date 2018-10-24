@@ -52,6 +52,7 @@
 
       exporting: {
         enabled: true,
+        filename: 'Chart - Harvard Joint Center for Housing Studies',
         chartOptions: {
           chart: {
             spacingTop: 12,
@@ -207,6 +208,113 @@
 
   } //end createSearchBox()
 
+
+  /**
+   * @function #createSearchBoxes
+   * @memberof JCHS
+   *
+   * @description Add  search box with filtered list to the page. Adds one item to the list 
+   * for each unique value of a column from ref_data.
+   *    
+   * On clicking a list item, the passed callback function is called, which 
+   * passes the value of the search box as the only argument 
+   * (i.e., $(`#search_input_${chart_slug}`).val()).
+   *
+   * @param {Number} number_of_boxes - Number of search boxes to create (max of 8).
+   * @param {Array} data - Reference dataset for chart.
+   * @param {String} chart_slug - Unique ID of chart, to ensure unique <div> 
+   * ids in HTML.
+   * @param {Function} callback - Function called on seach_box `change` event. 
+   * Passes the value of the search box as the only argument 
+   * (i.e., $(`#search_input_${chart_slug}`).val()).
+   * @param {Number} [col_index] - Column index of data to be listed in the 
+   * search box. Defaults to 0.
+   * @param {String} [type] - 'dropdown' or 'search'. Only differences are 
+   * 'dropdown' has a down arrow at the right side of the box and has 
+   * placeholder text 'Select a metro...', while 'search' has no arrow 
+   * and has placehold text  'Search for metro...'.
+   * @param {String|Array} [placeholder] - Override the default placeholder text. 
+   * Pass as an array to have different placeholder text in each box. 
+   * (e.g., 'Select a state...' or ['Select a state...', 'Select a county...']).
+   *
+   */
+
+  JCHS.createSearchBoxes = function (
+    number_of_boxes,
+    data,
+    chart_slug,
+    callback,
+    col_index = 0,
+    type = 'dropdown',
+    placeholder = 'Select a metro...') {
+
+    if (type === 'search') { placeholder = 'Search for metro...' }
+    number_of_boxes = Math.min(number_of_boxes, 8)
+    console.log(number_of_boxes)
+
+    var counter = 0
+    while (counter < number_of_boxes) {
+      //pass i as argument to anonmyous self-executing function so that it passes value not reference
+      //see: https://stackoverflow.com/questions/2568966/how-do-i-pass-the-value-not-the-reference-of-a-js-variable-to-a-function
+      (function (i) {
+        $(`#search_box_${chart_slug}`).append(`<input id="search_input_${chart_slug}_${i}" class="JCHS-search-input ${chart_slug}">`)
+
+        var box = $(`#search_input_${chart_slug}_${i}`)
+        var this_placeholder = placeholder
+        if (Array.isArray(placeholder)) { this_placeholder = placeholder[i]}
+        box.attr('placeholder', this_placeholder)
+        if (type != 'dropdown') { box.css('background-image', 'none') }
+
+        box.after(`<ul id="search_list_${chart_slug}_${i}" class="JCHS-search-list"></ul>`)
+        var list = $(`#search_list_${chart_slug}_${i}`)
+
+        var dedup_data = []
+
+        data.forEach(function (el) {
+          if (dedup_data.indexOf(el[col_index]) < 0) {
+            dedup_data.push(el[col_index])
+          }
+        })
+        dedup_data.forEach(el => list.append(`<li>${el}</li>`))
+
+        box.on('focus', function () {
+          box.val('')
+          list.show()
+        })
+
+        box.on('keyup focus', function () {
+          var filter = box.val().toUpperCase()
+          $('li').each(function () {
+            if ($(this).html().toUpperCase().indexOf(filter) > -1) {
+              $(this).css('display', 'block')
+            } else {
+              $(this).css('display', 'none')
+            }
+          })
+        })
+
+        box.on('change', function () {
+          var params = []
+          $(`#search_box_${chart_slug}`).children("input").each(function () {
+            params.push($(this).val())
+          })
+          callback.apply(null, params) //using apply() can pass params as an array
+          box.blur()
+          list.hide()
+        }) //end box.on 'change'
+
+        box.on('blur', function () {
+          list.hide()
+        })
+
+        list.on('mousedown', 'li', function (e) {
+          box.val(e.target.innerHTML)
+          box.change()
+        })
+      })(counter)
+      counter++
+    }
+  } //end createSearchBoxs()
 
   /**
    * @function #yAxisTitle
@@ -445,18 +553,21 @@
     if (chart.renderer.forExport) {
       chart.renderer.image(JCHS.logoURL, 0, chart.chartHeight - 50, 170, 55).add()
     }
-    chart.update({
-      exporting: {
-        menuItemDefinitions: {
-          viewFullDataset: {
-            text: 'View full dataset',
-            onclick: function onclick() {
-              window.open('https://docs.google.com/spreadsheets/d/' + chart.options.JCHS.sheetID)
+    
+    if (chart.options.JCHS.sheetID) {
+      chart.update({
+        exporting: {
+          menuItemDefinitions: {
+            viewFullDataset: {
+              text: 'View full dataset',
+              onclick: function onclick() {
+                window.open('https://docs.google.com/spreadsheets/d/' + chart.options.JCHS.sheetID)
+              }
             }
           }
         }
-      }
-    })
+      })
+    }
   })
 
   //add y-axis title draw to chart render event
