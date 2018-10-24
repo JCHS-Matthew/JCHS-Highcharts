@@ -48,8 +48,17 @@ module.exports = function (grunt) {
       }
     },
 
+    /* Uglify */
+    //minify the final JS file
+    uglify: {
+      build: {
+        src: 'dist/JCHS-highcharts.js',
+        dest: 'dist/JCHS-highcharts.min.js'
+      }
+    },
+
     /* PostCSS */
-    // Stylelint, PostCS Preset Env, Autoprefixer, CSSNano 
+    // Stylelint, PostCSS Preset Env, Autoprefixer, CSSNano 
     // lint, transpile, add vendor prefixes, and minify CSS
     postcss: {
       options: {
@@ -78,15 +87,6 @@ module.exports = function (grunt) {
       }
     },
 
-    /* Uglify */
-    //minify the final JS file
-    uglify: {
-      build: {
-        src: 'dist/JCHS-highcharts.js',
-        dest: 'dist/JCHS-highcharts.min.js'
-      }
-    },
-
     /* JSDoc */
     //generate API documentation
     jsdoc: {
@@ -108,10 +108,11 @@ module.exports = function (grunt) {
           frameworks: ['qunit'],
           files: [
             'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js',
+            'https://code.highcharts.com/6.1.4/js/highcharts.js',
             'dist/JCHS-highcharts.js',
             'test/*.js'
           ],
-          browsers: ['Chrome', /*'Firefox',*/ 'Safari', 'PhantomJS', /*'IE'*/],
+          browsers: ['Chrome', 'Firefox', /*'Safari',*/ 'PhantomJS', 'IE'],
           reporters: ['progress', 'html', 'coverage'],
           preprocessors: {
             'dist/JCHS-highcharts.js': ['coverage'] //preprocess files to create coverage report
@@ -127,7 +128,7 @@ module.exports = function (grunt) {
             useLegacyStyle: true
           },
           singleRun: true, //exit after tests are completed
-          autoWatch: false //don't automatically run tests when a file is changed
+          autoWatch: true //don't automatically run tests when a file is changed
         }
       }
     },
@@ -143,7 +144,7 @@ module.exports = function (grunt) {
   })
 
   // name the tasks 
-  grunt.registerTask('default', ['eslint', 'babel', 'uglify',  'postcss', /*'browserify',*/ 'karma', 'jsdoc'])
+  grunt.registerTask('default', ['eslint', 'babel', 'uglify',  'postcss', /*'browserify', 'karma',*/ 'jsdoc'])
   grunt.registerTask('test', ['karma'])
   grunt.registerTask('css', ['postcss'])
   grunt.registerTask('js', ['eslint', 'jsdoc', 'babel', 'uglify'])
