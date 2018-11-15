@@ -8,28 +8,39 @@
 .highcharts-color-3 { fill: #998b7d; stroke: #998b7d; }
 .highcharts-color-4 { fill: #c1b9b1; stroke: #c1b9b1; }
 
-.JCHS-chart-wrapper {
+/* change chart zone colors here */
+.highcharts-area.zone-0, 
+.highcharts-point.zone-0  { stroke: #467b91; fill: #467b91; }
+.highcharts-graph.zone-0 { stroke: #467b91; }
+.highcharts-area.zone-1, 
+.highcharts-point.zone-1  { stroke: #c8ded6; fill: #c8ded6; }
+.highcharts-graph.zone-1 { stroke: #c8ded6; }
+.highcharts-area.zone-2, 
+.highcharts-point.zone-2  { stroke: #f6e599; fill: #f6e599; }
+.highcharts-graph.zone-2 { stroke: #f6e599; }
+.highcharts-area.zone-3, 
+.highcharts-point.zone-3  { stroke: #c14d00; fill: #c14d00; }
+.highcharts-graph.zone-3 { stroke: #c14d00; }
+
+.JCHS-chart__wrapper {
   max-width: 700px;
   margin: auto;
   font-family: "Open Sans", sans-serif;
+  position: relative; /*necessary for modal to pop up only in div */
 }
 
-.JCHS-chart-title, .JCHS-chart-subtitle {
+.JCHS-chart__title, .JCHS-chart__subtitle {
   text-align: center;
   font-weight: 400; 
   color: #C14D00;
   margin: 10px 5px;
 }
 
-.JCHS-chart-subtitle {
+.JCHS-chart__subtitle {
   font-size: 16px;
 }
 
-.JCHS-input-table-label {
-  text-align: right;
-}
-
-.JCHS-user-input-table {
+.JCHS-chart__user-input {
   margin: auto;
   font-size: 13px;
   border: none;
@@ -37,10 +48,19 @@
   text-align: left;
 }
 
-.JCHS-user-input-table  *  {
+.JCHS-chart__user-input  *  {
   margin: 0;
   vertical-align: middle;
   padding: 0 10px;
+}
+
+.JCHS-chart__user-input--flex {
+  max-width: 415px; 
+  display: flex;
+}
+
+.JCHS-chart__user-input__label {
+  text-align: right;
 }
 
 @media (max-width: 350px) {
@@ -52,37 +72,89 @@
   }
 }
 
-.JCHS-chart-container {
+.JCHS-chart__container {
   max-height: 500px;
   max-width: 700px; 
   margin: 0px auto;
 }
 
 @media (max-width: 500px) {
-  .JCHS-chart-container {
+  .JCHS-chart__container {
     height: 350px;
   }
 }
 
 @media (max-width: 400px) {
-  .JCHS-chart-container {
+  .JCHS-chart__container {
     height: 300px;
   }
 }
 
-.JCHS-table-notes {
+.JCHS-chart__table-notes {
   font-size: .7rem;
   color: #666;
   margin: 0 5px;
 }
 
-.JCHS-drilldown-chart {
-  /*height: 180px;*/
-  /*width: 600px;*/
-  max-width: 600px;
-  margin: 20px auto;
+.JCHS-chart__drilldown {
+  min-height: 300px;
+  width: 380px;
+  max-width: calc(100% - 17px);
+  margin: 0;
+  display: block;
+  background: none;
 }
 
+.JCHS-chart__search-box {
+  max-width: 400px;
+  margin: auto;
+  padding: 0 5px;
+  font-size: 13px;
+}
+
+.JCHS-chart__search-box__input {
+  width: 100%;
+  margin: 5px auto;
+  padding: 1px;
+  display: block;
+  position: relative;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgAgMAAACf9p+rAAAACVBMVEUAAAAyMjIzMzMmhMtFAAAAAnRSTlMAgJsrThgAAABcSURBVHgBYhgxYBSMglGQtQoKVqJJSMEklqBJsAHam0MjAEAggGHHZozIyKgYOgDmaytinGcsYxdBBAkBCQEJAQkBQQRBBEEUQQRBBEEEQRRBBEEEQQRBTNP0vwu7s0JpRPs+OAAAAABJRU5ErkJggg==);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+  cursor: default;
+  border: 1px solid #777;
+}
+
+.JCHS-chart__search-box__list {
+  list-style-type: none;
+  max-height: 200px;
+  width: 405px;
+  padding: 0;
+  margin: 0;
+  display: none;
+  overflow: scroll;
+  overflow-x: hidden;
+  position: absolute;
+  z-index: 3;
+}
+
+.JCHS-chart__search-box__list li {
+  border: 1px solid #ddd;
+  margin-top: -1px;
+  background-color: #f6f6f6;
+  padding: 3px;
+  text-decoration: none;
+  color: black;
+  display: block;
+  cursor: pointer;
+}
+
+.JCHS-chart__search-box__list li:hover {
+  background-color: #eee;
+}
+
+/* old search box classes, for backward compatibility */
 .JCHS-search-box {
   max-width: 400px;
   margin: auto;
@@ -133,15 +205,15 @@
 }
 
 /* Slider styles */
-input[type=range].JCHS-slider {
+input[type=range].JCHS-chart__slider {
   -webkit-appearance: none;
   width: 100%;
   margin: 5px 0;
 }
-input[type=range].JCHS-slider:focus {
+input[type=range].JCHS-chart__slider:focus {
   outline: none;
 }
-input[type=range].JCHS-slider::-webkit-slider-runnable-track {
+input[type=range].JCHS-chart__slider::-webkit-slider-runnable-track {
   width: 100%;
   height: 15px;
   cursor: pointer;
@@ -150,7 +222,7 @@ input[type=range].JCHS-slider::-webkit-slider-runnable-track {
   border-radius: 1px;
   border: 0px solid #000000;
 }
-input[type=range].JCHS-slider::-webkit-slider-thumb {
+input[type=range].JCHS-chart__slider::-webkit-slider-thumb {
   box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
   border: 0px solid rgba(0, 30, 0, 0.57);
   height: 25px;
@@ -161,10 +233,10 @@ input[type=range].JCHS-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   margin-top: -5px;
 }
-input[type=range].JCHS-slider:focus::-webkit-slider-runnable-track {
+input[type=range].JCHS-chart__slider:focus::-webkit-slider-runnable-track {
   background: #e6dfd8;
 }
-input[type=range].JCHS-slider::-moz-range-track {
+input[type=range].JCHS-chart__slider::-moz-range-track {
   width: 100%;
   height: 15px;
   cursor: pointer;
@@ -173,7 +245,7 @@ input[type=range].JCHS-slider::-moz-range-track {
   border-radius: 1px;
   border: 0px solid #000000;
 }
-input[type=range].JCHS-slider::-moz-range-thumb {
+input[type=range].JCHS-chart__slider::-moz-range-thumb {
   box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
   border: 0px solid rgba(0, 30, 0, 0.57);
   height: 25px;
@@ -182,7 +254,7 @@ input[type=range].JCHS-slider::-moz-range-thumb {
   background: #4e7686;
   cursor: pointer;
 }
-input[type=range].JCHS-slider::-ms-track {
+input[type=range].JCHS-chart__slider::-ms-track {
   width: 100%;
   height: 15px;
   cursor: pointer;
@@ -190,19 +262,19 @@ input[type=range].JCHS-slider::-ms-track {
   border-color: transparent;
   color: transparent;
 }
-input[type=range].JCHS-slider::-ms-fill-lower {
+input[type=range].JCHS-chart__slider::-ms-fill-lower {
   background: #e2d9d2;
   border: 0px solid #000000;
   border-radius: 2px;
   box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
 }
-input[type=range].JCHS-slider::-ms-fill-upper {
+input[type=range].JCHS-chart__slider::-ms-fill-upper {
   background: #e4dcd5;
   border: 0px solid #000000;
   border-radius: 2px;
   box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
 }
-input[type=range].JCHS-slider::-ms-thumb {
+input[type=range].JCHS-chart__slider::-ms-thumb {
   box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
   border: 0px solid rgba(0, 30, 0, 0.57);
   height: 25px;
@@ -212,11 +284,68 @@ input[type=range].JCHS-slider::-ms-thumb {
   cursor: pointer;
   height: 15px;
 }
-input[type=range].JCHS-slider:focus::-ms-fill-lower {
+input[type=range].JCHS-chart__slider:focus::-ms-fill-lower {
   background: #e4dcd5;
 }
-input[type=range].JCHS-slider:focus::-ms-fill-upper {
+input[type=range].JCHS-chart__slider:focus::-ms-fill-upper {
   background: #e6dfd8;
+}
+
+/* modal based on W3 example */
+.JCHS-chart__modal {
+    display: none; /* Hidden by default */
+    /*position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+  position: absolute; /* absolute in relation to parent that is position: relative (in this case .JCHS-chart-wrapper) */ 
+  
+  /* alternate method 
+  (also add vendor prefixes to support old versions)
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%); 
+  */
+}
+
+.JCHS-chart__modal__content {
+  background-color: #fefefe;
+  margin: 30px auto; /* 30% from the top and centered */
+  padding: 5px;
+  border: 1px solid #888;
+  width: 400px;  
+  max-width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.JCHS-chart__modal__close {
+  color: #aaa;
+  float: right;
+  clear: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.JCHS-chart__modal__close:hover,
+.JCHS-chart__modal__close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.JCHS-chart__drilldown {
+  min-height: 300px;
+  width: 380px;
+  max-width: calc(100% - 17px);
+  margin: 0;
+  display: block;
+  background: none;
 }
 
 
@@ -229,10 +358,20 @@ input[type=range].JCHS-slider:focus::-ms-fill-upper {
   font-weight: normal;
 }
 
+.highcharts-legend-box {
+  fill: rgba(255, 255, 255, 0.9);
+}
+
 .highcharts-tooltip-box {
   color: #fff;
   fill-opacity: 1;
 }
+
+.highcharts-label-box { stroke: #999; } /* tooltip box stroke */
+
+.highcharts-tooltip span { color: #333; } /* tooltip text color */
+
+.highcharts-label.highcharts-tooltip { filter: none; } /* removes drop shadow on text */
 
 .highcharts-axis-title {
   white-space: nowrap;
@@ -268,11 +407,17 @@ input[type=range].JCHS-slider:focus::-ms-fill-upper {
 }
 
 .highcharts-subtitle {
-  font-size: 7px;
-  fill: #999;
+  font-size: 14px;
+  fill: #666;
 }
 
 .highcharts-title {
   font-size: 18px;
   fill: #C14D00;
+}
+
+.highcharts-plot-line {
+  fill: none;
+  stroke: #999999;
+  stroke-width: 2px;
 }
