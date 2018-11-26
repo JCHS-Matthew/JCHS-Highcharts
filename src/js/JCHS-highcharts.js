@@ -16,7 +16,7 @@
         downloadCSV: 'Download chart data (CSV)',
         downloadXLS: 'Download chart data (Excel)'
       },
-            
+
       chart: {
         spacing: [5, 5, 5, 5],
         marginTop: 40,
@@ -222,11 +222,11 @@
    *
    * @param {Number} number_of_boxes - Number of search boxes to create (max of 8).
    * @param {Array} data - Reference dataset for chart.
-   * @param {String} chart_slug - Unique ID of chart, to ensure unique <div> 
-   * ids in HTML.
    * @param {Function} callback - Function called on seach_box `change` event. 
    * Passes the value of the search box as the only argument 
    * (i.e., $(`#search_input_${chart_slug}`).val()).
+   * @param {String} [chart_slug] - Unique ID of chart, to ensure unique <div> 
+   * ids in HTML.
    * @param {Number} [col_index] - Column index of data to be listed in the 
    * search box. Defaults to 0.
    * @param {String} [type] - 'dropdown' or 'search'. Only differences are 
@@ -242,78 +242,109 @@
   JCHS.createSearchBoxes = function (
     number_of_boxes,
     data,
-    chart_slug,
     callback,
+    chart_slug = '',
     col_index = 0,
     type = 'dropdown',
     placeholder = 'Select a metro...') {
 
     if (type === 'search') { placeholder = 'Search for metro...' }
-    number_of_boxes = Math.min(number_of_boxes, 8)
-    console.log(number_of_boxes)
 
+    //maximum of 8 search boxes
+    number_of_boxes = Math.min(number_of_boxes, 8)
+
+    //if chart slug is passed, prepend underscore for readability
+    if (chart_slug !== '' & chart_slug.charAt(0) !== "_") { chart_slug = '_' + chart_slug }
+
+    //add each of the search boxes
     var counter = 0
     while (counter < number_of_boxes) {
       //pass i as argument to anonmyous self-executing function so that it passes value not reference
       //see: https://stackoverflow.com/questions/2568966/how-do-i-pass-the-value-not-the-reference-of-a-js-variable-to-a-function
       (function (i) {
-        $(`#search_box_${chart_slug}`).append(`<input id="search_input_${chart_slug}_${i}" class="JCHS-search-input ${chart_slug}">`)
 
-        var box = $(`#search_input_${chart_slug}_${i}`)
-        var this_placeholder = placeholder
-        if (Array.isArray(placeholder)) { this_placeholder = placeholder[i]}
-        box.attr('placeholder', this_placeholder)
+        //add text input box
+        $(`#search_box${chart_slug}`).append(`
+          <input id="search_input${chart_slug}_${i}" class="JCHS-chart__search-box__input">
+        `)
+
+        var box = $(`#search_input${chart_slug}_${i}`)
+
+        //add placeholder text
+        if (Array.isArray(placeholder)) {
+          box.attr('placeholder', placeholder[i])
+        } else {
+          box.attr('placeholder', placeholder)
+        }
+
+        //remove down arrow from box if it is not a dropdown
         if (type != 'dropdown') { box.css('background-image', 'none') }
 
-        box.after(`<ul id="search_list_${chart_slug}_${i}" class="JCHS-search-list"></ul>`)
-        var list = $(`#search_list_${chart_slug}_${i}`)
+        //add a list element after the input box to contain the list of options (e.g., metros) 
+        box.after(`<ul id="search_list${chart_slug}_${i}" class="JCHS-chart__search-box__list"></ul>`)
+        var list = $(`#search_list${chart_slug}_${i}`)
 
+        //get an unduplicated list of options for the list
         var dedup_data = []
-
         data.forEach(function (el) {
           if (dedup_data.indexOf(el[col_index]) < 0) {
             dedup_data.push(el[col_index])
           }
         })
+
+        //add each option to the list
         dedup_data.forEach(el => list.append(`<li>${el}</li>`))
 
+        //when user clicks into the search box, hide the placeholder text and show the list of options
         box.on('focus', function () {
           box.val('')
           list.show()
         })
 
+        //when user types a new letter, filter the list of options
         box.on('keyup focus', function () {
-          var filter = box.val().toUpperCase()
-          $('li').each(function () {
-            if ($(this).html().toUpperCase().indexOf(filter) > -1) {
-              $(this).css('display', 'block')
+          var filter = box.val().toUpperCase() //user input, made all uppercase to make comparison easier
+          $('li').each(function () { //for each item of the list of options
+            if ($(this).html().toUpperCase().indexOf(filter) > -1) { //indexOf() returns -1 if the filter string can't be found
+              $(this).css('display', 'block') //if the filter string can be found in the list item, keep displaying it
             } else {
-              $(this).css('display', 'none')
+              $(this).css('display', 'none') //if not, hide the list item
             }
           })
         })
 
+        //when value of input box changes, run the callback function with the selected items 
+        // ("change" means the user hits enter or we trigger the 'change' event in the code, not just when a user types a new letter)
         box.on('change', function () {
           var params = []
-          $(`#search_box_${chart_slug}`).children("input").each(function () {
+
+          //when any box changes, we collect all the selections from all the input boxes...
+          $(`#search_box${chart_slug}`).children("input").each(function () {
             params.push($(this).val())
           })
-          callback.apply(null, params) //using apply() can pass params as an array
+          //...and pass them to the callback fucntion
+          callback(...params) //spread syntax passes each param as its own argument
+
+          //then take the focus off the input box and hide the list of options
           box.blur()
           list.hide()
         }) //end box.on 'change'
 
+        //when user clicks out of box, hide the list 
         box.on('blur', function () {
           list.hide()
         })
 
+        //when user clicks on list item, make that selection the input box value and trigger a 'change' event
         list.on('mousedown', 'li', function (e) {
           box.val(e.target.innerHTML)
           box.change()
         })
       })(counter)
-      counter++
-    }
+
+      counter++ //increment counter when each box is complete
+
+    } //end while loop
   } //end createSearchBoxs()
 
   /**
@@ -501,7 +532,7 @@
       // Preserve decimals. Not huge numbers (#3793).
       decimals = Math.min(origDec, 20)
     } else if (isNaN(decimals)) {
-      decimals = Math.min(origDec, 2)
+      decimals = Math.min(origDec, 2) //default to 2 decimal places
     }
 
     // Add another decimal to avoid rounding errors of float numbers. (#4573)
@@ -553,7 +584,7 @@
     if (chart.renderer.forExport) {
       chart.renderer.image(JCHS.logoURL, 0, chart.chartHeight - 50, 170, 55).add()
     }
-    
+
     if (chart.options.JCHS.sheetID) {
       chart.update({
         exporting: {
@@ -577,5 +608,20 @@
     //draw y-axis titles in JCHS style
     H.JCHS.yAxisTitle(this, this.options.JCHS.yAxisTitle, this.options.JCHS.yAxisTitle2)
   })
+
+  /* modal popup for drilldown */
+  var modal = $('.JCHS-chart__modal')
+
+  modal.click(function () {
+    //hide the modal when the background is clicked
+    modal.css('display', 'none')
+  }).children().click(function (e) {
+    e.stopPropagation()
+  })
+
+  $('.JCHS-chart__modal__close').click(function () {
+    modal.css('display', 'none')
+  })
+
 
 }(Highcharts))
