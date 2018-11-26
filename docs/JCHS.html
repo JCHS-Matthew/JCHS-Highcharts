@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Namespaces</li><li class="nav-heading"><span class="nav-item-type type-namespace">N</span><span class="nav-item-name"><a href="JCHS.html">JCHS</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#createSearchBox">createSearchBox</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#mapLocatorCircle">mapLocatorCircle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#numFormat">numFormat</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#requestURL">requestURL</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#responsiveAnnotation">responsiveAnnotation</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#yAxisTitle">yAxisTitle</a></span></li>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Namespaces</li><li class="nav-heading"><span class="nav-item-type type-namespace">N</span><span class="nav-item-name"><a href="JCHS.html">JCHS</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#createSearchBox">createSearchBox</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#createSearchBoxes">createSearchBoxes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#mapLocatorCircle">mapLocatorCircle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#numFormat">numFormat</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#requestURL">requestURL</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#responsiveAnnotation">responsiveAnnotation</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#yAxisTitle">yAxisTitle</a></span></li>
 </nav>
 
 <div id="main">
@@ -165,7 +165,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line122">line 122</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -443,6 +443,366 @@
 
     
 
+    <h4 class="name" id="createSearchBoxes"><span class="type-signature"></span>createSearchBoxes<span class="signature">(number_of_boxes, data, callback, chart_slug<span class="signature-attributes">opt</span>, col_index<span class="signature-attributes">opt</span>, type<span class="signature-attributes">opt</span>, placeholder<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Add  search box with filtered list to the page. Adds one item to the list for each unique value of a column from ref_data.   On clicking a list item, the passed callback function is called, which passes the value of the search box as the only argument (i.e., $(`#search_input_${chart_slug}`).val()).
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line212">line 212</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>number_of_boxes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                Number of search boxes to create (max of 8).
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Array</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                Reference dataset for chart.
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>function</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                Function called on seach_box `change` event. Passes the value of the search box as the only argument (i.e., $(`#search_input_${chart_slug}`).val()).
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>chart_slug</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>String</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                Unique ID of chart, to ensure unique <div> ids in HTML.
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>col_index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                Column index of data to be listed in the search box. Defaults to 0.
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>String</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                'dropdown' or 'search'. Only differences are 'dropdown' has a down arrow at the right side of the box and has placeholder text 'Select a metro...', while 'search' has no arrow and has placehold text  'Search for metro...'.
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>placeholder</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>String</code></span>
+|
+
+<span class="param-type"><code>Array</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                Override the default placeholder text. Pass as an array to have different placeholder text in each box. (e.g., 'Select a state...' or ['Select a state...', 'Select a county...']).
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
     <h4 class="name" id="mapLocatorCircle"><span class="type-signature"></span>mapLocatorCircle<span class="signature">(map_object, search_value)</span><span class="type-signature"></span></h4>
 
     
@@ -486,7 +846,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line290">line 290</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line429">line 429</a>
     </li></ul></dd>
     
 
@@ -647,7 +1007,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line363">line 363</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line502">line 502</a>
     </li></ul></dd>
     
 
@@ -853,7 +1213,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line335">line 335</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line474">line 474</a>
     </li></ul></dd>
     
 
@@ -1060,7 +1420,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line243">line 243</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line382">line 382</a>
     </li></ul></dd>
     
 
@@ -1354,7 +1714,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line211">line 211</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line350">line 350</a>
     </li></ul></dd>
     
 
@@ -1538,7 +1898,7 @@
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Oct 15 2018 15:29:48 GMT-0400 (Eastern Daylight Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Nov 26 2018 15:00:09 GMT-0500 (Eastern Standard Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
