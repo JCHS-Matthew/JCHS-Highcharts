@@ -43,9 +43,7 @@
 .JCHS-chart__user-input {
   margin: auto;
   font-size: 13px;
-  border: none;
-  border-collapse: collapse;
-  text-align: left;
+  text-align: center;
 }
 
 .JCHS-chart__user-input  *  {
@@ -54,22 +52,25 @@
   padding: 0 10px;
 }
 
-.JCHS-chart__user-input--flex {
-  max-width: 415px; 
-  display: flex;
-}
-
-.JCHS-chart__user-input__label {
-  text-align: right;
+.JCHS-chart__user-input--table {
+  margin: auto;
+  font-size: 13px;
+  border: none;
+  border-collapse: collapse;
+  text-align: left;
 }
 
 @media (max-width: 350px) {
-  .JCHS-user-input-table td, input, label  {
+  .JCHS-chart__user-input--table td, input, label  {
     font-size: 11px;
   }
   .highcharts-axis-title {
     display: none;
   }
+}
+
+.JCHS-chart__user-input__label {
+  text-align: right;
 }
 
 .JCHS-chart__container {
@@ -418,6 +419,6 @@ input[type=range].JCHS-chart__slider:focus::-ms-fill-upper {
 
 .highcharts-plot-line {
   fill: none;
-  stroke: #999999;
+  stroke: #999;
   stroke-width: 2px;
 }
