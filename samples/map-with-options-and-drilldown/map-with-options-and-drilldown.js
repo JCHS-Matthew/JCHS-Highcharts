@@ -53,7 +53,6 @@ function createChart() {
   /*~~~~~~~ Chart Options ~~~~~~~*/
   chart_options = {
     JCHS: {
-      sheetID: sheetID,
       drilldownFunction: drilldownChart
     },
     chart: {
@@ -95,6 +94,7 @@ function createChart() {
     // Exporting options
     exporting: {
       filename: export_filename,
+      JCHS: { sheetID: sheetID },
       chartOptions: {
         chart: {
           //marginBottom: 130 //may have to adjust to fit all of the notes
