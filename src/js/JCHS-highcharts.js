@@ -585,14 +585,14 @@
       chart.renderer.image(JCHS.logoURL, 0, chart.chartHeight - 50, 170, 55).add()
     }
 
-    if (chart.options.JCHS.sheetID) {
+    if (chart.options.exporting.hasOwnProperty('JCHS') && chart.options.exporting.JCHS.hasOwnProperty('sheetID')) {
       chart.update({
         exporting: {
           menuItemDefinitions: {
             viewFullDataset: {
               text: 'View full dataset',
               onclick: function onclick() {
-                window.open('https://docs.google.com/spreadsheets/d/' + chart.options.JCHS.sheetID)
+                window.open('https://docs.google.com/spreadsheets/d/' + chart.options.exporting.JCHS.sheetID)
               }
             }
           }
