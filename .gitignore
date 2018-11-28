@@ -1,7 +1,7 @@
 /build/
-/dist/
 /node_modules/
 /test-results/
 /package-lock.json
 /cypress/
 cypress.json
+jchs-highcharts-workspace.code-workspace
