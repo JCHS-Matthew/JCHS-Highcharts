@@ -246,9 +246,10 @@
     chart_slug = '',
     col_index = 0,
     type = 'dropdown',
-    placeholder = 'Select a metro...') {
+    placeholder = 'default') {
 
-    if (type === 'search') { placeholder = 'Search for metro...' }
+    if (type === 'search' & placeholder === 'default') { placeholder = 'Search for metro...' }
+    if (placeholder === 'default') { placeholder = 'Select a metro...' }
 
     //maximum of 8 search boxes
     number_of_boxes = Math.min(number_of_boxes, 8)
@@ -345,7 +346,7 @@
       counter++ //increment counter when each box is complete
 
     } //end while loop
-  } //end createSearchBoxs()
+  } //end createSearchBoxes()
 
   /**
    * @function #yAxisTitle
