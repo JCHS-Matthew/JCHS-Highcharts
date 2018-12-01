@@ -1,32 +1,33 @@
 (function (H) {
+
   H.JCHS.mapOptions = {
+
     chart: {
       margin: [10,5,10,5], 
-      marginTop: 10, //need to override individual settings as well
-      marginBottom: 10 //need to override individual settings as well
-    },
+      marginTop: 10, //needed to override individual settings as well
+      marginBottom: 10 //needed to override individual settings as well
+    }, //end chart
+
     plotOptions: {
       map: {
-        //series: {
         allAreas: false,
         allowPointSelect: true,
         joinBy: ['GEOID', 0],
         keys: ['GEOID', 'value']
-      //},
-      },
+      }, //end plotOptions.map
+
       mapline: { enableMouseTracking: false }
     
     }, //end plotOptions
 
     colorAxis: {
       dataClassColor: 'category'
-    },
+    }, //end colorAxis
 
     legend: {
       layout: 'vertical',
       align: 'right',
       verticalAlign: 'bottom',
-      //y: 140,
       x: 10,
       padding: 5,
       labelFormatter: function () {
@@ -38,35 +39,11 @@
           return this.from + ' – ' + this.to
         }
       }
-    },
+    }, //end legend
 
     mapNavigation: {
-      enabled: true,
-      //buttonOptions: { x: 1 },
-      //buttons: {
-        //zoomIn: { y: 1 },
-        //zoomOut: { y: 29 }
-      //}
+      enabled: true
     },
-
-    /*responsive: {
-      rules: [
-        {
-          condition: { maxWidth: 500 },
-          chartOptions: {
-            exporting: { enabled: false },
-            legend: {
-              layout: 'horizontal',
-              align: 'center',
-              verticalAlign: 'bottom',
-              x: 0,
-              y: 0,
-              itemDistance: 8
-            }
-          }
-        }
-      ] //end responsive rules
-    },//*/ //end responsive
     
     exporting: {
       buttons: {
@@ -85,13 +62,14 @@
             //'downloadXLS',
             //'downloadFullData'
           ]
-        }
-      }
+        } //end contextButton
+      } //end buttons
     }, //end exporting
   } //end mapOptions
 
   H.setOptions(H.JCHS.mapOptions)
 
+  // Fire drilldownFunction when user clicks on map
   H.Chart.prototype.callbacks.push(function (chart) {
     if (chart.options.chart.type === "map") {
       if (chart.options.JCHS.drilldownFunction) {
@@ -111,4 +89,5 @@
       } //end if
     } //end if
   }) //end callbacks.push
+
 }(Highcharts))
