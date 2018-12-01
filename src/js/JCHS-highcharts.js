@@ -110,15 +110,27 @@
       } //end navigation
     }, //end standardOptions
 
-    colors6: {
-      color1: '#467b91',
-      color2: '#8db8c9',
-      color3: '#c8ded6',
-      color4: '#f6e599',
-      color5: '#eab700',
-      color6: '#c14d00'
-    }
-  }
+    drilldownOptions: {
+      chart: {
+        margin: undefined,
+        marginTop: undefined,
+        marginBottom: 40,
+        marginLeft: 50,
+        marginRight: 10,
+      },
+
+      plotOptions: {
+        series: {
+          label: { enabled: false },
+        }
+      },
+
+      legend: {enabled: false},
+      
+      mapNavigation: { enabled: false },
+      
+      exporting: { enabled: false }
+    }, //end drilldownOptions
 
   /**
    * @function #createSearchBox

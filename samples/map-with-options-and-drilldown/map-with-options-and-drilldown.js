@@ -168,6 +168,7 @@ function initUserInteraction () {
 function drilldownChart(metro_name) {
   $('.JCHS-chart__modal').css("display", "block")
   console.log(metro_name)
+  
   var chart_data = []
   
   ref_data.forEach(function (el) {
@@ -185,19 +186,10 @@ function drilldownChart(metro_name) {
       } //end switch
     } //end if
   }) //end forEach
-  console.log(chart_data)
-  drilldown_chart = Highcharts.chart("drilldown_chart", {
+
+  drilldown_options = {
     JCHS: {
       yAxis_title: 'Percent'
-    },
-    chart: {
-      //height: 300,
-      //width: 600,
-      margin: undefined,
-      marginTop: undefined,
-      marginBottom: 40,
-      marginLeft: 50,
-      marginRight: 10,
     },
 
     subtitle: {
@@ -212,10 +204,7 @@ function drilldownChart(metro_name) {
       labels: {
         enabled: true,
         format: "{value}%"
-      },
-      //min: 0, 
-      //max: 50,
-      //endOnTick: false
+      }
     }],
 
     xAxis: {
@@ -232,9 +221,6 @@ function drilldownChart(metro_name) {
       {
         name: metro_name,
         data: chart_data,
-        label: {
-          enabled: false
-        },
         zones: [
           {
             value: 20,
@@ -252,17 +238,14 @@ function drilldownChart(metro_name) {
             className: 'zone-3'
           }
         ],
-
     }],
-    legend: {enabled: false},
-        mapNavigation: {
-      enabled: false,
+    
+  }
 
-    },
-    
-    exporting: { enabled: false }
-    
-  });
+  drilldown_chart = Highcharts.chart(
+    'drilldown_chart',
+    H.merge({}, H.JCHS.drilldownOptions, drilldown_options)
+  )
 
   //if (drilldown_chart.yAxis[0].max > 100) { drilldown_chart.yAxis[0].setExtremes(0,100) }
 
