@@ -131,7 +131,7 @@
       
       exporting: { enabled: false }
     }, //end drilldownOptions
-
+  } //end JCHS
   /**
    * @function #createSearchBox
    * @memberof JCHS
