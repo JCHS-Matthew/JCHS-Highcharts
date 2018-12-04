@@ -51,35 +51,47 @@
       },
 
       exporting: {
+        
         enabled: true,
+        
+        //default filename 
         filename: 'Chart - Harvard Joint Center for Housing Studies',
+        
         chartOptions: {
+          
+          //make space for title at top and table notes at bottom
           chart: {
             spacingTop: 12,
             marginTop: 50,
             marginBottom: 130
           },
+
           title: {
             y: 8
           },
+
+          //use subtitle element for our table notes on export
           subtitle: {
-            //use subtitle element for our table notes on export
             widthAdjust: -170,
             x: 170,
             y: -28,
             align: 'left',
             verticalAlign: 'bottom',
           },
+
           series: { borderWidth: 0.5 },
-          legend: {
-            y: -45,
-          }
-        },
+          
+          legend: { y: -45 }
+
+        }, //end export.chartOptions
+
+        //define menu item (functionality is added as a callback on chart load)
         menuItemDefinitions: {
           viewFullDataset: {
             text: 'View full dataset'
           }
-        },
+        }, //end menuItemDefinitions
+
         buttons: {
           contextButton: {
             text: 'Export',
@@ -96,8 +108,9 @@
               'downloadXLS',
               //'downloadFullData'
             ]
-          }
-        }
+          } //end contextButtons
+        } //end buttons
+
       }, //end exporting
 
       navigation: {
@@ -111,6 +124,7 @@
     }, //end standardOptions
 
     drilldownOptions: {
+      
       chart: {
         margin: undefined,
         marginTop: undefined,
@@ -130,8 +144,11 @@
       mapNavigation: { enabled: false },
       
       exporting: { enabled: false }
+
     }, //end drilldownOptions
   } //end JCHS
+
+
   /**
    * @function #createSearchBox
    * @memberof JCHS
@@ -621,11 +638,11 @@
     H.JCHS.yAxisTitle(this, this.options.JCHS.yAxisTitle, this.options.JCHS.yAxisTitle2)
   })
 
-  /* modal popup for drilldown */
+  //initialize modal popup behavior for map drilldown
   var modal = $('.JCHS-chart__modal')
-
+  
+  //hide the modal when the background is clicked
   modal.click(function () {
-    //hide the modal when the background is clicked
     modal.css('display', 'none')
   }).children().click(function (e) {
     e.stopPropagation()
@@ -634,6 +651,5 @@
   $('.JCHS-chart__modal__close').click(function () {
     modal.css('display', 'none')
   })
-
 
 }(Highcharts))
