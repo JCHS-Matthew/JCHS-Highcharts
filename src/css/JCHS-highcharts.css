@@ -203,6 +203,19 @@
 }
 
 /* Slider styles */
+.JCHS-chart__slider__wrapper {
+  width: 200px;
+  max-width: 100%;
+  margin: auto;
+}
+
+.JCHS-chart__slider__label {
+  text-align: center;
+  color: #666;
+  font-size: 18px;
+  margin: 5px auto 0 auto;
+}
+
 input[type=range].JCHS-chart__slider {
   -webkit-appearance: none;
   width: 100%;
@@ -405,7 +418,7 @@ input[type=range].JCHS-chart__slider:focus::-ms-fill-upper {
 }
 
 .highcharts-subtitle {
-  font-size: 14px;
+  font-size: 7.5px; /* subtitle used for table notes on export */
   fill: #666;
 }
 
