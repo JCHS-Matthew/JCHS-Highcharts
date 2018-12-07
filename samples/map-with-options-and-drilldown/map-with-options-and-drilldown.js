@@ -28,7 +28,7 @@ $(document).ready(function() {
   //get Google sheet data
   $.get(H.JCHS.requestURL(sheetID, range), function(obj) {
     categories = obj.values[0]
-    ref_data = obj.values
+    ref_data = obj.values.slice(1)
 
     selected_data = ref_data.map(function (x) {
       return [x[0], x[default_selection]] 
@@ -37,7 +37,7 @@ $(document).ready(function() {
     //create the title, notes, and search box
     $('#chart_title').html(chart_title)
     $('#table_notes').html(table_notes)
-    H.JCHS.createSearchBox(ref_data.slice(1), chart_slug, searchCallback, 1, 'search')
+    H.JCHS.createSearchBox(ref_data, searchCallback, chart_slug, 1, 'search')
 
     //create the chart
     createChart() 
@@ -189,7 +189,7 @@ function drilldownChart(metro_name) {
     } //end if
   }) //end forEach
 
-  drilldown_options = {
+  var drilldown_options = {
     JCHS: {
       yAxis_title: 'Percent'
     },
@@ -246,10 +246,8 @@ function drilldownChart(metro_name) {
 
   drilldown_chart = Highcharts.chart(
     'drilldown_chart',
-    H.merge({}, H.JCHS.drilldownOptions, drilldown_options)
+    H.merge(H.JCHS.drilldownOptions, drilldown_options)
   )
-
-  //if (drilldown_chart.yAxis[0].max > 100) { drilldown_chart.yAxis[0].setExtremes(0,100) }
 
 } //end drilldownChart()
 
