@@ -1,6 +1,3 @@
-@import url('https://code.highcharts.com/6.1.4/css/highcharts.css');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400');
-
 /* change chart colors here */
 .highcharts-color-0 { fill: #8cb7c7; stroke: #8cb7c7; }
 .highcharts-color-1 { fill: #e0ba1b; stroke: #e0ba1b; }
