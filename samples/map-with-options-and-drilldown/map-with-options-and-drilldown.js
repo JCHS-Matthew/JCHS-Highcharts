@@ -30,7 +30,9 @@ $(document).ready(function() {
     categories = obj.values[0]
     ref_data = obj.values
 
-    selected_data = ref_data.map( x => [x[0], x[default_selection]] )
+    selected_data = ref_data.map(function (x) {
+      return [x[0], x[default_selection]] 
+    })
     
     //create the title, notes, and search box
     $('#chart_title').html(chart_title)
