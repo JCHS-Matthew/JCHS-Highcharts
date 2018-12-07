@@ -177,8 +177,8 @@
   
   JCHS.createSearchBox = function (
     data, //eslint-disable-line no-unused-vars
-    chart_slug, //eslint-disable-line no-unused-vars
     callback, //eslint-disable-line no-unused-vars
+    chart_slug, //eslint-disable-line no-unused-vars
     col_index, //eslint-disable-line no-unused-vars
     type, //eslint-disable-line no-unused-vars
     placeholder) { //eslint-disable-line no-unused-vars
