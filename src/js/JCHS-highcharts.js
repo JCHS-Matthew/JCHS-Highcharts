@@ -28,7 +28,8 @@
 
       yAxis: {
         title: { text: null },
-        labels: { format: '{value:,.0f}' }
+        labels: { format: '{value:,.0f}' },
+        reversedStacks: false
       },
 
       credits: { enabled: false },
@@ -153,19 +154,15 @@
    * @function #createSearchBox
    * @memberof JCHS
    *
-   * @description Add a search box with filtered list to the page. Adds one item to the list 
-   * for each unique value of a column from ref_data.
-   *    
-   * On clicking a list item, the passed callback function is called, which 
-   * passes the value of the search box as the only argument 
-   * (i.e., $(`#search_input_${chart_slug}`).val()).
+   * @description Shorthand for createSearchBoxes(1, ...arguments). 
+   * (i.e., this function is equivalent to calling createSearchBoxes with number_of_boxes = 1)
    *
    * @param {Array} data - Reference dataset for chart.
-   * @param {String} chart_slug - Unique ID of chart, to ensure unique <div> 
-   * ids in HTML.
    * @param {Function} callback - Function called on seach_box `change` event. 
    * Passes the value of the search box as the only argument 
    * (i.e., $(`#search_input_${chart_slug}`).val()).
+   * @param {String} chart_slug - Unique ID of chart, to ensure unique <div> 
+   * ids in HTML.
    * @param {Number} [col_index] - Column index of data to be listed in the 
    * search box. Defaults to 0.
    * @param {String} [type] - 'dropdown' or 'search'. Only differences are 
@@ -177,63 +174,16 @@
    *
    */
 
-  JCHS.createSearchBox = function (data,
-    chart_slug,
-    callback,
-    col_index = 0,
-    type = 'dropdown',
-    placeholder = 'Select a metro...') {
-
-    if (type === 'search') { placeholder = 'Search for metro...' }
-
-    $(`#search_box_${chart_slug}`).append(`<input id="search_input_${chart_slug}" class="JCHS-search-input">`)
-
-    var box = $(`#search_input_${chart_slug}`)
-    box.attr('placeholder', placeholder)
-    if (type != 'dropdown') { box.css('background-image', 'none') }
-
-    box.after(`<ul id="search_list_${chart_slug}" class="JCHS-search-list"></ul>`)
-    var list = $(`#search_list_${chart_slug}`)
-
-    var dedup_data = []
-
-    data.forEach(function (el) {
-      if (dedup_data.indexOf(el[col_index]) < 0) {
-        dedup_data.push(el[col_index])
-      }
-    })
-    dedup_data.forEach(el => list.append(`<li>${el}</li>`))
-
-    box.on('focus', function () {
-      box.val('')
-      list.show()
-    })
-
-    box.on('keyup focus', function () {
-      var filter = box.val().toUpperCase()
-      $('li').each(function () {
-        if ($(this).html().toUpperCase().indexOf(filter) > -1) {
-          $(this).css('display', 'block')
-        } else {
-          $(this).css('display', 'none')
-        }
-      })
-    })
-
-    box.on('change', function () {
-      callback($(`#search_input_${chart_slug}`).val())
-      box.blur()
-      list.hide()
-    }) //end box.on 'change'
-
-    box.on('blur', function () {
-      list.hide()
-    })
-
-    list.on('mousedown', 'li', function (e) {
-      box.val(e.target.innerHTML)
-      box.change()
-    })
+  
+  JCHS.createSearchBox = function (
+    data, //eslint-disable-line no-unused-vars
+    chart_slug, //eslint-disable-line no-unused-vars
+    callback, //eslint-disable-line no-unused-vars
+    col_index, //eslint-disable-line no-unused-vars
+    type, //eslint-disable-line no-unused-vars
+    placeholder) { //eslint-disable-line no-unused-vars
+  
+    JCHS.createSearchBoxes(1, ...arguments)
 
   } //end createSearchBox()
 
@@ -242,7 +192,7 @@
    * @function #createSearchBoxes
    * @memberof JCHS
    *
-   * @description Add  search box with filtered list to the page. Adds one item to the list 
+   * @description Add search box with filtered list to the page. Adds one item to the list 
    * for each unique value of a column from ref_data.
    *    
    * On clicking a list item, the passed callback function is called, which 
