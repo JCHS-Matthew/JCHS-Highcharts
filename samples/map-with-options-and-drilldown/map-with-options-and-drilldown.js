@@ -116,32 +116,31 @@ function createChart() {
       formatter: function() {
         var point = this 
         var tooltip_text = ''
-        tooltip_text +=  `
-          <b>${point.point.name}</b>
-          <br/>
-          <i>${point.series.name}</i>
-          <br/><br/>
-          Share of Households with Cost Burdens: <b>${this.point.value.toFixed(0)}%
-          </b>`
+        tooltip_text +=  '<b>' + point.point.name + '</b>' +
+          '<br> <i>' + point.series.name + '</i>' +
+          '<br/><br/>' + 
+          'Share of Households with Cost Burdens: <b>' + H.JCHS.numFormat(this.point.value, 0) + '%</b>'
         
         var hhd_type = parseInt($('#user_input :checked').val())     
 
         ref_data.forEach(function (el) {
           if (el[0] == point.point.GEOID) {
 
-            tooltip_text += '<br>Share of Households with Severe Cost Burdens: <b>' + Math.round(el[hhd_type + 3]).toLocaleString() + '%</b>'
+            tooltip_text += '<br>Share of Households with Severe Cost Burdens: <b>' + H.JCHS.numFormat(el[hhd_type + 3], 0) + '%</b>'
 
-            tooltip_text += '<br>Households with Cost Burdens: <b>' + Math.round(el[hhd_type + 6]).toLocaleString() + '</b>'
+            tooltip_text += '<br>Households with Cost Burdens: <b>' + H.JCHS.numFormat(el[hhd_type + 6], 0) + '</b>'
 
-            tooltip_text += '<br>Median Household Income: <b>$' + Math.round(el[hhd_type + 9]).toLocaleString() + '</b>' 
+            tooltip_text += '<br>Median Household Income: <b>$' + H.JCHS.numFormat(el[hhd_type + 9], 0) + '</b>' 
 
-            tooltip_text += '<br>Median Monthly Housing Costs: <b>$' + Math.round(el[hhd_type + 12]).toLocaleString() + '</b>' 
+            tooltip_text += '<br>Median Monthly Housing Costs: <b>$' + H.JCHS.numFormat(el[hhd_type + 12], 0) + '</b>' 
 
           }
         })
+
         tooltip_text += '<br><br><i>Click to see change over time...</i>'
+
         return tooltip_text
-        //tooltipChart(this.point.GEOID, this.point.name)
+
       }
     }
   } //end chart_options
