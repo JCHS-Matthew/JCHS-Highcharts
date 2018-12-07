@@ -1,3 +1,7 @@
+@import url('https://code.highcharts.com/6.1.4/css/highcharts.css');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400');
+@import url('https://s3.amazonaws.com/jchs-app-source-data/JCHS-highchartrs/src/css/JCHS-highcharts.css');
+
 /* change chart colors here */
 .highcharts-color-0 { fill: #467b91; stroke: #467b91; color: #467b91; }
 .highcharts-color-1 { fill: #c8ded6; stroke: #c8ded6; color: #c8ded6; }
