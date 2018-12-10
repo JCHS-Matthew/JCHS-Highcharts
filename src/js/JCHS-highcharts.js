@@ -393,7 +393,7 @@
     verticalAlign = 'bottom',
     align = 'center') {
 
-    var existing_text = $('.JCHS-chart__rendered-text')
+    var existing_text = $('.JCHS-chart__text-annotation')
     if (existing_text != null) {
       existing_text.each(function (idx, x) { //use jQuery .each() to iterate on elements returned by jQuery query
         if (x.innerHTML.search(text) > -1) {
@@ -402,11 +402,9 @@
       })
     }
 
-    var font_size = chart.plotWidth > 200 ? '13px' : '11px'
     var rendered_text = chart.renderer
       .text(text)
-      .css({ fontSize: font_size })
-      .addClass('JCHS-chart__rendered-text')
+      .addClass('JCHS-chart__text-annotation')
       .align({ align: align, verticalAlign: verticalAlign, x: x, y: y }, false, 'plotBox')
       .add()
 

@@ -359,6 +359,15 @@ input[type=range].JCHS-chart__slider:focus::-ms-fill-upper {
   background: none;
 }
 
+.JCHS-chart__text-annotation {
+  font-size: 13px;
+}
+
+@media (max-width: 300px) {
+  .JCHS-chart__text-annotation {
+    font-size: 11px;
+  }
+}
 
 /* Highcharts CSS JCHS modifications */
 .highcharts-container {
