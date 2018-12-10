@@ -367,6 +367,7 @@
    *
    * @param {Object} chart - Reference to chart object. (`this` if called from within Highcharts event function.)
    * @param {String} text - Text to draw on chart.
+   * @param {Number} [x] - y adjust for text location. Default is 0.
    * @param {Number} [y] - y adjust for text location. Default is -20.
    * @param {String} [verticalAlign] - Vertical alignment of text. Default is 'bottom'.
    * @param {String} [align] - Horizontal alignment of text. Default is 'center'.
@@ -387,23 +388,39 @@
 
   JCHS.responsiveAnnotation = function (chart,
     text,
+    x = 0,
     y = -20,
     verticalAlign = 'bottom',
     align = 'center') {
-    var existing_text = document.querySelectorAll("#jchs-rendered-text")
+
+    var existing_text = $('.JCHS-chart__rendered-text')
     if (existing_text != null) {
-      existing_text.forEach(x => x.parentNode.removeChild(x))
+      existing_text.each(function (idx, x) { //use jQuery .each() to iterate on elements returned by jQuery query
+        if (x.innerHTML.search(text) > -1) {
+          x.remove()
+        }
+      })
     }
-    var font_size = this.plotWidth > 200 ? '1.2em' : '1em'
+
+    var font_size = chart.plotWidth > 200 ? '13px' : '11px'
     var rendered_text = chart.renderer
       .text(text)
       .css({ fontSize: font_size })
-      .attr({ id: 'jchs-rendered-text' })
-      .align({ align: align, verticalAlign: verticalAlign, y: y }, false, 'plotBox')
+      .addClass('JCHS-chart__rendered-text')
+      .align({ align: align, verticalAlign: verticalAlign, x: x, y: y }, false, 'plotBox')
       .add()
+
     var box = rendered_text.getBBox()
-    rendered_text.translate(-box.width / 2, 0)
-  }
+    switch (align) {
+      case 'center':
+        rendered_text.translate(-box.width / 2, 0)
+        break
+      case 'right':
+        rendered_text.translate(-box.width, 0)
+        break
+    }
+
+  } //end responsiveAnnotation()
 
 
   /**
