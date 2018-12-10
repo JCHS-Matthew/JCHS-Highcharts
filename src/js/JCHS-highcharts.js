@@ -495,6 +495,35 @@
 
 
   /**
+   * @function #addTableNotes
+   * @memberof JCHS
+   * 
+   * @description add table notes to lower right of chart. Used when exporting, but can also be used on its own.
+   *
+   * @param {Object} chart - The chart object.
+   * @param {String} [note] - Defaults to chart.options.exporting.JCHS.tableNotes but you can pass any text you like.
+   *
+   */
+  
+  JCHS.addTableNotes = function (chart, note) {
+    
+    var text = note || chart.options.exporting.JCHS.tableNotes
+
+    //draw text
+    var rendered_text = chart.renderer
+      .text(text)
+      .css({ width: '420px' })
+      .addClass('JCHS-chart__table-notes--exporting')
+      .align({ align: 'right', verticalAlign: 'bottom', x: -10, y: 8 })
+      .add()
+      
+    //align to lower right corner
+    var box = rendered_text.getBBox()
+    rendered_text.translate(-box.width, -box.height)
+
+  } //end addTableNotes()
+
+  /**
    * @function #numFormat
    * @memberof JCHS
    * 
@@ -577,7 +606,11 @@
   //add callbacks to chart load
   H.Chart.prototype.callbacks.push(function (chart) {
     if (chart.renderer.forExport) {
+      
       chart.renderer.image(JCHS.logoURL, 0, chart.chartHeight - 50, 170, 55).add()
+
+      H.JCHS.addTableNotes(chart)
+
     }
 
     if (chart.options.exporting.hasOwnProperty('JCHS') && chart.options.exporting.JCHS.hasOwnProperty('sheetID')) {
