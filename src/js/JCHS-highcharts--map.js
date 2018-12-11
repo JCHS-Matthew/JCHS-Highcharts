@@ -79,7 +79,11 @@
               point: {
                 events: {
                   click: function () {
-                    chart.options.JCHS.drilldownFunction(event.point.name, event.point.GEOID, event.point)
+
+                    //JCHS shapefiles call it GEOID, Highcharts shapefiles (e.g., counties) call it fips
+                    var GEOID = H.pick(event.point.GEOID, event.point.fips, '')
+
+                    chart.options.JCHS.drilldownFunction(event.point.name, GEOID, event.point)
                   }
                 } //end events
               } //end point 
