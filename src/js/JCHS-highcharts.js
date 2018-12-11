@@ -505,9 +505,13 @@
    *
    */
   
-  JCHS.addTableNotes = function (chart, note) {
+  JCHS.addTableNotes = function (chart, user_input_note) {
     
-    var text = note || chart.options.exporting.JCHS.tableNotes
+    if (chart.options.hasOwnProperty('JCHS') && chart.options.JCHS.hasOwnProperty('tableNotes')) {
+      var chart_options_note = chart.options.JCHS.tableNotes
+    }
+    
+    var text = H.pick(user_input_note, chart_options_note, '')
 
     //draw text
     var rendered_text = chart.renderer
