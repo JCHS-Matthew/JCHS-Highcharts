@@ -447,10 +447,17 @@ input[type=range].JCHS-chart__slider:focus::-ms-fill-upper {
   stroke-width: 2px;
 }
 
-/* legend hover effect (highlight hovered series by graying out other series) doesn't work correctly on maps */
+/* on maps, the legend hover effect (highlighting hovered series by graying 
+out other series) doesn't work correctly */
 .highcharts-legend-series-active g.highcharts-map-series:not(.highcharts-series-hover),
 .highcharts-legend-series-active g.highcharts-mapline-series:not(.highcharts-series-hover),
 .highcharts-legend-series-active g.highcharts-tilemap-series:not(.highcharts-series-hover), 
 .highcharts-legend-series-active g.highcharts-mapline-series:not(.highcharts-series-hover) {  
   opacity: initial;
+}
+
+/* on maps, the text of horizontal legend items are in a <span> not <text> 
+so the text is the color of the series, i.e., highcharts-color-{x} */ 
+.highcharts-legend-item span {
+  color: #000;
 }
