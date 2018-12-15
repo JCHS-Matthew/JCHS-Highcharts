@@ -2,8 +2,6 @@ var H = Highcharts
 var cbsas = Highcharts.geojson(Highcharts.maps['countries/us/cbsa'])
 var states = Highcharts.geojson(Highcharts.maps['countries/us/states'])
 
-var chart_slug = 'demo1'
-
 var sheetID = '1PwHQog5axA1AigRdbavMUnItaPp3GOqneTNbYJnjP2E'
 var range = 'Sheet3!A:BA'
 
@@ -34,7 +32,7 @@ $(document).ready(function() {
     $('#chart_title').html(chart_title)
     $('#table_notes').html(table_notes)
     
-    H.JCHS.createSearchBox(ref_data, searchCallback, chart_slug, 1, 'search') //5th argument (the 1) tells the search box to list column index 1 from ref_data, instead of the default 0 (in this case metro name, not GEOID)
+    H.JCHS.createSearchBox(ref_data, searchCallback, '', 1, 'search') //5th argument (the 1) tells the search box to list column index 1 from ref_data, instead of the default 0 (in this case metro name, not GEOID)
 
     //create the chart
     createChart() 
