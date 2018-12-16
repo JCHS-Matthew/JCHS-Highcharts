@@ -24,9 +24,11 @@ var categories = [],
 /*~~~~~~~ Document ready function ~~~~~~~*/
 $(document).ready(function() {
   //get Google sheet data
-  $.get(H.JCHS.requestURL(sheetID, range), function(obj) {
-    categories = obj.values[0]
-    ref_data = obj.values.slice(1)
+  $.get(H.JCHS.requestURL(sheetID, range))
+  .fail(function(e) {console.error('$.get() failed to retrieve data')}) //throw an error if data doesn't load correctly
+  .done(function(result) {
+    categories = result.values[0]
+    ref_data = result.values.slice(1)
     
     //create the title, notes, and search box
     $('#chart_title').html(chart_title)
