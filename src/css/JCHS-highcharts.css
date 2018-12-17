@@ -19,8 +19,13 @@
 .highcharts-point.zone-3  { stroke: #c14d00; fill: #c14d00; }
 .highcharts-graph.zone-3 { stroke: #c14d00; }
 
+body {
+  margin: 0;
+}
+
 .JCHS-chart__wrapper {
-  max-width: 700px;
+  width: 750px;
+  max-width: 100%;
   margin: auto;
   font-family: "Open Sans", sans-serif;
   position: relative; /*necessary for modal to pop up only in div */
@@ -72,7 +77,7 @@
 
 .JCHS-chart__container {
   max-height: 500px;
-  max-width: 700px; 
+  width: 100%; 
   margin: 0px auto;
 }
 
@@ -108,11 +113,19 @@
   background: none;
 }
 
-.JCHS-chart__search-box {
-  max-width: 400px;
+.JCHS-chart__search-box { 
+  /* NB: if you change this class name, be sure to change the 
+  reference to the class name in the createSearchBoxes() function */
+  width: 400px;
+  max-width: 100%;
   margin: auto;
   padding: 0 5px;
   font-size: 13px;
+  position: relative;
+}
+
+.JCHS-chart__search-box--open-upward ul {
+  bottom: 20px;
 }
 
 .JCHS-chart__search-box__input {
@@ -132,7 +145,7 @@
 .JCHS-chart__search-box__list {
   list-style-type: none;
   max-height: 200px;
-  width: 405px;
+  width: calc(100% - 7px);
   padding: 0;
   margin: 0;
   display: none;
@@ -140,6 +153,12 @@
   overflow-x: hidden;
   position: absolute;
   z-index: 3;
+}
+
+@media (max-width: 350px) {
+  .JCHS-chart__search-box__list {
+    font-size: 11px;
+  }
 }
 
 .JCHS-chart__search-box__list li {
