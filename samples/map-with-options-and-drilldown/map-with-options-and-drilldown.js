@@ -2,8 +2,6 @@ var H = Highcharts
 var cbsas = Highcharts.geojson(Highcharts.maps['countries/us/cbsa'])
 var states = Highcharts.geojson(Highcharts.maps['countries/us/states'])
 
-var chart_slug = 'demo1'
-
 var sheetID = '1PwHQog5axA1AigRdbavMUnItaPp3GOqneTNbYJnjP2E'
 var range = 'Sheet3!A:BA'
 
@@ -26,18 +24,17 @@ var categories = [],
 /*~~~~~~~ Document ready function ~~~~~~~*/
 $(document).ready(function() {
   //get Google sheet data
-  $.get(H.JCHS.requestURL(sheetID, range), function(obj) {
-    categories = obj.values[0]
-    ref_data = obj.values.slice(1)
-
-    selected_data = ref_data.map(function (x) {
-      return [x[0], x[default_selection]] 
-    })
+  $.get(H.JCHS.requestURL(sheetID, range))
+  .fail(function(e) {console.error('$.get() failed to retrieve data')}) //throw an error if data doesn't load correctly
+  .done(function(result) {
+    categories = result.values[0]
+    ref_data = result.values.slice(1)
     
     //create the title, notes, and search box
     $('#chart_title').html(chart_title)
     $('#table_notes').html(table_notes)
-    H.JCHS.createSearchBox(ref_data, searchCallback, chart_slug, 1, 'search')
+    
+    H.JCHS.createSearchBox(ref_data, searchCallback, '', 1, 'search') //5th argument (the 1) tells the search box to list column index 1 from ref_data, instead of the default 0 (in this case metro name, not GEOID)
 
     //create the chart
     createChart() 
@@ -45,12 +42,13 @@ $(document).ready(function() {
   }) 
 }) //end document.ready
 
-function searchCallback (metro_name) {
-  H.JCHS.mapLocatorCircle(chart, metro_name)
-  //setTimeout(function () {drilldownChart(metro_name)}, 1000)
-}
 
 function createChart() {
+
+  selected_data = ref_data.map(function (x) {
+    return [x[0], x[default_selection]] //return data in 2 columns, GEOID and the value to be mapped
+
+  })
 
   /*~~~~~~~ Chart Options ~~~~~~~*/
   chart_options = {
@@ -82,7 +80,7 @@ function createChart() {
     series: [
       {
         type: 'map',
-        name: selected_data[0][1],
+        name: categories[default_selection],
         mapData: cbsas,
         data: selected_data
       }, {
@@ -102,10 +100,6 @@ function createChart() {
           //marginBottom: 130 //may have to adjust to fit all of the notes
         },
         title: { text: chart_title },
-        subtitle: { 
-          text: table_notes,
-          //y: -18 //may have to adjust to fit all of the notes
-        },
         legend: { 
           //y: -45 //may have to adjust to fit all of the notes
         }
@@ -114,26 +108,37 @@ function createChart() {
     
     tooltip: {
       formatter: function() {
-        var point = this 
-        var tooltip_text = ''
-        tooltip_text +=  '<b>' + point.point.name + '</b>' +
-          '<br> <i>' + point.series.name + '</i>' +
-          '<br/><br/>' + 
-          'Share of Households with Cost Burdens: <b>' + H.JCHS.numFormat(this.point.value, 0) + '%</b>'
+        var point = this.point
+        var series = this.series
+        var user_selection = $('#user_input :checked').val()   
         
-        var hhd_type = parseInt($('#user_input :checked').val())     
+        var tooltip_text = ''
+        tooltip_text +=  '<b>' +  point.name + '</b>'
+        tooltip_text +=  '<br><i>' + series.name + '</i>'
+        tooltip_text +=  '<br><br>Share of Households with Cost Burdens: <b>' + H.JCHS.numFormat(point.value, 1) + '%</b>'
 
-        ref_data.forEach(function (el) {
-          if (el[0] == point.point.GEOID) {
-
-            tooltip_text += '<br>Share of Households with Severe Cost Burdens: <b>' + H.JCHS.numFormat(el[hhd_type + 3], 0) + '%</b>'
-
-            tooltip_text += '<br>Households with Cost Burdens: <b>' + H.JCHS.numFormat(el[hhd_type + 6], 0) + '</b>'
-
-            tooltip_text += '<br>Median Household Income: <b>$' + H.JCHS.numFormat(el[hhd_type + 9], 0) + '</b>' 
-
-            tooltip_text += '<br>Median Monthly Housing Costs: <b>$' + H.JCHS.numFormat(el[hhd_type + 12], 0) + '</b>' 
-
+        ref_data.forEach(function (row) {
+          if (row[0] == point.GEOID) {
+            switch (user_selection) {
+              case '2':
+                tooltip_text += '<br>Share of Households with Severe Cost Burdens: <b>' + H.JCHS.numFormat(row[5], 1) + '%</b>'
+                tooltip_text += '<br>Households with Cost Burdens: <b>' + H.JCHS.numFormat(row[8]) + '</b>'
+                tooltip_text += '<br>Median Household Income: <b>$' + H.JCHS.numFormat(row[11]) + '</b>'
+                tooltip_text += '<br>Median Monthly Housing Costs: <b>$' + H.JCHS.numFormat(row[14]) + '</b>'
+                break
+              case '3':
+                tooltip_text += '<br>Share of Households with Severe Cost Burdens: <b>' + H.JCHS.numFormat(row[6], 1) + '%</b>'
+                tooltip_text += '<br>Households with Cost Burdens: <b>' + H.JCHS.numFormat(row[9]) + '</b>'
+                tooltip_text += '<br>Median Household Income: <b>$' + H.JCHS.numFormat(row[12]) + '</b>'
+                tooltip_text += '<br>Median Monthly Housing Costs: <b>$' + H.JCHS.numFormat(row[15]) + '</b>'
+                break
+              case '4':
+                tooltip_text += '<br>Share of Households with Severe Cost Burdens: <b>' + H.JCHS.numFormat(row[7], 1) + '%</b>'
+                tooltip_text += '<br>Households with Cost Burdens: <b>' + H.JCHS.numFormat(row[10]) + '</b>'
+                tooltip_text += '<br>Median Household Income: <b>$' + H.JCHS.numFormat(row[13]) + '</b>'
+                tooltip_text += '<br>Median Monthly Housing Costs: <b>$' + H.JCHS.numFormat(row[16]) + '</b>'
+                break
+            }
           }
         })
 
@@ -160,14 +165,17 @@ function initUserInteraction () {
     var new_data = ref_data.map(function (x) {
       return [x[0], x[new_col]]
     })
-    chart.series[0].update({name: new_data[0][1]})   
+    chart.series[0].update({name: categories[new_col]})   
     chart.series[0].setData(new_data)
   })
 }
 
+function searchCallback (metro_name) {
+  H.JCHS.mapLocatorCircle(chart, metro_name)
+}
 
 function drilldownChart(metro_name) {
-  $('.JCHS-chart__modal').css("display", "block")
+  $('.JCHS-chart__modal').css('display','block')
   console.log(metro_name)
   
   var chart_data = []
@@ -196,7 +204,7 @@ function drilldownChart(metro_name) {
     subtitle: {
       text: 
       'Share of Cost-Burdened Households Age ' + 
-      $('#user_input :checked').parent('label').text().trim() + 
+      $('#user_input :checked').parent('label').text().trim() + //text displayed next to radio button
       ' in ' + metro_name
     },
 

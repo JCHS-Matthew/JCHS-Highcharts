@@ -39,15 +39,6 @@ module.exports = function (grunt) {
       }
     },
 
-    /* Browserify */
-    // bundle all JS into one file (JHCS, Highcharts, and jQuery)
-    browserify: {
-      dist: {
-        src: 'build/JCHS-highcharts.transpiled.js',
-        dest: 'dist/JCHS-highcharts.js'
-      }
-    },
-
     /* Uglify */
     //minify the final JS file
     uglify: {
@@ -133,18 +124,11 @@ module.exports = function (grunt) {
       }
     },
 
-    /*
-    * Next steps:
-    * jest-image-screenshot for visual regression testing
-    * plus puppeteer for UI tests (and visual regression after interaction) 
-    * Selenium/WebDriver tests?
-    * 
-    */
 
   })
 
   // name the tasks 
-  grunt.registerTask('default', ['eslint', 'babel', 'uglify',  'postcss', /*'browserify', 'karma',*/ 'jsdoc'])
+  grunt.registerTask('default', ['eslint', 'babel', 'uglify',  'postcss', /*'karma',*/ 'jsdoc'])
   grunt.registerTask('test', ['karma'])
   grunt.registerTask('css', ['postcss'])
   grunt.registerTask('js', ['eslint', 'jsdoc', 'babel', 'uglify'])

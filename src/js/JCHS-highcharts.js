@@ -544,58 +544,9 @@
    */
 
   JCHS.numFormat = function (number, decimals) {
-    /* Based on Highcharts.numberFormat */
-    number = +number || 0
-    decimals = +decimals
-
-    var origDec = (number.toString().split('.')[1] || '').length,
-      decimalPoint = '.',
-      thousandsSep = ',',
-      strinteger,
-      thousands,
-      ret,
-      roundedNumber
-
-    if (decimals === -1) {
-      // Preserve decimals. Not huge numbers (#3793).
-      decimals = Math.min(origDec, 20)
-    } else if (isNaN(decimals)) {
-      decimals = Math.min(origDec, 2) //default to 2 decimal places
-    }
-
-    // Add another decimal to avoid rounding errors of float numbers. (#4573)
-    // Then use toFixed to handle rounding.
-    roundedNumber = (
-      Math.abs(number) +
-      Math.pow(10, -Math.max(decimals, origDec) - 1)
-    ).toFixed(decimals)
-
-    // A string containing the positive integer component of the number
-    strinteger = String(parseInt(roundedNumber))
-
-    // Leftover after grouping into thousands. Can be 0, 1 or 2.
-    thousands = strinteger.length > 3 ? strinteger.length % 3 : 0
-
-    // Start building the return
-    ret = number < 0 ? '-' : ''
-
-    // Add the leftover after grouping into thousands. For example, in the
-    // number 42 000 000, this line adds 42.
-    ret += thousands ? strinteger.substr(0, thousands) + thousandsSep : ''
-
-    // Add the remaining thousands groups, joined by the thousands separator
-    ret += strinteger
-      .substr(thousands)
-      .replace(/(\d{3})(?=\d)/g, '$1' + thousandsSep)
-
-    // Add the decimal point and the decimal component
-    if (decimals) {
-      // Get the decimal component
-      ret += decimalPoint + roundedNumber.slice(-decimals)
-    }
-
-    return ret
-
+    
+    return H.numberFormat(number, decimals, '.', ',')
+  
   } //end numFormat
 
 
