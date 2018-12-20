@@ -94,7 +94,6 @@ module.exports = function (grunt) {
     //cross-browser unit testing
     karma: {
       unit: {
-        //configFile: 'karma.conf.js'
         options: {
           frameworks: ['qunit'],
           files: [
@@ -122,13 +121,12 @@ module.exports = function (grunt) {
           autoWatch: true //don't automatically run tests when a file is changed
         }
       }
-    },
-
+    }
 
   })
 
   // name the tasks 
-  grunt.registerTask('default', ['eslint', 'babel', 'uglify',  'postcss', /*'karma',*/ 'jsdoc'])
+  grunt.registerTask('default', ['eslint', 'babel', 'uglify',  'postcss', 'karma', 'jsdoc'])
   grunt.registerTask('test', ['karma'])
   grunt.registerTask('css', ['postcss'])
   grunt.registerTask('js', ['eslint', 'jsdoc', 'babel', 'uglify'])
