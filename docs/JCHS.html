@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Namespaces</li><li class="nav-heading"><span class="nav-item-type type-namespace">N</span><span class="nav-item-name"><a href="JCHS.html">JCHS</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#createSearchBox">createSearchBox</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#createSearchBoxes">createSearchBoxes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#mapLocatorCircle">mapLocatorCircle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#numFormat">numFormat</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#requestURL">requestURL</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#responsiveAnnotation">responsiveAnnotation</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#yAxisTitle">yAxisTitle</a></span></li>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Namespaces</li><li class="nav-heading"><span class="nav-item-type type-namespace">N</span><span class="nav-item-name"><a href="JCHS.html">JCHS</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#addTableNotes">addTableNotes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#createSearchBox">createSearchBox</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#createSearchBoxes">createSearchBoxes</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#mapLocatorCircle">mapLocatorCircle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#numFormat">numFormat</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#requestURL">requestURL</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#responsiveAnnotation">responsiveAnnotation</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JCHS.html#yAxisTitle">yAxisTitle</a></span></li>
 </nav>
 
 <div id="main">
@@ -122,14 +122,14 @@
 
     
 
-    <h4 class="name" id="createSearchBox"><span class="type-signature"></span>createSearchBox<span class="signature">(data, chart_slug, callback, col_index<span class="signature-attributes">opt</span>, type<span class="signature-attributes">opt</span>, placeholder<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="addTableNotes"><span class="type-signature"></span>addTableNotes<span class="signature">(chart, note<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Add a search box with filtered list to the page. Adds one item to the list for each unique value of a column from ref_data.   On clicking a list item, the passed callback function is called, which passes the value of the search box as the only argument (i.e., $(`#search_input_${chart_slug}`).val()).
+    add table notes to lower right of chart. Used when exporting, but can also be used on its own.
 </div>
 
 
@@ -165,7 +165,188 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line123">line 123</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line497">line 497</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>chart</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Object</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                The chart object.
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>note</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>String</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                Defaults to chart.options.exporting.JCHS.tableNotes but you can pass any text you like.
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="createSearchBox"><span class="type-signature"></span>createSearchBox<span class="signature">(data, callback, chart_slug, col_index<span class="signature-attributes">opt</span>, type<span class="signature-attributes">opt</span>, placeholder<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Shorthand for createSearchBoxes(1, ...arguments). (i.e., this function is equivalent to calling createSearchBoxes with number_of_boxes = 1)
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line153">line 153</a>
     </li></ul></dd>
     
 
@@ -245,40 +426,6 @@
 
         <tr>
             
-                <td class="name"><code>chart_slug</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>String</code></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">
-                Unique ID of chart, to ensure unique <div> ids in HTML.
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>callback</code></td>
             
 
@@ -305,6 +452,40 @@
 
             <td class="description last">
                 Function called on seach_box `change` event. Passes the value of the search box as the only argument (i.e., $(`#search_input_${chart_slug}`).val()).
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>chart_slug</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>String</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                Unique ID of chart, to ensure unique <div> ids in HTML.
                 
             </td>
         </tr>
@@ -450,7 +631,7 @@
 
 
 <div class="description">
-    Add  search box with filtered list to the page. Adds one item to the list for each unique value of a column from ref_data.   On clicking a list item, the passed callback function is called, which passes the value of the search box as the only argument (i.e., $(`#search_input_${chart_slug}`).val()).
+    Add search box with filtered list to the page. Adds one item to the list for each unique value of a column from ref_data.   On clicking a list item, the passed callback function is called, which passes the value of the search box as the only argument (i.e., $(`#search_input_${chart_slug}`).val()).
 </div>
 
 
@@ -486,7 +667,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line212">line 212</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line191">line 191</a>
     </li></ul></dd>
     
 
@@ -846,7 +1027,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line429">line 429</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line424">line 424</a>
     </li></ul></dd>
     
 
@@ -1007,7 +1188,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line502">line 502</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line530">line 530</a>
     </li></ul></dd>
     
 
@@ -1114,7 +1295,7 @@
             
 
             <td class="description last">
-                The amount of decimals. A value of -1 preserves       the amount in the input number. Defaults to a maximum of 2 decimals        (i.e., 1 returns '1', 1.2 returns '1.2', 1.23 returns '1.23', 1.234        returns '1.23').
+                The number of decimal places. A value of -1 preserves       the amount in the input number. Defaults to -1.
                 
             </td>
         </tr>
@@ -1213,7 +1394,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line474">line 474</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line469">line 469</a>
     </li></ul></dd>
     
 
@@ -1377,7 +1558,7 @@
 
     
 
-    <h4 class="name" id="responsiveAnnotation"><span class="type-signature"></span>responsiveAnnotation<span class="signature">(chart, text, y<span class="signature-attributes">opt</span>, verticalAlign<span class="signature-attributes">opt</span>, align<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="responsiveAnnotation"><span class="type-signature"></span>responsiveAnnotation<span class="signature">(chart, text, x<span class="signature-attributes">opt</span>, y<span class="signature-attributes">opt</span>, verticalAlign<span class="signature-attributes">opt</span>, align<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1420,7 +1601,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line382">line 382</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line362">line 362</a>
     </li></ul></dd>
     
 
@@ -1526,6 +1707,42 @@
 
             <td class="description last">
                 Text to draw on chart.
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                y adjust for text location. Default is 0.
                 
             </td>
         </tr>
@@ -1714,7 +1931,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line350">line 350</a>
+        <a href="JCHS-highcharts.js.html">JCHS-highcharts.js</a>, <a href="JCHS-highcharts.js.html#line330">line 330</a>
     </li></ul></dd>
     
 
@@ -1898,7 +2115,7 @@
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Nov 26 2018 15:00:09 GMT-0500 (Eastern Standard Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Dec 20 2018 15:03:27 GMT-0500 (Eastern Standard Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
