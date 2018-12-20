@@ -534,16 +534,14 @@
    * @description Format a number and return a string. Based on Highcharts.numberFormat().
    *
    * @param {Number} number - The input number to format.
-   * @param {Number} [decimals] - The amount of decimals. A value of -1 preserves
-   *        the amount in the input number. Defaults to a maximum of 2 decimals 
-   *        (i.e., 1 returns '1', 1.2 returns '1.2', 1.23 returns '1.23', 1.234 
-   *        returns '1.23').
+   * @param {Number} [decimals] - The number of decimal places. A value of -1 preserves
+   *        the amount in the input number. Defaults to -1.
    *
    * @returns {String} The formatted number.
   
    */
 
-  JCHS.numFormat = function (number, decimals) {
+  JCHS.numFormat = function (number, decimals = -1) {
     
     return H.numberFormat(number, decimals, '.', ',')
   
