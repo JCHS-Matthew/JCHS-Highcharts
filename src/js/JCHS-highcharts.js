@@ -590,18 +590,4 @@
     H.JCHS.yAxisTitle(this, this.options.JCHS.yAxisTitle, this.options.JCHS.yAxisTitle2)
   })
 
-  //initialize modal popup behavior for map drilldown
-  var modal = $('.JCHS-chart__modal')
-  
-  //hide the modal when the background is clicked
-  modal.click(function () {
-    modal.css('display', 'none')
-  }).children().click(function (e) {
-    e.stopPropagation()
-  })
-
-  $('.JCHS-chart__modal__close').click(function () {
-    modal.css('display', 'none')
-  })
-
 }(Highcharts))

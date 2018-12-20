@@ -94,4 +94,18 @@
     } //end if
   }) //end callbacks.push
 
+  //initialize modal popup behavior for map drilldown
+  var modal = $('.JCHS-chart__modal')
+
+  //hide the modal when the background is clicked
+  modal.click(function () {
+    modal.css('display', 'none')
+  }).children().click(function (event) {
+    event.stopPropagation()
+  })
+
+  $('.JCHS-chart__modal__close').click(function () {
+    modal.css('display', 'none')
+  })
+
 }(Highcharts))
