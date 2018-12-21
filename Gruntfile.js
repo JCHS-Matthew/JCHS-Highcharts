@@ -33,8 +33,8 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
-          //'build/JCHS-highcharts.transpiled.js': 'src/js/JCHS-highcharts.js'
-          'dist/JCHS-highcharts.js': 'src/js/JCHS-highcharts.js'
+          'dist/JCHS-highcharts.js': 'src/js/JCHS-highcharts.js',
+          'dist/JCHS-highcharts--map.js': 'src/js/JCHS-highcharts--map.js'
         }
       }
     },
@@ -42,9 +42,11 @@ module.exports = function (grunt) {
     /* Uglify */
     //minify the final JS file
     uglify: {
-      build: {
-        src: 'dist/JCHS-highcharts.js',
-        dest: 'dist/JCHS-highcharts.min.js'
+      my_target: {
+        files: {
+          'dist/JCHS-highcharts.min.js': ['dist/JCHS-highcharts.js'],
+          'dist/JCHS-highcharts--map.min.js': ['dist/JCHS-highcharts--map.js']
+        }
       }
     },
 
